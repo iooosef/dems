@@ -1976,9 +1976,9 @@ pre code {
 .form-control:focus {
   color: #495057;
   background-color: #fff;
-  border-color: #80bdff;
+  border-color: rgba(108, 117, 125, 0.5);
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5);
 }
 
 .form-control::-webkit-input-placeholder {
@@ -2816,8 +2816,8 @@ fieldset:disabled a.btn {
 
 .btn-outline-secondary:hover {
   color: #fff;
-  background-color: #6c757d;
-  border-color: #6c757d;
+  background-color: #DEDEDE;
+  border-color: #DEDEDE;
 }
 
 .btn-outline-secondary:focus, .btn-outline-secondary.focus {
@@ -6245,21 +6245,43 @@ button.bg-dark:focus {
 .rounded-top {
   border-top-left-radius: 0.25rem !important;
   border-top-right-radius: 0.25rem !important;
-}
-
-.rounded-right {
+} .rounded-right {
   border-top-right-radius: 0.25rem !important;
   border-bottom-right-radius: 0.25rem !important;
-}
-
-.rounded-bottom {
+} .rounded-bottom {
   border-bottom-right-radius: 0.25rem !important;
   border-bottom-left-radius: 0.25rem !important;
-}
-
-.rounded-left {
+} .rounded-left {
   border-top-left-radius: 0.25rem !important;
   border-bottom-left-radius: 0.25rem !important;
+}
+
+.rounded-top-1 {
+  border-top-left-radius: 0.5rem !important;
+  border-top-right-radius: 0.5rem !important;
+} .rounded-right-1 {
+  border-top-right-radius: 0.5rem !important;
+  border-bottom-right-radius: 0.5rem !important;
+} .rounded-bottom-1 {
+  border-bottom-right-radius: 0.5rem !important;
+  border-bottom-left-radius: 0.5rem !important;
+} .rounded-left-1 {
+  border-top-left-radius: 0.5rem !important;
+  border-bottom-left-radius: 0.5rem !important;
+}
+
+.rounded-top-2 {
+  border-top-left-radius: 0.8rem !important;
+  border-top-right-radius: 0.8rem !important;
+} .rounded-right-2 {
+  border-top-right-radius: 0.8rem !important;
+  border-bottom-right-radius: 0.8rem !important;
+} .rounded-bottom-2 {
+  border-bottom-right-radius: 0.8rem !important;
+  border-bottom-left-radius: 0.8rem !important;
+} .rounded-left-2 {
+  border-top-left-radius: 0.8rem !important;
+  border-bottom-left-radius: 0.8rem !important;
 }
 
 .rounded-circle {
@@ -7528,6 +7550,11 @@ button.bg-dark:focus {
   margin-bottom: 1.5rem !important;
 }
 
+.mb-4b,
+.my-4b {
+  margin-bottom: 2rem !important;
+}
+
 .ml-4,
 .mx-4 {
   margin-left: 1.5rem !important;
@@ -7655,6 +7682,10 @@ button.bg-dark:focus {
 
 .p-4 {
   padding: 1.5rem !important;
+}
+
+.p-4b {
+  padding: 2rem !important;
 }
 
 .pt-4,

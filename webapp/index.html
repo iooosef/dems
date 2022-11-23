@@ -10,107 +10,101 @@
 </head>
 <body>
     <script type="text/javascript" src="/eel.js"></script>
+    <script type="text/javascript" src="/eel.js"></script>
     <main class="row no-gutters">
         <aside class="col-md-2 p-3 d-flex flex-column flex-shrink-0 border">
             <div class="nav navbar-brand mb-4 p-2 d-flex justify-content-center">
                 <img src="./img/logo.png" class="img-fluid" style="width: 80%;">
             </div>
             <ul class="nav nav-pills d-flex flex-column mb-auto">
-                <li class="mb-3 px-2 py-4 d-flex flex-row align-items-stretch rounded-1 text-light btn-newEntry">
+                <button class="mb-3 px-2 py-4 d-flex flex-row align-items-stretch btn rounded-1 text-light btn-newEntry" type="button">
                     <img src="./img/add.png" class="ml-2 mr-3 img-fluid sidebar-logo">
                     <h5 class="d-flex align-items-center"><b>New Entry</b></h5>
-                </li>
-                <li class="mb-3 p-2 d-flex flex-row bg-light align-items-stretch rounded-1">
+                </button>
+                <button class="mb-3 p-2 d-flex flex-row align-items-stretch btn btn-outline-secondary btn-sidebar bg-light rounded-1" type="button">
                     <img src="./img/evacuees.png" class="ml-2 mr-3 img-fluid sidebar-logo">
                     <h5 class="d-flex align-items-center">Evacuees</h5>
-                </li>
-                <li class="mb-3 p-2 d-flex flex-row bg-light align-items-stretch rounded-1">
+                </button>
+                <button class="mb-3 p-2 d-flex flex-row align-items-stretch btn btn-outline-secondary btn-sidebar bg-light rounded-1" type="button">
                     <img src="./img/family.png" class="ml-2 mr-3 img-fluid sidebar-logo">
                     <h5 class="d-flex align-items-center">Families</h5>
-                </li>
-                <li class="mb-3 p-2 d-flex flex-row bg-light align-items-stretch rounded-1">
+                </button>
+                <button class="p-2 d-flex flex-row align-items-stretch btn btn-outline-secondary btn-sidebar bg-light rounded-1" type="button">
                     <img src="./img/medical.png" class="ml-2 mr-3 img-fluid sidebar-logo">
                     <h5 class="d-flex align-items-center">Medical</h5>
-                </li>
+                </button>
             </ul>
             <ul class="nav nav-pills d-flex flex-column-reverse mt-auto">
-                <li class="mt-3 p-2 d-flex flex-row bg-light align-items-stretch rounded-1">
+                <button class="mt-3 p-2 d-flex flex-row align-items-stretch btn btn-outline-secondary btn-sidebar bg-light rounded-1" type="button">
                     <img src="./img/help.png" class="ml-2 mr-3 img-fluid sidebar-logo">
                     <h5 class="d-flex align-items-center">Help</h5>
-                </li>
-                <li class="mt-3 p-2 d-flex flex-row bg-light align-items-stretch rounded-1">
+                </button>
+                <button class="p-2 d-flex flex-row align-items-stretch btn btn-outline-secondary btn-sidebar bg-light rounded-1" type="button">
                     <img src="./img/gear.png" class="ml-2 mr-3 img-fluid sidebar-logo">
                     <h5 class="d-flex align-items-center">Settings</h5>
-                </li>
+                </button>
             </ul>
         </aside>
         <div class="col-md-10 d-flex flex-column">
-            <nav class="px-5 py-2 d-flex flex-row border">
-                <img src="./img/edit.png" class="my-auto mr-3 img-fluid btn-navbar-edit">
+            <nav class="px-4 py-2 d-flex flex-row border">
+                <button class="mr-3 btn btn-outline-secondary btn-navbar-edit" type="button">
+                    <img src="./img/edit.png" class="my-auto img-fluid">
+                </button>
                 <h4 class="d-flex align-items-center">Evacuation Center Name</h4>
             </nav>
-            <section class="p-5">
-                <div class="mb-5 d-flex flex-row bg-light">
+            <section class="p-4b">
+                <div class="mb-4b d-flex flex-row">
                     <div class="px-4 py-3 d-flex flex-row analytics rounded-2 border">
-                        <div class="align-self-start">
-                            <span class=""><b>Evacuees</b></span> <br>
+                        <div class="d-flex flex-column justify-content-between">
+                            <span><b>Evacuees</b></span>
                             <span class="analytics-number">723</span>
                         </div>
                         <img src="./img/analytics_evacuees.png" class="my-auto ml-auto">
                     </div>
                     <div class="mx-5 px-4 py-3 d-flex flex-row analytics rounded-2 border">
-                        <div class="align-self-start">
-                            <span class=""><b>Families</b></span> <br>
+                        <div class="d-flex flex-column justify-content-between">
+                            <span><b>Families</b></span>
                             <span class="analytics-number">131</span>
                         </div>
                         <img src="./img/analytics_family.png" class="my-auto ml-auto">
                     </div>
                     <div class="px-4 py-3 d-flex flex-row analytics rounded-2 border">
-                        <div class="align-self-start">
-                            <span class=""><b>Needs Medical Assistance</b></b></span> <br>
+                        <div class="d-flex flex-column justify-content-between">
+                            <span><b>Needs Medical Assistance</b></span>
                             <span class="analytics-number">23</span>
                         </div>
                         <img src="./img/analytics_aid.png" class="my-auto ml-auto">
                     </div>
                 </div>
-                <table class="table">
-                    <thead class="tableFnBar bg-light">
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                      </tr>
-                    </thead>
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div class="mb-3 px-4 py-2 d-flex flex-row rounded-2 bg-light">
+                    <h5>Evacuees Table</h5>
+                    <div class="ml-auto input-group search-box">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary rounded-left-2 btn-search" type="button">
+                                <img src="./img/search.png" class="btn-search-icon">
+                            </button>
+                          </div>
+                        <input type="text" class="form-control rounded-right-2 txtbox-search" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
+                    </div>
+                </div>
+                <div class="scroll">
+                    <table class="table db-table-main">
+                        <thead>
+                          <tr>
+                            <th scope="col">Evac ID</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">M.I.</th>
+                            <th scope="col">Parayaoan</th>
+                            <th scope="col">Suffix</th>
+                            <th scope="col">Contact</th>
+                            <th scope="col">Family ID</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                        </tbody>
+                      </table>
+                </div>
             </section>
         </div>
     </main>

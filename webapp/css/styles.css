@@ -20,6 +20,7 @@ section {
 
 h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0;
+    line-height: 1.8;
 }
 
 .sidebar-logo {
@@ -30,23 +31,88 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-navbar-edit {
-    height: auto; 
-    width: auto; 
+    padding-right: .5rem;
+    padding-left: .5rem;
+    background-color: inherit;
+    border: 0;
+} .btn-navbar-edit img {
     max-width: 18px; 
     max-height: 18px;
 }
 
 .btn-newEntry {
     background-color: #1ab759;
+} .btn-newEntry:hover {
+    background-color: #1C9F51;
+    border-color: #DEDEDE;
+} .btn-newEntry:focus {
+    box-shadow: 0 0 0 0.3rem #AAF0CE;
+} .btn-newEntry:disabled {
+    background-color: #1ab759;
+}
+
+.btn-sidebar {
+    border: 0;
+    color: #000000;
+} .btn-sidebar:hover {
+    color: #000000;
+} .btn-sidebar:focus {
+    color: #000000;
+} .btn-sidebar:not(:disabled):not(.disabled):active {
+    color: #000000;
 }
 
 .analytics {
     width: 100%;
     background-color: #aaf0ce;
+    line-height: 1;
 } .analytics-number {
     font-size: 2.8rem;
+} .analytics div span {
+    /* height: 100%; */
+    line-height: 1;
+} .analytics img {
+    max-width: 25%;
+} 
+
+.search-box {
+    width: 25%;
 }
 
-.tableFnBar * {
-    border-style: none none none none !important;
+.btn-search {
+    border: 1px solid #ced4da;
+    border-right-style: none;
+    background-color: #fdfefe;
+    padding: 0.1rem 0.5rem;
+} .btn-search-icon {
+    width: 25px;
+}
+
+.txtbox-search {
+    border-left-style: none;
+    padding-left: 0.2rem;
+    background-color: #fdfefe;
+}
+
+.scroll {
+    height: 55vh;
+    overflow-y: scroll;
+} .db-table-main thead tr th{
+    border-top-style: none;
+    border-right: 0.8px solid #dee2e6;
+    border-left: 0.8px solid #dee2e6;
+    padding-top: .2rem;
+    padding-bottom: .5rem;
+    color: #c2c2c2;
+    max-width:100%;
+    white-space:nowrap;
+} .db-table-main thead tr th:first-child {
+    border-left: 0;
+} .db-table-main thead tr th:last-child {
+    border-right: 0;
+}
+
+.btn-sidebar-evacuees:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
 }
