@@ -1,0 +1,34 @@
+CREATE TABLE Family(
+FamilyID INTEGER PRIMARY KEY,
+FamilyName TEXT,
+EvacID_contact INTEGER,
+EvactContact_contact INTEGER,
+FamilySize INTEGER
+);
+
+CREATE TABLE Evacuee(
+EvacID INTEGER PRIMARY KEY,
+EvactFName TEXT,
+EvactLName TEXT,
+EvacContact INTEGER,
+FamilyID INTEGER,
+FOREIGN KEY (FamilyID) REFERENCES Family(FamilyID)
+);
+
+CREATE TABLE Relief(
+ReliefOpID INTEGER PRIMARY KEY,
+FamilyID INTEGER,
+EvactID_Rep INTEGER,
+FOREIGN KEY (FamilyID) REFERENCES Evacuee(FamilyID)
+FOREIGN KEY (EvactID_Rep) REFERENCES Family (FamilyID)
+);
+
+CREATE TABLE MedAssist(
+FamilyID INTEGER,
+EvactID INTEGER,
+EvactFName TEXT,
+EvactLName TEXT,
+MedAssistIssue TEXT,
+FOREIGN KEY (FamilyID) REFERENCES Family(FamilyID)
+FOREIGN KEY (EvactID) REFERENCES Evacuee(EvactID)
+);
