@@ -48,7 +48,8 @@ def passDB_toJS(): # return a dict to JS
     return tableDBpy
 
 eel.init('web')
-eel.start('index.html', mode='edge')
+eel.browsers.set_path('electron', './node_modules/electron/dist/electron')
+eel.start('index.html', mode='electron')
 
 # """
 # 原理是：

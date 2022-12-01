@@ -32,7 +32,7 @@ export default {
 <style>
 #new-entry {
   position: absolute;
-  z-index: 20;
+  z-index: 10;
 }
 
 #main-app {
