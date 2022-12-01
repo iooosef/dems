@@ -32,6 +32,9 @@
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
 }
+.btn {
+    border: 0;
+}
 .btn-light {
     --bs-btn-bg: #f2f2f2;
   }

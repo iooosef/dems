@@ -5,19 +5,19 @@
                 <img src="../assets/img/logo.png" class="img-fluid" style="width: 80%;">
             </div>
             <ul class="nav nav-pills d-flex flex-column mb-auto">
-                <button class="mb-3 px-2 py-4 d-flex flex-row align-items-stretch btn-success rounded-3 text-light btn-newEntry" type="button" @click="btnNewEntryClickedMain">
+                <button class="mb-3 px-2 py-4 d-flex flex-row align-items-stretch btn-success rounded-3 text-light btn btn-newEntry" type="button" @click="btnNewEntryClickedMain">
                     <img src="../assets/img/add.png" class="ms-2 me-3 img-fluid sidebar-logo">
                     <h5 class="d-flex align-items-center"><b>New Entry</b></h5>
                 </button>
-                <button class="mb-3 p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button" @click="changeTable('evacuee', 'db_evacuees')">
+                <button class="mb-3 p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button" @click="changeTable('db_evacuees')">
                     <img src="../assets/img/evacuees.png" class="ms-2 me-3 img-fluid sidebar-logo">
                     <h5 class="d-flex align-items-center">Evacuees</h5>
                 </button>
-                <button class="mb-3 p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button" @click="changeTable('family', 'db_families')">
+                <button class="mb-3 p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button" @click="changeTable('db_families')">
                     <img src="../assets/img/family.png" class="ms-2 me-3 img-fluid sidebar-logo">
                     <h5 class="d-flex align-items-center">Families</h5>
                 </button>
-                <button class="p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button" @click="changeTable('medAssist', 'db_medAssist')">
+                <button class="p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button" @click="changeTable('db_medAssist')">
                     <img src="../assets/img/medical.png" class="ms-2 me-3 img-fluid sidebar-logo">
                     <h5 class="d-flex align-items-center">Medical</h5>
                 </button>
@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div class="mb-3 px-4 py-2 d-flex flex-row rounded-3 bg-light-gray ">
-                    <h5>Evacuees Table</h5>
+                    <h5>{{ tableLabel }}</h5>
                     <div class="ms-auto input-group search-box">
                         <div class="input-group-prepend">
                             <button class="btn btn-light rounded-start-3b rounded-end-0 btn-search" type="button">
@@ -83,9 +83,10 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <!-- <tr v-for="(entry, index) in tableActiveDB" :key="index">
-                            <td v-for="cell in entry" :key="cell"> {{ cell }} </td>
-                          </tr> -->
+                          <tr v-for="(entry, index) in tableActiveDB" :key="index">
+                            <!-- {{entry}} <br><br><br> -->
+                            <td v-for="(data, index) in entry" :key="index">{{data}}</td>
+                          </tr>
                         </tbody>
                       </table>
                 </div>
@@ -105,12 +106,12 @@
     sayHelloJS("Javascript World!");
     window.eel.say_hello_py("Javascript World!");
 
-    async function fetch_data_fromPy() { // receive data from python
-        let x = await window.eel.passDB_toJS()()
-        console.log("passDB_toJS() receieved value: ", x);
-        return x;
-    }
-    fetch_data_fromPy();
+    // async function fetch_data_fromPy() { // receive data from python
+    //     let x = await window.eel.passDB_toJS()()
+    //     console.log("passDB_toJS() receieved value: ", x);
+    //     return x;
+    // }
+    
 
     export default {
         name: 'MainDashboard',
@@ -120,13 +121,14 @@
             return {
                 isNewEntryClicked : false,
                 tableHeaders : {
-                    evacuee: ['Evac ID', 'First Name', 'M.I.', 'Last Name', 'Suffix', 'Contact Info', 'Family ID'],
-                    family: ['Family ID', 'Family Name', 'Family Address', 'Emergency Contact', 'Emergency Contact Details', 'Family Size'],
-                    medAssist: ['Family ID', 'Evacuee ID', 'First Name', 'Last Name', 'Cause'],
+                    db_evacuees: ['Evac ID', 'First Name', 'M.I.', 'Last Name', 'Suffix', 'Contact Info', 'Family ID'],
+                    db_families: ['Family ID', 'Family Name', 'Family Address', 'Emergency Contact', 'Emergency Contact Details', 'Family Size'],
+                    db_medAssist: ['Family ID', 'Evacuee ID', 'First Name', 'Last Name', 'Cause'],
                     relief: ['Relief Op ID', 'Family ID', 'Evacuee ID']
                 },
+                tableLabel : 'Evacuees Table',
                 tableCurrentHeader : 'evacuee',
-                tableCurrentDB: 'db_evacuees'
+                tableActiveDB : ""
             }
         },
         props: {
@@ -135,19 +137,32 @@
         computed: {
             tableActiveHeaders() {
                 return this.tableHeaders[this.tableCurrentHeader]
-            },
-            tableActiveDB() {
-                return this.tableDB[this.tableCurrentDB]
             }
         },
         methods: {
-            changeTable(table, row) {
+            changeTable(table) {
                 this.tableCurrentHeader = table
-                this.tableCurrentDB = row
+                this.fetch_data_fromPy(table)
+                this.changeTableTitle(table)
+                console.log("CLICKED! passDB_toJS() receieved value: ", {...this.tableActiveDB}, " :: ",  typeof {...this.tableActiveDB})
+            },
+            changeTableTitle(table) {
+                table == 'db_evacuees' ? this.tableLabel = 'Evacuees Table'
+                    : table == 'db_families' ? this.tableLabel = 'Families Table'
+                    : table == 'db_medAssist' ? this.tableLabel = 'Medical Reports Table'
+                    : this.tableLabel = 'Relief Operation Table'
+            },
+            async fetch_data_fromPy(table) { // receive data from python
+                const dataFetched = await window.eel.passDB_toJS()()
+                this.tableActiveDB = dataFetched[table]
+                console.log("just data: ", dataFetched[table])
             },
             btnNewEntryClickedMain() {
                 this.$emit('new-entry')
             }
+        },
+        mounted: function() {
+            this.changeTable('db_evacuees')
         }
     }
 </script>

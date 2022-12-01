@@ -15,7 +15,7 @@
                     <h5>New Relief Operation</h5>
             </button>
             
-            <button class="mt-auto p-2 btn btn-danger rounded-3" type="button" @click="newEntryClose">
+            <button class="mt-auto mx-auto p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="newEntryClose">
                     <h5>Close</h5>
             </button>
         </div>
@@ -48,6 +48,10 @@ export default {
     height: 100%;
     background-color: var(--bs-body-bg);
     text-align: center;
+    overflow:hidden;
+}
+.btn-newEntry-close {
+    width: 42%;
 }
 
 </style>
