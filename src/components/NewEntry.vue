@@ -14,26 +14,43 @@
                     <h5>Close</h5> </button>
         </div>
 
-        <div class="p-5 d-flex flex-column rounded-3 new-entry-dialog new-evacuees-dialog" v-if="newEntryDialogState == 'evacuee'">
-            <h3>New evacuee</h3>
+        <div class="px-5 py-4 d-flex flex-column rounded-3 new-entry-dialog new-evacuees-dialog" v-if="newEntryDialogState == 'evacuee'">
+            <h4>New evacuee</h4>
+            <form action="">
+                <div class="mb-3 d-flex flex-column">
+                    <label for="first-name" class="align-self-start form-label">First Name</label>
+                    <input type="text" id="first-name" class="form-control">
+                </div>
+                <div class="mb-3 d-flex flex-column">
+                    <label for="last-name" class="align-self-start form-label">Last Name</label>
+                    <input type="text" id="last-name" class="form-control">
+                </div>
+                <div class="mb-3 d-flex flex-column">
+                    <label for="contact-number" class="align-self-start form-label">Contact Number</label>
+                    <input type="text" id="contact-number" class="form-control">
+                </div>
+                <div class="mb-3 d-flex flex-column">
+                    <label for="family-id" class="align-self-start form-label">Family ID</label>
+                </div>
+            </form>
             <button class="mt-auto mx-auto p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
                     <h5>Close</h5> </button>
         </div>
 
-        <div class="p-5 d-flex flex-column rounded-3 new-entry-dialog new-evacuees-dialog" v-if="newEntryDialogState == 'family'">
-            <h3>New family</h3>
+        <div class="px-5 py-4 d-flex flex-column rounded-3 new-entry-dialog new-evacuees-dialog" v-if="newEntryDialogState == 'family'">
+            <h4>New family</h4>
             <button class="mt-auto mx-auto p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
                     <h5>Close</h5> </button>
         </div>
 
-        <div class="p-5 d-flex flex-column rounded-3 new-entry-dialog new-evacuees-dialog" v-if="newEntryDialogState == 'medical'">
-            <h3>New medical report</h3>
+        <div class="px-5 py-4 d-flex flex-column rounded-3 new-entry-dialog new-evacuees-dialog" v-if="newEntryDialogState == 'medical'">
+            <h4>New medical report</h4>
             <button class="mt-auto mx-auto p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
                     <h5>Close</h5> </button>
         </div>
 
-        <div class="p-5 d-flex flex-column rounded-3 new-entry-dialog new-evacuees-dialog" v-if="newEntryDialogState == 'relief'">
-            <h3>New relief operation</h3>
+        <div class="px-5 py-4 d-flex flex-column rounded-3 new-entry-dialog new-evacuees-dialog" v-if="newEntryDialogState == 'relief'">
+            <h4>New relief operation</h4>
             <button class="mt-auto mx-auto p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
                     <h5>Close</h5> </button>
         </div>
