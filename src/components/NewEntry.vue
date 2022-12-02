@@ -15,7 +15,7 @@
         </div>
 
         <div class="px-5 py-4 d-flex flex-column rounded-3 new-entry-dialog new-evacuees-dialog" v-if="newEntryDialogState == 'evacuee'">
-            <h4>New evacuee</h4>
+            <h3>New evacuee</h3>
             <form action="">
                 <div class="mb-3 d-flex flex-column">
                     <label for="first-name" class="align-self-start form-label">First Name</label>
@@ -27,42 +27,99 @@
                 </div>
                 <div class="mb-3 d-flex flex-column">
                     <label for="contact-number" class="align-self-start form-label">Contact Number</label>
-                    <input type="text" id="contact-number" class="form-control">
+                    <input type="text" id="contact-number" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                 </div>
                 <div class="mb-3 d-flex flex-column">
                     <label for="family-id" class="align-self-start form-label">Family ID</label>
+                    <v-select id="family-id" :options="form_evacuees_familyId"></v-select>
                 </div>
             </form>
-            <button class="mt-auto mx-auto p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
+            <div class="mt-auto d-flex justify-content-between">
+                <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="button" @click="btnSubmitClick">
+                    <h5>Submit</h5> </button>
+                <button class="p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
                     <h5>Close</h5> </button>
+            </div>
         </div>
 
         <div class="px-5 py-4 d-flex flex-column rounded-3 new-entry-dialog new-evacuees-dialog" v-if="newEntryDialogState == 'family'">
-            <h4>New family</h4>
-            <button class="mt-auto mx-auto p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
+            <h3>New family</h3>
+            <form action="">
+                <div class="mb-3 d-flex flex-column">
+                    <label for="family-name" class="align-self-start form-label">Family Name</label>
+                    <input type="text" id="family-name" class="form-control">
+                </div>
+                <div class="mb-3 d-flex flex-column">
+                    <label for="address" class="align-self-start form-label">Address</label>
+                    <input type="text" id="address" class="form-control">
+                </div>
+            </form>
+            <div class="mt-auto d-flex justify-content-between">
+                <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="button" @click="btnSubmitClick">
+                    <h5>Submit</h5> </button>
+                <button class="p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
                     <h5>Close</h5> </button>
+            </div>
         </div>
 
         <div class="px-5 py-4 d-flex flex-column rounded-3 new-entry-dialog new-evacuees-dialog" v-if="newEntryDialogState == 'medical'">
-            <h4>New medical report</h4>
-            <button class="mt-auto mx-auto p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
+            <h3>New medical report</h3>
+            <form action="">
+                <div class="mb-3 d-flex flex-column">
+                    <label for="evac-id" class="align-self-start form-label">Evacuee Name</label>
+                    <v-select id="evac-id" :options="form_evacuees_familyId"></v-select>
+                </div>
+                <div class="mb-3 d-flex flex-column">
+                    <label for="family-id" class="align-self-start form-label">Family Name & Emergency Contact</label>
+                    <v-select id="family-id" :options="form_evacuees_familyId"></v-select>
+                </div>
+                <div class="mb-3 d-flex flex-column">
+                    <label for="med-report" class="align-self-start form-label">Medical Issue/Report</label>
+                    <input type="text" id="med-report" class="form-control">
+                </div>
+            </form>
+            <div class="mt-auto d-flex justify-content-between">
+                <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="button" @click="btnSubmitClick">
+                    <h5>Submit</h5> </button>
+                <button class="p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
                     <h5>Close</h5> </button>
+            </div>
         </div>
 
         <div class="px-5 py-4 d-flex flex-column rounded-3 new-entry-dialog new-evacuees-dialog" v-if="newEntryDialogState == 'relief'">
-            <h4>New relief operation</h4>
-            <button class="mt-auto mx-auto p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
+            <h3>New relief operation</h3>
+            <form action="">
+                <div class="mb-3 d-flex flex-column">
+                    <label for="reliefOp-name" class="align-self-start form-label">Relief Operation Name</label>
+                    <input type="text" id="reliefOp-name" class="form-control">
+                </div>
+            </form>
+            <div class="mt-auto d-flex justify-content-between">
+                <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="button" @click="btnSubmitClick">
+                    <h5>Submit</h5> </button>
+                <button class="p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
                     <h5>Close</h5> </button>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import vSelect from "vue-select"
+
 export default {
     name: 'NewEntry',
+    components: {
+        vSelect
+    },
     data() {
         return {
-            newEntryDialogState : 'menu'
+            newEntryDialogState : 'menu',
+            form_evacuees_familyId : [
+                '001 of Joseph Clarence C. Parayaoan',
+                '002 of Rose Angel G. Moncatar',
+                '003 of Rigel Jonn G. German'
+            ]
         }
     },
     methods: {
@@ -75,6 +132,9 @@ export default {
                 : newEntryTarget == 'medical' ? this.newEntryDialogState = 'medical'
                 : newEntryTarget == 'relief' ? this.newEntryDialogState = 'relief'
                 : this.newEntryDialogState = 'menu'
+        },
+        btnSubmitClick () {
+            console.log('SUBMITTED');
         }
     }
 }
