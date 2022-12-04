@@ -43,7 +43,7 @@
                     </v-select>
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" id="is_family_contact" class="form-check-input" v-model="formValuesEvacuee.is_family_contacts">
+                    <input type="checkbox" id="is_family_contact" class="form-check-input" v-model="formValuesEvacuee.is_family_contact">
                     <label for="is_family_contact" class="align-self-start form-label">Make the person an emergency contact of the family?</label>
                 </div>
                 <div class="mb-3 form-check">
@@ -142,10 +142,10 @@
 
         <div class="px-5 py-4 d-flex flex-column rounded-3 new-entry-dialog evacuation-info-dialog" v-if="newEntryEvacInfo">
             <h3>Evacuation Center Information</h3>
-            <form @submit.prevent="submitFormRelief">
+            <form @submit.prevent="submitFormEvacCenter">
                 <div class="mb-3 d-flex flex-column">
-                    <label for="reliefOp-name" class="align-self-start form-label">Relief Operation Name</label>
-                    <input type="text" id="reliefOp-name" class="form-control" v-model.trim.lazy="formValuesRelief.relief_op_name" required>
+                    <label for="EvacInfo" class="align-self-start form-label">Relief Operation Name</label>
+                    <input type="text" id="EvacInfo" class="form-control" v-model.trim.lazy="formValuesEvacInfo" required>
                 </div>
                 <div class="mt-auto d-flex justify-content-between">
                     <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="submit">
@@ -232,6 +232,10 @@ export default {
         },
         submitFormRelief() {
             console.log('Form Values of Family: ', {...this.formValuesRelief});
+            this.newEntryClose();
+        },
+        submitFormEvacCenter() {
+            console.log('Form Values of Evacuation Center: ', this.formValuesEvacInfo);
             this.newEntryClose();
         }
     }
