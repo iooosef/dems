@@ -38,11 +38,9 @@ tableDBpy = {
         ['004', 'R0002', '2022-07-22', 'Trina', 'false'],
         ['005', 'R0002', '2022-07-22', 'Kyle', 'false'],
         ['006', 'R0002', '2022-07-22', 'Angel', 'true']
-    ],
-    'db_evac' : [
-        'San Juan Elementary School'
     ]
 }
+evacDBpy = 'San Juan Elementary School'
 var_to_js_incr = 0
 
 @eel.expose  # Expose function to JavaScript
@@ -54,6 +52,10 @@ def say_hello_py(x):
 @eel.expose
 def passDB_toJS(): # return a dict to JS
     return tableDBpy
+
+@eel.expose
+def passEvacInfo_toJS():
+    return evacDBpy
 
 eel.init('web')
 eel.browsers.set_path('electron', './node_modules/electron/dist/electron')

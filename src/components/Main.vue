@@ -39,10 +39,10 @@
         </aside>
         <div class="p-0 col-md-10 d-flex flex-column">
             <nav class="px-4 py-2 d-flex flex-row border">
-                <button class="me-3 btn btn-light btn-navbar-edit" type="button">
+                <button class="me-3 btn btn-light btn-navbar-edit" type="button" @click="btnEvanInfoClicked">
                     <img src="../assets/img/edit.png" class="my-auto img-fluid">
                 </button>
-                <h4 class="d-flex align-items-center">Evacuation Center Name</h4>
+                <h4 class="d-flex align-items-center">{{fetchedEvacInfo}}</h4>
             </nav>
             <section class="p-4b">
                 <div class="mb-4b d-flex flex-row">
@@ -126,7 +126,7 @@
                 tableCurrentHeader : 'evacuee'
             }
         },
-        props: ['fetchedDB'],
+        props: ['fetchedDB','fetchedEvacInfo'],
         computed: {
             tableActiveHeaders() {
                 return this.tableHeaders[this.tableCurrentHeader]
@@ -148,6 +148,9 @@
             },
             btnNewEntryClickedMain() {
                 this.$emit('new-entry')
+            },
+            btnEvanInfoClicked() {
+                this.$emit('evac-info')
             }
         },
         mounted: function() {

@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex justify-content-center block-main">
-        <div class="p-5 d-flex flex-column rounded-3 new-entry-dialog" v-if="newEntryDialogState == 'menu'">
+        <div class="p-5 d-flex flex-column rounded-3 new-entry-dialog" v-if="editEvacDialogState && newEntryDialogState == 'menu'">
             <h3>Create a new entry</h3>
             <button class="my-3 p-2 btn btn-success btn-newEntry text-light rounded-3" type="button" @click="openNewEntryForm('evacuee')">
                     <h5>New Evacuee</h5> </button>
@@ -135,6 +135,22 @@
                 </div>
             </form>
         </div>
+
+        <div class="px-5 py-4 d-flex flex-column rounded-3 new-entry-dialog evacuation-info-dialog" v-if="newEntryEvacInfo">
+            <h3>Evacuation Center Information</h3>
+            <form @submit.prevent="submitFormRelief">
+                <div class="mb-3 d-flex flex-column">
+                    <label for="reliefOp-name" class="align-self-start form-label">Relief Operation Name</label>
+                    <input type="text" id="reliefOp-name" class="form-control" v-model.trim.lazy="formValuesRelief.relief_op_name" required>
+                </div>
+                <div class="mt-auto d-flex justify-content-between">
+                    <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="submit">
+                        <h5>Submit</h5> </button>
+                    <button class="p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="newEntryClose">
+                        <h5>Close</h5> </button>
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -176,11 +192,20 @@ export default {
             ]
         }
     },
+    props:['newEntryEvacInfo'],
+    computed: {
+        editEvacDialogState() {
+            console.log(this.newEntryEvacInfo)
+            console.log(!this.newEntryEvacInfo)
+            return this.newEntryEvacInfo ? !this.newEntryEvacInfo : true
+        }
+    },
     methods: {
         newEntryClose() {
             this.$emit('new-entry-close')
         },
         openNewEntryForm(newEntryTarget) {
+
             newEntryTarget == 'evacuee' ? this.newEntryDialogState = 'evacuee'
                 : newEntryTarget == 'family' ? this.newEntryDialogState = 'family'
                 : newEntryTarget == 'medical' ? this.newEntryDialogState = 'medical'
@@ -222,8 +247,12 @@ export default {
     height: 100%;
     background-color: var(--bs-body-bg);
     text-align: center;
-    overflow:hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
 } 
+.evacuation-info-dialog {
+    height: 75%;
+}
 .btn-newEntry-close {
     width: 42%;
 }

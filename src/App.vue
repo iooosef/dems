@@ -1,6 +1,6 @@
 <template>
-  <NewEntry id="new-entry" @new-entry-close="btnNewEntryClosed" v-if="btnNewEntryState" />
-  <MainApp id="main-app" @new-entry="btnNewEntryClicked" :fetchedDB="fetchedDB" @change-table="fetch_data_fromPy" />
+  <NewEntry id="new-entry" @new-entry-close="btnNewEntryClosed" v-if="btnNewEntryState" :newEntryEvacInfo="newEntryEvacInfo" />
+  <MainApp id="main-app" @new-entry="btnNewEntryClicked" @evac-info="btnEvacInfoChange" :fetchedDB="fetchedDB" :fetchedEvacInfo="fetchedEvacInfo" @change-table="fetch_data_fromPy" />
 </template>
 
 <script>
@@ -16,7 +16,9 @@ export default {
   data() {
     return {
       btnNewEntryState: false,
-      fetchedDB: ''
+      fetchedDB: '',
+      fetchedEvacInfo: '',
+      newEntryEvacInfo: ''
     }
   },
   props: {
@@ -27,15 +29,23 @@ export default {
       console.log("parentToChild Called!");
     },
     async fetch_data_fromPy(table) { // receive data from python
-        const dataFetched = await window.eel.passDB_toJS()()        
+        const dataFetched = await window.eel.passDB_toJS()()
+        const evacInfo = await window.eel.passEvacInfo_toJS()()      
         console.log("just data: ", dataFetched[table])
         this.fetchedDB = dataFetched[table]
+        this.fetchedEvacInfo = evacInfo
     },
     btnNewEntryClicked() {
       this.btnNewEntryState = true
+      this.newEntryEvacInfo = false
     },
     btnNewEntryClosed() {
       this.btnNewEntryState = false
+      this.newEntryEvacInfo = false
+    },
+    btnEvacInfoChange() {
+      this.btnNewEntryState = true
+      this.newEntryEvacInfo = true
     }
   }
 }
