@@ -46,6 +46,10 @@
                     <input type="checkbox" id="is_family_contact" class="form-check-input" v-model="formValuesEvacuee.is_family_contacts">
                     <label for="is_family_contact" class="align-self-start form-label">Make the person an emergency contact of the family?</label>
                 </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" id="is_relief_rep" class="form-check-input" v-model="formValuesEvacuee.is_relief_rep">
+                    <label for="is_relief_rep" class="align-self-start form-label">Make the person the relief goods representative of the family?</label>
+                </div>
                 <button class="mb-3 p-2 btn btn-success btn-newEntry text-light rounded-3" type="button" @click="openNewEntryForm('family')">
                     <h5>New Family</h5> </button>
                 
@@ -170,7 +174,8 @@ export default {
                 last_name: "",
                 contact_number: "",
                 family_id: "",
-                is_family_contact: false  
+                is_family_contact: false,
+                is_relief_rep: false
             },
             formValuesFamily : {
                 family_name: "",
@@ -184,6 +189,7 @@ export default {
             formValuesRelief : {
                 relief_op_name: ""
             },
+            formValuesEvacInfo : '',
 
             form_evacuees_familyId : [
                 '001 of Joseph Clarence C. Parayaoan',

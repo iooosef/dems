@@ -31,10 +31,10 @@
                     <img src="../assets/img/help.png" class="ms-2 me-3 img-fluid sidebar-logo">
                     <span class="d-flex align-items-center">Help</span>
                 </button>
-                <button class="p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button">
+                <!-- <button class="p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button">
                     <img src="../assets/img/gear.png" class="ms-2 me-3 img-fluid sidebar-logo">
                     <span class="d-flex align-items-center">Settings</span>
-                </button>
+                </button> -->
             </ul>
         </aside>
         <div class="p-0 col-md-10 d-flex flex-column">
