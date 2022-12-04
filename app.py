@@ -25,6 +25,22 @@ tableDBpy = {
         ['000003', '001', 'Joseph Clarence', 'Parayaoan', 'Fever'],
         ['000004', '001', 'Joseph Clarence', 'Parayaoan', 'Injury'],
         ['000005', '001', 'Joseph Clarence', 'Parayaoan', 'Injury']
+    ],
+    'db_relief' : [
+        ['001', 'R0001', '2022-07-22', 'Primitivo', 'true'],
+        ['002', 'R0001', '2022-07-22', 'John', 'true'],
+        ['003', 'R0001', '2022-07-22', 'Berto', 'true'],
+        ['004', 'R0001', '2022-07-22', 'Trina', 'true'],
+        ['005', 'R0001', '2022-07-22', 'Kyle', 'false'],
+        ['006', 'R0001', '2022-07-22', 'Angel', 'true'],
+        ['002', 'R0002', '2022-07-22', 'John', 'false'],
+        ['003', 'R0002', '2022-07-22', 'Berto', 'true'],
+        ['004', 'R0002', '2022-07-22', 'Trina', 'false'],
+        ['005', 'R0002', '2022-07-22', 'Kyle', 'false'],
+        ['006', 'R0002', '2022-07-22', 'Angel', 'true']
+    ],
+    'db_evac' : [
+        'San Juan Elementary School'
     ]
 }
 var_to_js_incr = 0

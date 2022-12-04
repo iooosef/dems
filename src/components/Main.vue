@@ -120,7 +120,7 @@
                     db_evacuees: ['Evac ID', 'First Name', 'M.I.', 'Last Name', 'Suffix', 'Contact Info', 'Family ID'],
                     db_families: ['Family ID', 'Family Name', 'Family Address', 'Emergency Contact', 'Emergency Contact Details', 'Family Size'],
                     db_medAssist: ['Family ID', 'Evacuee ID', 'First Name', 'Last Name', 'Cause'],
-                    db_relief: ['Relief Op ID', 'Family ID', 'Evacuee ID']
+                    db_relief: ['Family ID', 'Relief Op ID', 'Relief Op Date', 'Representative Name', 'Status']
                 },
                 tableLabel : 'Evacuees Table',
                 tableCurrentHeader : 'evacuee'
@@ -143,7 +143,8 @@
                 table == 'db_evacuees' ? this.tableLabel = 'Evacuees Table'
                     : table == 'db_families' ? this.tableLabel = 'Families Table'
                     : table == 'db_medAssist' ? this.tableLabel = 'Medical Reports Table'
-                    : this.tableLabel = 'Relief Operations Table'
+                    : table == 'db_relief' ? this.tableLabel = 'Relief Operations Table'
+                    : '' 
             },
             btnNewEntryClickedMain() {
                 this.$emit('new-entry')
