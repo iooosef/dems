@@ -83,8 +83,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr v-for="(entry, index) in tableActiveDB" :key="index">
-                            <!-- {{entry}} <br><br><br> -->
+                          <tr v-for="(entry, index) in fetchedDB" :key="index">
                             <td v-for="(data, index) in entry" :key="index">{{data}}</td>
                           </tr>
                         </tbody>
@@ -104,14 +103,7 @@
     window.eel.expose(sayHelloJS, "say_hello_js");
     // Test calling sayHelloJS, then call the corresponding Python function
     sayHelloJS("Javascript World!");
-    window.eel.say_hello_py("Javascript World!");
-
-    // async function fetch_data_fromPy() { // receive data from python
-    //     let x = await window.eel.passDB_toJS()()
-    //     console.log("passDB_toJS() receieved value: ", x);
-    //     return x;
-    // }
-    
+    window.eel.say_hello_py("Javascript World!");    
 
     export default {
         name: 'MainDashboard',
@@ -127,13 +119,10 @@
                     relief: ['Relief Op ID', 'Family ID', 'Evacuee ID']
                 },
                 tableLabel : 'Evacuees Table',
-                tableCurrentHeader : 'evacuee',
-                tableActiveDB : ""
+                tableCurrentHeader : 'evacuee'
             }
         },
-        props: {
-            msg: String
-        },
+        props: ['fetchedDB'],
         computed: {
             tableActiveHeaders() {
                 return this.tableHeaders[this.tableCurrentHeader]
@@ -142,20 +131,15 @@
         methods: {
             changeTable(table) {
                 this.tableCurrentHeader = table
-                this.fetch_data_fromPy(table)
+                this.$emit('change-table', table)
                 this.changeTableTitle(table)
-                console.log("CLICKED! passDB_toJS() receieved value: ", {...this.tableActiveDB}, " :: ",  typeof {...this.tableActiveDB})
+                console.log("CLICKED! fetchedDB value: ", this.fetchedDB)
             },
             changeTableTitle(table) {
                 table == 'db_evacuees' ? this.tableLabel = 'Evacuees Table'
                     : table == 'db_families' ? this.tableLabel = 'Families Table'
                     : table == 'db_medAssist' ? this.tableLabel = 'Medical Reports Table'
                     : this.tableLabel = 'Relief Operation Table'
-            },
-            async fetch_data_fromPy(table) { // receive data from python
-                const dataFetched = await window.eel.passDB_toJS()()
-                this.tableActiveDB = dataFetched[table]
-                console.log("just data: ", dataFetched[table])
             },
             btnNewEntryClickedMain() {
                 this.$emit('new-entry')

@@ -1,6 +1,6 @@
 <template>
   <NewEntry id="new-entry" @new-entry-close="btnNewEntryClosed" v-if="btnNewEntryState" />
-  <MainApp id="main-app" @new-entry="btnNewEntryClicked"/>
+  <MainApp id="main-app" @new-entry="btnNewEntryClicked" :fetchedDB="fetchedDB" @change-table="fetch_data_fromPy" />
 </template>
 
 <script>
@@ -15,10 +15,22 @@ export default {
   },
   data() {
     return {
-      btnNewEntryState: false
+      btnNewEntryState: false,
+      fetchedDB: ''
     }
   },
+  props: {
+
+  },
   methods: {
+    parentToChildMethod() {
+      console.log("parentToChild Called!");
+    },
+    async fetch_data_fromPy(table) { // receive data from python
+        const dataFetched = await window.eel.passDB_toJS()()        
+        console.log("just data: ", dataFetched[table])
+        this.fetchedDB = dataFetched[table]
+    },
     btnNewEntryClicked() {
       this.btnNewEntryState = true
     },
