@@ -43,6 +43,9 @@
 main {
     height: 99.9vh;
 }
+aside {
+    height: 100vh;
+}
 nav {
     height: 60px;
 }
@@ -57,8 +60,8 @@ h1, h2, h3, h4, h5, h6 {
 .sidebar-logo {
     height: auto; 
     width: auto; 
-    max-width: 45px; 
-    max-height: 45px;
+    max-width: 32px; 
+    max-height: 32px;
 }
 .btn-navbar-edit {
     padding-right: .5rem;
@@ -83,12 +86,14 @@ h1, h2, h3, h4, h5, h6 {
 .btn-sidebar {
     border: 0;
     color: #000000;
+    font-size: 1.25rem;
 } .btn-sidebar:hover {
     color: #000000;
 } .btn-sidebar:focus {
     color: #000000;
 } .btn-sidebar:not(:disabled):not(.disabled):active {
     color: #000000;
+    font-weight: bold;
 }
 .analytics {
     width: 100%;

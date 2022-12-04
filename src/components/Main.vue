@@ -11,25 +11,29 @@
                 </button>
                 <button class="mb-3 p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button" @click="changeTable('db_evacuees')">
                     <img src="../assets/img/evacuees.png" class="ms-2 me-3 img-fluid sidebar-logo">
-                    <h5 class="d-flex align-items-center">Evacuees</h5>
+                    <span class="d-flex align-items-center">Evacuees</span>
                 </button>
                 <button class="mb-3 p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button" @click="changeTable('db_families')">
                     <img src="../assets/img/family.png" class="ms-2 me-3 img-fluid sidebar-logo">
-                    <h5 class="d-flex align-items-center">Families</h5>
+                    <span class="d-flex align-items-center">Families</span>
                 </button>
-                <button class="p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button" @click="changeTable('db_medAssist')">
+                <button class="mb-3 p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button" @click="changeTable('db_medAssist')">
                     <img src="../assets/img/medical.png" class="ms-2 me-3 img-fluid sidebar-logo">
-                    <h5 class="d-flex align-items-center">Medical</h5>
+                    <span class="d-flex align-items-center">Medical</span>
+                </button>
+                <button class="p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button" @click="changeTable('db_relief')">
+                    <img src="../assets/img/relief.png" class="ms-2 me-3 img-fluid sidebar-logo">
+                    <span class="d-flex align-items-center">Relief</span>
                 </button>
             </ul>
             <ul class="nav nav-pills d-flex flex-column-reverse mt-auto">
                 <button class="mt-3 p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button">
                     <img src="../assets/img/help.png" class="ms-2 me-3 img-fluid sidebar-logo">
-                    <h5 class="d-flex align-items-center">Help</h5>
+                    <span class="d-flex align-items-center">Help</span>
                 </button>
                 <button class="p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button">
                     <img src="../assets/img/gear.png" class="ms-2 me-3 img-fluid sidebar-logo">
-                    <h5 class="d-flex align-items-center">Settings</h5>
+                    <span class="d-flex align-items-center">Settings</span>
                 </button>
             </ul>
         </aside>
@@ -116,7 +120,7 @@
                     db_evacuees: ['Evac ID', 'First Name', 'M.I.', 'Last Name', 'Suffix', 'Contact Info', 'Family ID'],
                     db_families: ['Family ID', 'Family Name', 'Family Address', 'Emergency Contact', 'Emergency Contact Details', 'Family Size'],
                     db_medAssist: ['Family ID', 'Evacuee ID', 'First Name', 'Last Name', 'Cause'],
-                    relief: ['Relief Op ID', 'Family ID', 'Evacuee ID']
+                    db_relief: ['Relief Op ID', 'Family ID', 'Evacuee ID']
                 },
                 tableLabel : 'Evacuees Table',
                 tableCurrentHeader : 'evacuee'
@@ -139,7 +143,7 @@
                 table == 'db_evacuees' ? this.tableLabel = 'Evacuees Table'
                     : table == 'db_families' ? this.tableLabel = 'Families Table'
                     : table == 'db_medAssist' ? this.tableLabel = 'Medical Reports Table'
-                    : this.tableLabel = 'Relief Operation Table'
+                    : this.tableLabel = 'Relief Operations Table'
             },
             btnNewEntryClickedMain() {
                 this.$emit('new-entry')
