@@ -89,6 +89,10 @@
                         <tbody>
                           <tr v-for="(entry, index) in fetchedDB" :key="index">
                             <td v-for="(data, index) in entry" :key="index">{{data}}</td>
+                            <td>
+                                <button @click="getAllSiblings.call(this)">test 1</button>
+                                <button>test 2</button>
+                            </td>
                           </tr>
                         </tbody>
                       </table>
@@ -117,10 +121,10 @@
             return {
                 isNewEntryClicked : false,
                 tableHeaders : {
-                    db_evacuees: ['Evac ID', 'First Name', 'M.I.', 'Last Name', 'Suffix', 'Contact Info', 'Family ID'],
-                    db_families: ['Family ID', 'Family Name', 'Family Address', 'Emergency Contact', 'Emergency Contact Details', 'Family Size'],
-                    db_medAssist: ['Family ID', 'Evacuee ID', 'First Name', 'Last Name', 'Cause'],
-                    db_relief: ['Family ID', 'Relief Op ID', 'Relief Op Date', 'Representative Name', 'Status']
+                    db_evacuees: ['Evac ID', 'First Name', 'M.I.', 'Last Name', 'Suffix', 'Contact Info', 'Family ID', 'Actions'],
+                    db_families: ['Family ID', 'Family Name', 'Family Address', 'Emergency Contact', 'Emergency Contact Details', 'Family Size', 'Actions'],
+                    db_medAssist: ['Family ID', 'Evacuee ID', 'First Name', 'Last Name', 'Cause', 'Actions'],
+                    db_relief: ['Family ID', 'Relief Op ID', 'Relief Op Date', 'Representative Name', 'Status', 'Actions']
                 },
                 tableLabel : 'Evacuees Table',
                 tableCurrentHeader : 'evacuee'
@@ -151,6 +155,9 @@
             },
             btnEvanInfoClicked() {
                 this.$emit('evac-info')
+            },
+            getAllSiblings() {
+                alert(this.parentNode)
             }
         },
         mounted: function() {
