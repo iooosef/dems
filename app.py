@@ -1,47 +1,60 @@
 import sys
 import platform
-import eel
+import eel 
+import json
 
 # Expected format of data fetched from DB to be passed to front-end
-tableDBpy = {
+sampleDB = {
     'db_evacuees' : [
-        ['000001', 'Primitivo', 'M.', 'Parayaoan', 'Jr.', '09123456789', '001'],
-        ['000002', 'Primitivo', 'M.', 'Parayaoan', 'Jr.', '09123456789', '001'],
-        ['000003', 'Primitivo', 'M.', 'Parayaoan', 'Jr.', '09123456789', '001'],
-        ['000004', 'Primitivo', 'M.', 'Parayaoan', 'Jr.', '09123456789', '001'],
-        ['000005', 'Primitivo', 'M.', 'Parayaoan', 'Jr.', '09123456789', '001'],
-        ['000006', 'Primitivo', 'M.', 'Parayaoan', 'Jr.', '09123456789', '001']
+        (1,'Joseph Clarence','C','Parayaoan','','09123456789',1),
+        (2,'Joseph','C','Parayaoan','','09123456781',1),
+        (3,'Clarence','C','Parayaoan','','09123456782',1),
+        (4,'Primitivo','M','Parayaoan','Jr.','09123456783',1),
+        (5,'Rosemarie','C','Parayaoan','','09123456784',1),
+        (6,'Juan','DL','Dela Cruz','Sr.','09123456785',2),
+        (7,'Maria','S','Dela Cruz','','09123456786',2),
+        (8,'Mark','H','Sierra','III','09123456787',3)
     ],
     'db_families' : [
-        ['001', 'Parayaoan', '16 7th St., Youngstown Vill., Cainta, Rizal', '000001', '09123456789', '5'],
-        ['002', 'Parayaoan', '16 7th St., Salakdwa Vill., Cainta, Rizal', '000001', '09123456789', '5'],
-        ['003', 'asdawokdaskdlaksd', 'dakwdnlkjflemadla., Cainta, Rizal', '000001', '09123456789', '5'],
-        ['004', 'Parayaoan', 'skfdslklskflsdkf, Cainta, Rizal', '000001', '09123456789', '5'],
-        ['005', 'Parayaoan', '16 7th St., Youngstown Vill., Cainta, Rizal', '000001', '09123456789', '5']
+        (1, 'Parayaoan', '16 7th St., Youngstown Vill., Cainta, Rizal', 4, '09123456783', 5),
+        (2, 'Dela Cruz', 'Salakdwa Vill., Cainta, Rizal', 6, '09123456785', 2),
+        (3, 'Sierra', 'World, Moon', 8, '09123456787', 1)
     ],
     'db_medAssist' : [
-        ['000001', '001', 'Joseph Clarence', 'Parayaoan', 'Injury'],
-        ['000002', '001', 'Joseph Clarence', 'Parayaoan', 'Injury'],
-        ['000003', '001', 'Joseph Clarence', 'Parayaoan', 'Fever'],
-        ['000004', '001', 'Joseph Clarence', 'Parayaoan', 'Injury'],
-        ['000005', '001', 'Joseph Clarence', 'Parayaoan', 'Injury']
+        (1, 1, 'Joseph Clarence', 'Parayaoan', 'Pneumonia'),
+        (8, 3, 'Mark', 'Sierra', 'Fever')
     ],
     'db_relief' : [
-        ['001', 'R0001', '2022-07-22', 'Primitivo', 'true'],
-        ['002', 'R0001', '2022-07-22', 'John', 'true'],
-        ['003', 'R0001', '2022-07-22', 'Berto', 'true'],
-        ['004', 'R0001', '2022-07-22', 'Trina', 'true'],
-        ['005', 'R0001', '2022-07-22', 'Kyle', 'false'],
-        ['006', 'R0001', '2022-07-22', 'Angel', 'true'],
-        ['002', 'R0002', '2022-07-22', 'John', 'false'],
-        ['003', 'R0002', '2022-07-22', 'Berto', 'true'],
-        ['004', 'R0002', '2022-07-22', 'Trina', 'false'],
-        ['005', 'R0002', '2022-07-22', 'Kyle', 'false'],
-        ['006', 'R0002', '2022-07-22', 'Angel', 'true']
+        (1, 'R0001', '2022-07-22', 'Clarence', 1),
+        (2, 'R0001', '2022-07-22', 'Juan', 1),
+        (3, 'R0001', '2022-07-22', 'Mark', 1),
+        (1, 'R0002', '2022-09-22', 'Clarence', 1),
+        (2, 'R0002', '2022-09-22', 'Juan', 1),
+        (3, 'R0002', '2022-09-22', 'Mark', 1),
+        (1, 'R0003', '2022-10-22', 'Clarence', 0),
+        (2, 'R0003', '2022-10-22', 'Juan', 1),
+        (3, 'R0003', '2022-10-22', 'Mark', 0)
     ]
 }
 evacDBpy = 'San Juan Elementary School'
 var_to_js_incr = 0
+
+def sqliteTableToJSON(table):
+    jsonTable = []
+    jsonRow = {}
+    for row in sampleDB[table]:
+        fields = {
+            'db_evacuees': ('evacID','fName','mi','lName','suffix','cNumber','famID'),
+            'db_families': ('famID','famName','famAddrss','famCName','cNumber','famSize'),
+            'db_medAssist': ('famID','evacID','fName','lName','medCause'),
+            'db_relief': ('famID','reliefName','reliefDate','reliefRep','reliefStatus')
+        }
+        for index, field in enumerate(fields[table]):
+            jsonRow[field] = row[index]
+        jsonTable.append(jsonRow)
+        jsonRow = {}
+    return json.dumps(jsonTable)
+
 
 @eel.expose  # Expose function to JavaScript
 def say_hello_py(x):
@@ -51,7 +64,13 @@ def say_hello_py(x):
 
 @eel.expose
 def passDB_toJS(): # return a dict to JS
-    return tableDBpy
+    databaseData = {
+        'db_evacuees' : sqliteTableToJSON('db_evacuees'),
+        'db_families' : sqliteTableToJSON('db_families'),
+        'db_medAssist' : sqliteTableToJSON('db_medAssist'),
+        'db_relief' : sqliteTableToJSON('db_relief')
+    }
+    return databaseData
 
 @eel.expose
 def passEvacInfo_toJS():
@@ -59,7 +78,7 @@ def passEvacInfo_toJS():
 
 eel.init('web')
 eel.browsers.set_path('electron', './node_modules/electron/dist/electron')
-eel.start('index.html', mode='electron')
+eel.start('index.html', mode='edge')
 
 if __name__ == "__main__":
     print("Opening python...")

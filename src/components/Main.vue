@@ -68,19 +68,8 @@
                         <img src="../assets/img/analytics_aid.png" class="my-auto ms-auto">
                     </div>
                 </div>
-                <div class="mb-3 px-4 py-2 d-flex flex-row rounded-3 bg-light-gray ">
-                    <h5>{{ tableLabel }}</h5>
-                    <div class="ms-auto input-group search-box">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-light rounded-start-3b rounded-end-0 btn-search" type="button">
-                                <img src="../assets/img/search.png" class="btn-search-icon">
-                            </button>
-                          </div>
-                        <input type="text" class="form-control rounded-end-3b txtbox-search" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
-                    </div>
-                </div>
-                <div class="scroll">
-                    <table class="table db-table-main">
+                <div>
+                    <!-- <table class="table db-table-main">
                         <thead>
                           <tr>
                             <th v-for="header in tableActiveHeaders" :key="header">{{ header }}</th>
@@ -95,7 +84,11 @@
                             </td>
                           </tr>
                         </tbody>
-                      </table>
+                      </table> -->
+                    <MainTable 
+                        :fetchedDB="fetchedDB"
+                        :tableLabel="tableLabel" 
+                        :tableActiveHeaders="tableActiveHeaders"/>
                 </div>
             </section>
         </div>
@@ -103,6 +96,8 @@
 </template>
 
 <script>
+    import MainTable from './MainTable.vue'
+
     // Expose the `sayHelloJS` function to Python as `say_hello_js`
     function sayHelloJS(x) {
         console.log("Hello from " + x + " using SayHelloJS()");
@@ -116,15 +111,43 @@
     export default {
         name: 'MainDashboard',
         components: {
+            MainTable
         },
         data() {
             return {
                 isNewEntryClicked : false,
                 tableHeaders : {
-                    db_evacuees: ['Evac ID', 'First Name', 'M.I.', 'Last Name', 'Suffix', 'Contact Info', 'Family ID', 'Actions'],
-                    db_families: ['Family ID', 'Family Name', 'Family Address', 'Emergency Contact', 'Emergency Contact Details', 'Family Size', 'Actions'],
-                    db_medAssist: ['Family ID', 'Evacuee ID', 'First Name', 'Last Name', 'Cause', 'Actions'],
-                    db_relief: ['Family ID', 'Relief Op ID', 'Relief Op Date', 'Representative Name', 'Status', 'Actions']
+                    db_evacuees: [
+                        {field: 'evacID', header: 'Evacuee ID'},
+                        {field: 'fName', header: 'First Name'},
+                        {field: 'mi', header: 'M.I.'},
+                        {field: 'lName', header: 'Last Name'},
+                        {field: 'suffix', header: 'Suffix'},
+                        {field: 'cNumber', header: 'Contact Info'},
+                        {field: 'famID', header: 'Family ID'}
+                    ],
+                    db_families: [
+                        {field: 'famID', header: 'Family ID'},
+                        {field: 'famName', header: 'Family Name'},
+                        {field: 'famAddrss', header: 'Family Address'},
+                        {field: 'famCName', header: 'Emergency Contact'},
+                        {field: 'cNumber', header: 'Emergency Contact Details'},
+                        {field: 'famSize', header: 'Family Size'}
+                    ],
+                    db_medAssist: [
+                        {field: 'famID', header: 'Family ID'},
+                        {field: 'evacID', header: 'Evacuee ID'},
+                        {field: 'fName', header: 'First Name'},
+                        {field: 'lName', header: 'Last Name'},
+                        {field: 'medCause', header: 'Cause'}
+                    ],
+                    db_relief: [
+                        {field: 'famID', header: 'Family ID'},
+                        {field: 'reliefName', header: 'Relief Op Name'},
+                        {field: 'reliefDate', header: 'Relief Op Date'},
+                        {field: 'reliefRep', header: 'Representative Name'},
+                        {field: 'reliefStatus', header: 'Status'}
+                    ]
                 },
                 tableLabel : 'Evacuees Table',
                 tableCurrentHeader : 'evacuee'
@@ -141,7 +164,7 @@
                 this.tableCurrentHeader = table
                 this.$emit('change-table', table)
                 this.changeTableTitle(table)
-                console.log("CLICKED! fetchedDB value: ", this.fetchedDB)
+                // console.log("CLICKED! fetchedDB value: ", this.fetchedDB)
             },
             changeTableTitle(table) {
                 table == 'db_evacuees' ? this.tableLabel = 'Evacuees Table'
@@ -162,6 +185,8 @@
         },
         mounted: function() {
             this.changeTable('db_evacuees')
+        },
+        created() {
         }
     }
 </script>

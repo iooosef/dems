@@ -120,9 +120,11 @@ h1, h2, h3, h4, h5, h6 {
     width: 25px;
 }
 .txtbox-search {
-    border-left-style: none;
-    padding-left: 0.2rem;
+    border-radius: var(--bs-border-radius-lg2);
     background-color: #fdfefe;
+    max-height: 38px;
+} .txtbox-search > * {
+    padding-left: 0.2rem;
 }
 .scroll {
     height: 55vh;
@@ -140,4 +142,7 @@ h1, h2, h3, h4, h5, h6 {
     border-left: 0;
 } .db-table-main thead tr th:last-child {
     border-right: 0;
+}
+.p-datatable-header {
+    padding: 0px;
 }

@@ -8,10 +8,14 @@ import "bootstrap/dist/js/bootstrap.js"
 import "./assets/css/Main.css"
 import "bootstrap/dist/css/bootstrap.css"
 import "vue-select/dist/vue-select.css"
+import "primevue/resources/themes/lara-light-blue/theme.css";
+import "primevue/resources/primevue.min.css";
+import "primeicons/primeicons.css";
 
-const app = createApp({});
-
+const app = createApp({});    
 app.component("vSelect", vSelect);
+
+
 
 createApp(App).mount('#app');
 

@@ -32,7 +32,11 @@ export default {
         const dataFetched = await window.eel.passDB_toJS()()
         const evacInfo = await window.eel.passEvacInfo_toJS()()      
         console.log("just data: ", dataFetched[table])
-        this.fetchedDB = dataFetched[table]
+        // for (const row in dataFetched[table]) {
+        //   console.log(dataFetched[table][row])
+        //   console.log("parsed data: ", JSON.parse(dataFetched[table][row]))
+        // }
+        this.fetchedDB = JSON.parse(dataFetched[table])
         this.fetchedEvacInfo = evacInfo
     },
     btnNewEntryClicked() {
