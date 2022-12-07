@@ -1,13 +1,17 @@
 
 <template>
     <div class="d-flex flex-column flex-grow-1">
-        <DataTable class="d-flex flex-column flex-fill" :value="databaseData" autoLayout="true" responsiveLayout="scroll" 
+        <DataTable class="d-flex flex-column flex-fill" :value="databaseData" 
+            v-model:filters="filters" filterDisplay="menu"
+            autoLayout="true" responsiveLayout="scroll" 
             :paginator="true" :rows="20" >
                 <div class="px-4 py-2 d-flex justify-content-between rounded-3 bg-light-gray">
                     <h5 @click="logData"> {{ tableLabel }} </h5>
                     <span class="rounded-3b p-input-icon-left txtbox-search">
                         <i class="pi pi-search txtbox-search" />
-                        <InputText class="txtbox-search p-inputtext p-component" placeholder="Search" />
+                        <InputText class="txtbox-search p-inputtext p-component"
+                            v-model="filters['global'].value" 
+                            placeholder="Search" />
                         <!-- <InputText v-model="filters['global'].value" placeholder="Keyword Search" /> -->
                     </span>
                  </div>
@@ -26,6 +30,7 @@ import Column from 'primevue/column';
 // import ColumnGroup from 'primevue/columngroup';     //optional for column grouping
 // import Row from 'primevue/row';                     //optional for row
 import InputText from 'primevue/inputtext';
+import {FilterMatchMode} from 'primevue/api';
 
 export default {
     name:"MainTable",
@@ -35,6 +40,9 @@ export default {
     },
     data() {
         return {
+            filters: {
+                'global': {value: null, matchMode: FilterMatchMode.CONTAINS}
+            }
             
         }
     },
