@@ -1,5 +1,5 @@
 <template>
-    <main class="row no-gutters">
+    <main class="row g-0">
         <aside class="col-md-2 p-3 d-flex flex-column flex-shrink-0 border">
             <div class="nav navbar-brand mb-4 p-2 d-flex justify-content-center">
                 <img src="../assets/img/logo.png" class="img-fluid" style="width: 80%;">
@@ -37,14 +37,14 @@
                 </button> -->
             </ul>
         </aside>
-        <div class="p-0 col-md-10 d-flex flex-column">
+        <div class="h-100 p-0 col-md-10 d-flex flex-column">
             <nav class="px-4 py-2 d-flex flex-row border">
                 <button class="me-3 btn btn-light btn-navbar-edit" type="button" @click="btnEvanInfoClicked">
                     <img src="../assets/img/edit.png" class="my-auto img-fluid">
                 </button>
                 <h4 class="d-flex align-items-center">{{fetchedEvacInfo}}</h4>
             </nav>
-            <section class="p-4b">
+            <section class="d-flex flex-column px-4b pt-4b pb-1">
                 <div class="mb-4b d-flex flex-row">
                     <div class="px-4 py-3 d-flex flex-row analytics rounded-3b border">
                         <div class="d-flex justify-content-between flex-column">
@@ -68,28 +68,10 @@
                         <img src="../assets/img/analytics_aid.png" class="my-auto ms-auto">
                     </div>
                 </div>
-                <div>
-                    <!-- <table class="table db-table-main">
-                        <thead>
-                          <tr>
-                            <th v-for="header in tableActiveHeaders" :key="header">{{ header }}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr v-for="(entry, index) in fetchedDB" :key="index">
-                            <td v-for="(data, index) in entry" :key="index">{{data}}</td>
-                            <td>
-                                <button @click="getAllSiblings.call(this)">test 1</button>
-                                <button>test 2</button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table> -->
-                    <MainTable 
-                        :fetchedDB="fetchedDB"
-                        :tableLabel="tableLabel" 
-                        :tableActiveHeaders="tableActiveHeaders"/>
-                </div>
+                <MainTable 
+                    :fetchedDB="fetchedDB"
+                    :tableLabel="tableLabel" 
+                    :tableActiveHeaders="tableActiveHeaders"/>
             </section>
         </div>
     </main>
@@ -164,7 +146,6 @@
                 this.tableCurrentHeader = table
                 this.$emit('change-table', table)
                 this.changeTableTitle(table)
-                // console.log("CLICKED! fetchedDB value: ", this.fetchedDB)
             },
             changeTableTitle(table) {
                 table == 'db_evacuees' ? this.tableLabel = 'Evacuees Table'

@@ -1,8 +1,8 @@
 
 <template>
-    <div class="scroll">
-        <DataTable :value="databaseData" autoLayout="true" responsiveLayout="scroll"
-            :paginator="true" :rows="20">
+    <div class="d-flex flex-column flex-grow-1">
+        <DataTable class="d-flex flex-column flex-fill" :value="databaseData" autoLayout="true" responsiveLayout="scroll" 
+            :paginator="true" :rows="20" >
                 <div class="px-4 py-2 d-flex justify-content-between rounded-3 bg-light-gray">
                     <h5 @click="logData"> {{ tableLabel }} </h5>
                     <span class="rounded-3b p-input-icon-left txtbox-search">
@@ -50,30 +50,7 @@ export default {
     },
     methods: {
         logData() {
-            this.databaseData = [];
             console.log(this.fetchedDB)
-            for (const row in this.fetchedDB) {
-                console.log("row: ", this.fetchedDB[row])
-                this.databaseData.push(
-                    {"famID": this.fetchedDB[row][0],
-                    "famName": this.fetchedDB[row][1],
-                    "famAddrss": this.fetchedDB[row][2],
-                    "famCName": this.fetchedDB[row][3],
-                    "famCNumber": this.fetchedDB[row][4],
-                    "famSize": this.fetchedDB[row][5]
-                })
-            }
-            this.databaseData2 = JSON.stringify(this.databaseData);
-            console.log(this.tableActiveHeaders[0]['field']);
-            
-            console.log(Object.keys(this.databaseData[0])[0] == this.tableActiveHeaders[0]['field']);
-            // console.log("database3: ", this.databaseData3)
-            // console.log("database: ", this.databaseData)
-            // for (const row in this.fetchedDB) {
-            //     console.log("row: ", this.fetchedDB[row])
-            //     console.log("parsed data of row: ", JSON.parse(this.fetchedDB[row]))
-
-            // }
         }
     }
 }
@@ -82,7 +59,6 @@ export default {
 <style lang="scss" scoped>
 template {
     padding: 0;
-    border: solid 1px red;;
 }
 
 ::v-deep(.p-paginator) {

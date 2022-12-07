@@ -31,7 +31,7 @@ export default {
     async fetch_data_fromPy(table) { // receive data from python
         const dataFetched = await window.eel.passDB_toJS()()
         const evacInfo = await window.eel.passEvacInfo_toJS()()      
-        console.log("just data: ", dataFetched[table])
+        // console.log("just data: ", dataFetched[table])
         // for (const row in dataFetched[table]) {
         //   console.log(dataFetched[table][row])
         //   console.log("parsed data: ", JSON.parse(dataFetched[table][row]))

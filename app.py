@@ -78,7 +78,7 @@ def passEvacInfo_toJS():
 
 eel.init('web')
 eel.browsers.set_path('electron', './node_modules/electron/dist/electron')
-eel.start('index.html', mode='edge')
+eel.start('index.html', mode='electron')
 
 if __name__ == "__main__":
     print("Opening python...")
