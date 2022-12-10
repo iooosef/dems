@@ -68,8 +68,11 @@
                         <img src="../assets/img/analytics_aid.png" class="my-auto ms-auto">
                     </div>
                 </div>
-                <MainTable 
-                    :fetchedDB="fetchedDB"
+                <MainTable   
+                    :fetchedDBevac="fetchedDBevac" 
+                    :fetchedDBfamilies="fetchedDBfamilies"
+                    :fetchedDBmed="fetchedDBmed"
+                    :fetchedDBrelief="fetchedDBrelief"
                     :tableLabel="tableLabel" 
                     :tableActiveHeaders="tableActiveHeaders"/>
             </section>
@@ -135,16 +138,17 @@
                 tableCurrentHeader : 'evacuee'
             }
         },
-        props: ['fetchedDB','fetchedEvacInfo'],
+        props: ['fetchedEvacInfo',"fetchedDBevac","fetchedDBfamilies","fetchedDBmed","fetchedDBrelief"],
         computed: {
             tableActiveHeaders() {
                 return this.tableHeaders[this.tableCurrentHeader]
-            }
+            },
+
         },
         methods: {
             changeTable(table) {
                 this.tableCurrentHeader = table
-                this.$emit('change-table', table)
+                this.$emit('change-table')
                 this.changeTableTitle(table)
             },
             changeTableTitle(table) {

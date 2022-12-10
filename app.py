@@ -6,19 +6,27 @@ import json
 # Expected format of data fetched from DB to be passed to front-end
 sampleDB = {
     'db_evacuees' : [
-        (1,'Joseph Clarence','C','Parayaoan','','09123456789',1),
+        (1,'Josence','C','Parayaoan','','09123456789',1),
         (2,'Joseph','C','Parayaoan','','09123456781',1),
         (3,'Clarence','C','Parayaoan','','09123456782',1),
         (4,'Primitivo','M','Parayaoan','Jr.','09123456783',1),
         (5,'Rosemarie','C','Parayaoan','','09123456784',1),
         (6,'Juan','DL','Dela Cruz','Sr.','09123456785',2),
         (7,'Maria','S','Dela Cruz','','09123456786',2),
-        (8,'Mark','H','Sierra','III','09123456787',3)
+        (8,'Mark','H','Sierra','III','09123456787',3),
+        (9,'Anna','L','Sierra','','09123456788',3),
+        (10,'Kyle','L','Sierra','','',3),
+        (11,'Tina','L','Sierra','','09123456789',3),
+        (12,'Derek','R','Martin','','09123456791',4),
+        (13,'Shiela','Q','Martin','','09123456792',4),
+        (14,'James','Q','Martin','','09123456793',4),
+        (15,'Sheena','Q','Martin','','09123456794',4)
     ],
     'db_families' : [
         (1, 'Parayaoan', '16 7th St., Youngstown Vill., Cainta, Rizal', 4, '09123456783', 5),
         (2, 'Dela Cruz', 'Salakdwa Vill., Cainta, Rizal', 6, '09123456785', 2),
-        (3, 'Sierra', 'World, Moon', 8, '09123456787', 1)
+        (3, 'Sierra', '28 Kalawakan St., World, Moon', 8, '09123456787', 4),
+        (4, 'Martin', 'Cavite, Laguna, Batangas, Rizal, Quezon', 12, '09123456787', 4)
     ],
     'db_medAssist' : [
         (1, 1, 'Joseph Clarence', 'Parayaoan', 'Pneumonia'),

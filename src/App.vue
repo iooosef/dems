@@ -1,6 +1,12 @@
 <template>
   <NewEntry id="new-entry" @new-entry-close="btnNewEntryClosed" v-if="btnNewEntryState" :newEntryEvacInfo="newEntryEvacInfo" />
-  <MainApp id="main-app" @new-entry="btnNewEntryClicked" @evac-info="btnEvacInfoChange" :fetchedDB="fetchedDB" :fetchedEvacInfo="fetchedEvacInfo" @change-table="fetch_data_fromPy" />
+  <MainApp id="main-app" 
+    @new-entry="btnNewEntryClicked" @evac-info="btnEvacInfoChange" @change-table="fetch_data_fromPy" 
+    :fetchedEvacInfo="fetchedEvacInfo"  
+    :fetchedDBevac="fetchedDBevac" 
+    :fetchedDBfamilies="fetchedDBfamilies"
+    :fetchedDBmed="fetchedDBmed"
+    :fetchedDBrelief="fetchedDBrelief" />
 </template>
 
 <script>
@@ -16,7 +22,12 @@ export default {
   data() {
     return {
       btnNewEntryState: false,
-      fetchedDB: '',
+
+      fetchedDBevac: '',
+      fetchedDBfamilies: '',
+      fetchedDBmed: '',
+      fetchedDBrelief: '',
+
       fetchedEvacInfo: '',
       newEntryEvacInfo: ''
     }
@@ -28,15 +39,13 @@ export default {
     parentToChildMethod() {
       console.log("parentToChild Called!");
     },
-    async fetch_data_fromPy(table) { // receive data from python
+    async fetch_data_fromPy() { // receive data from python
         const dataFetched = await window.eel.passDB_toJS()()
         const evacInfo = await window.eel.passEvacInfo_toJS()()      
-        // console.log("just data: ", dataFetched[table])
-        // for (const row in dataFetched[table]) {
-        //   console.log(dataFetched[table][row])
-        //   console.log("parsed data: ", JSON.parse(dataFetched[table][row]))
-        // }
-        this.fetchedDB = JSON.parse(dataFetched[table])
+        this.fetchedDBevac = JSON.parse(dataFetched['db_evacuees'])      
+        this.fetchedDBfamilies = JSON.parse(dataFetched['db_families'])      
+        this.fetchedDBmed = JSON.parse(dataFetched['db_medAssist'])      
+        this.fetchedDBrelief = JSON.parse(dataFetched['db_relief'])
         this.fetchedEvacInfo = evacInfo
     },
     btnNewEntryClicked() {

@@ -45,6 +45,14 @@
     --bs-btn-bg: #f2f2f2;
   }
 
+/* PrimeVue Override */
+.p-datatable .p-datatable-header {
+    padding: 0px !important;
+} 
+.p-datatable-wrapper {
+    flex: 1 0 40vh;
+}
+
 /* non-bootstrap override */
 main {
     height: 99.9vh;
@@ -150,10 +158,10 @@ h1, h2, h3, h4, h5, h6 {
 } .db-table-main thead tr th:last-child {
     border-right: 0;
 }
-.p-datatable-header {
-    padding: 0px;
-}
 
-.p-datatable-wrapper {
-    flex: 1 0 40vh;
+.table-row-btn {
+    padding: 5px !important;  
+} .table-row-btn > img {
+    max-height: 18px;
+    max-width: 18px;
 }
