@@ -1,4 +1,3 @@
-
 <template>
     <div class="d-flex flex-column flex-grow-1">
         
@@ -26,6 +25,10 @@
                 :header="colheader.header" 
                 :key="colheader.field"
                 sortable>
+                <template #body="{ data, field }">
+                    <!-- {{data[field]}} -->
+                    {{ changeCellOutput(data, field) }}
+                </template>
                 <template #editor="{ data, field }">
                     {{data[field]}}
                     <InputText v-model="data[field]" 
@@ -160,6 +163,17 @@ export default {
                 }
             } 
             return editDrpDownOptions
+        },
+        changeCellOutput(currentData, currentField) {
+            if(currentField === 'reliefStatus' && currentData[currentField] === 0) {
+                return 'did not received'
+            } else if(currentField === 'reliefStatus') { 
+                return 'received'
+            } else if(currentField === 'famCName') {
+                let matchedRow = this.fetchedDBevac.find(({evacID}) => evacID === currentData[currentField])
+                return matchedRow.fName + ' ' + matchedRow.lName
+            }
+            return currentData[currentField]
         }
     }
 }
