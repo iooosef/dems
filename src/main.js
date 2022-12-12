@@ -3,15 +3,17 @@ import App from './App.vue'
 
 import vSelect from "vue-select"
 import "bootstrap/dist/js/bootstrap.js"
-import Dropdown from 'primevue/dropdown';
+import Dropdown from 'primevue/dropdown'
+import Datepicker from '@vuepic/vue-datepicker'
 
 // styles import
 import "./assets/css/Main.css"
 import "bootstrap/dist/css/bootstrap.css"
 import "vue-select/dist/vue-select.css"
-import "primevue/resources/themes/lara-light-blue/theme.css";
-import "primevue/resources/primevue.min.css";
-import "primeicons/primeicons.css";
+import "primevue/resources/themes/lara-light-blue/theme.css"
+import "primevue/resources/primevue.min.css"
+import "primeicons/primeicons.css"
+import '@vuepic/vue-datepicker/dist/main.css'
 
 // Vuetify
 import 'vuetify/styles'
@@ -26,7 +28,8 @@ const vuetify = createVuetify({
 
 const app = createApp({});    
 app.component('Dropdown', Dropdown);
-app.component("vSelect", vSelect);
+app.component('vSelect', vSelect);
+app.component('Datepicker', Datepicker);
 
 
 

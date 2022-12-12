@@ -1,6 +1,5 @@
 <template>
-    <div class="d-flex flex-column flex-grow-1">
-        
+    <div class="d-flex flex-column flex-grow-1"> 
         <DataTable class="d-flex flex-column flex-fill" :value="databaseData" 
             v-model:filters="filters" filterDisplay="menu"
             editMode="row" v-model:editingRows="editingRows" @row-edit-save="onRowEditSave" 
@@ -29,7 +28,7 @@
                     {{ changeCellOutput(data, field) }}
                 </template>
                 <template #editor="{ data, field }">
-                    {{data[field]}}
+                    {{data[field]}} 
                     <InputText v-model="data[field]" 
                         :style="inputDynamicStyle(colheader.field)"
                         v-if="rowEditForm(colheader.field, 0)"/>
@@ -41,6 +40,15 @@
                         :reduce="(option) => option.value"
                         v-if="rowEditForm(colheader.field, 1)">
                     </v-select>
+                    
+                    
+                    <Datepicker v-model="data[field]" model-type="yyyy-MM-dd" required 
+                        menu-class-name="dp-custom-menu"
+                        input-class-name="dp-custom-input"
+                        :enable-time-picker="false" :clearable="false" 
+                        text-input close-on-scroll auto-apply show-now-button
+                         now-button-label="Date Today"
+                        v-if="rowEditForm(colheader.field, 2)" />
                 </template>
             </Column> 
             <Column :rowEditor="true" headerStyle="max-width:2rem; padding-right: 0.5rem;" bodyStyle="text-align:center; padding-right: 0.5rem;">
@@ -78,12 +86,13 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import {FilterMatchMode} from 'primevue/api';
 import vSelect from "vue-select";
+import Datepicker from '@vuepic/vue-datepicker'
 
 
 export default {
     name:"MainTable",
     components: {
-        DataTable, Column, InputText, Button, vSelect
+        DataTable, Column, InputText, Button, vSelect, Datepicker
     },
     data() {
         return {
@@ -135,19 +144,19 @@ export default {
         rowEditForm(currentField, inputType) {
             if(this.tableLabel === 'Evacuees Table' 
                 && [['evacID','mi','lName','suffix','cNumber'],
-                    ['famID']][inputType].includes(currentField)) {
+                    ['famID'],['']][inputType].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Families Table' 
                 && [['famName','famAddrss'],
-                    ['famCID']][inputType].includes(currentField)) {
+                    ['famCID'],['']][inputType].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Medical Reports Table' 
                 && [['medCause'],
-                    ['famID','evacID']][inputType].includes(currentField)) {
+                    ['famID','evacID'],['']][inputType].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Relief Operations Table' 
-                && [['reliefName','reliefDate'],
-                    ['reliefRep','reliefStatus']][inputType].includes(currentField)) {
+                && [['reliefName'],
+                    ['reliefRep','reliefStatus'],['reliefDate']][inputType].includes(currentField)) {
                     return true
             } else {
                 return false
@@ -178,6 +187,12 @@ export default {
                 return matchedRow.fName + ' ' + matchedRow.lName
             }
             return currentData[currentField]
+        },
+        dateFormat(date) {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const day = date.getDate();
+            return `${year}-${month}-${day}`
         }
     }
 }

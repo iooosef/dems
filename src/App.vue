@@ -63,7 +63,8 @@ export default {
     drpDownOptionsUpdate(currentData, currentField, currentTable) {
       console.log('currentField: ', currentField)
       let drpDownOptions = [];
-      if(currentTable === 'Evacuees Table' || (currentTable === 'Medical Reports Table' && currentField === 'famID')) {
+      if(currentTable === 'Evacuees Table' || 
+        (currentTable === 'Medical Reports Table' && currentField === 'famID')) {
         drpDownOptions = []
         for (const row of this.fetchedDBfamilies) {
           drpDownOptions.push({label: `Family no. ${row.famID} with 

@@ -137,7 +137,7 @@
                 },
                 tableLabel : 'Evacuees Table',
                 tableCurrentHeader : 'evacuee',
-                editDrpDownOptionsUpdated: []
+                editDrpDownOptionsUpdated: [],
             }
         },
         props: ['fetchedEvacInfo',"fetchedDBevac","fetchedDBfamilies","fetchedDBmed","fetchedDBrelief"],
