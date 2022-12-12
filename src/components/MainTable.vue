@@ -3,7 +3,8 @@
         
         <DataTable class="d-flex flex-column flex-fill" :value="databaseData" 
             v-model:filters="filters" filterDisplay="menu"
-            editMode="row" v-model:editingRows="editingRows" @row-edit-save="onRowEditSave"
+            editMode="row" v-model:editingRows="editingRows" @row-edit-save="onRowEditSave" 
+            @row-edit-init="onRowEditInit" @row-edit-cancel="onRowEditCancel"
             autoLayout="true" responsiveLayout="scroll" 
             :paginator="true" :rows="20" >
             
@@ -46,7 +47,7 @@
             </Column>  
             <Column headerStyle="max-width:2rem; padding-left: 0.5rem;" bodyStyle="padding-left: 0.5rem; text-align:center;">
                 <template #body="slotProps">
-                    <Button icon="pi pi-trash " 
+                    <Button v-show="displayDeleteBtn" icon="pi pi-trash " 
                         class="p-button-rounded p-button-danger p-button-text btn-delete-row" 
                         @click="deleteItemConfirm(slotProps)"/>
                 </template>
@@ -94,6 +95,7 @@ export default {
             currentRowData: {},
             showModal: true,
             deleteConfirmDialog: false,
+            displayDeleteBtn: true
         }
     },
     props: ["fetchedDBevac","fetchedDBfamilies","fetchedDBmed","fetchedDBrelief",
@@ -125,6 +127,11 @@ export default {
             let { newData, index } = event;
             console.log(newData);
             this.databaseData[index] = newData;
+            this.displayDeleteBtn = true;
+        }, onRowEditInit() {
+            this.displayDeleteBtn = false;
+        }, onRowEditCancel() {
+            this.displayDeleteBtn = true;
         },
         rowEditTxtBox(currentField) {
             if(this.tableLabel === 'Evacuees Table' 
@@ -132,9 +139,6 @@ export default {
                     return true
             } else if(this.tableLabel === 'Families Table' 
                 && ['famID','famCName','cNumber','famSize'].includes(currentField)) {
-                    return true
-            } else if(this.tableLabel === 'Medical Reports Table' 
-                && ['famID','evacID','fName','lName'].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Relief Operations Table' 
                 && !['reliefName'].includes(currentField)) {
@@ -148,10 +152,13 @@ export default {
                 && ['famID'].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Families Table' 
-                && ['famCName'].includes(currentField)) {
+                && ['famCID'].includes(currentField)) {
+                    return true
+            }else if(this.tableLabel === 'Medical Reports Table' 
+                && ['famID','evacID'].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Relief Operations Table' 
-                && ['reliefRep '].includes(currentField)) {
+                && ['reliefRep','reliefStatus'].includes(currentField)) {
                     return true
             } else {
                 return false
@@ -173,6 +180,7 @@ export default {
             } 
         },
         editDrpDownOptionsUpdate(currentData) {
+            this.$emit('new-entry-close')
             let editDrpDownOptions = [];
             if(this.tableLabel === 'Evacuees Table') {
                 for (const row of this.fetchedDBfamilies) {
@@ -192,7 +200,7 @@ export default {
                     }
                 }
             } 
-            return editDrpDownOptions
+            // return editDrpDownOptions
         },
         changeCellOutput(currentData, currentField) {
             if(currentField === 'reliefStatus' && currentData[currentField] === 0) {
