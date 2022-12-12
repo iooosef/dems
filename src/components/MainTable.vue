@@ -178,8 +178,8 @@ export default {
                 for (const row of this.fetchedDBfamilies) {
                     editDrpDownOptions.push(
                         {label: `Family no. ${row.famID} with 
-                            ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCName).fName} 
-                                ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCName).lName}`,
+                            ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).fName} 
+                                ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).lName}`,
                                 value: row.famID})
                 }
             } 

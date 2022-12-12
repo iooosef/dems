@@ -29,6 +29,16 @@
                     <label for="contact-number" class="align-self-start form-label">Contact Number</label>
                     <input type="text" id="contact-number" class="form-control" v-model.lazy="formValuesEvacuee.contact_number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
                 </div>
+                <div class="d-flex flex-row">
+                    <div class="w-50 mb-3 d-flex flex-column">
+                        <label for="middle_initial" class="align-self-start form-label">M.I.</label>
+                        <input type="text" id="middle_initial" class="form-control" v-model.lazy="formValuesEvacuee.middle_initial" required>
+                    </div>
+                    <div class="w-50 ms-3 mb-3 d-flex flex-column">
+                        <label for="suffix" class="align-self-start form-label">Suffix</label>
+                        <input type="text" id="suffix" class="form-control" v-model.lazy="formValuesEvacuee.suffix" placeholder="Jr., Sr., II,. etc." required>
+                    </div>
+                </div>
                 <div class="mb-3 d-flex flex-column">
                     <label for="family-id" class="align-self-start form-label">Family ID</label>
                     <v-select id="family-id" :options="form_evacuees_familyId" v-model="formValuesEvacuee.family_id">
@@ -54,9 +64,9 @@
                     <h5>New Family</h5> </button>
                 
                 <div class="mt-auto d-flex justify-content-between">
-                    <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="submit">
+                    <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="submit" @click="submitFormEvacuee">
                         <h5>Submit</h5> </button>
-                    <button class="p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
+                    <button class="p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="newEntryDialogState = 'menu'">
                         <h5>Close</h5> </button>
                 </div>
             </form>
@@ -74,7 +84,7 @@
                     <input type="text" id="address" class="form-control" v-model.trim.lazy="formValuesFamily.family_address" required>
                 </div>
                 <div class="mt-auto d-flex justify-content-between">
-                    <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="submit">
+                    <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="submit" @click="openNewEntryForm('')">
                         <h5>Submit</h5> </button>
                     <button class="p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
                         <h5>Close</h5> </button>
@@ -171,6 +181,8 @@ export default {
             newEntryDialogState : 'menu',
             formValuesEvacuee : {
                 first_name: "",
+                middle_initial: "",
+                suffix: "",
                 last_name: "",
                 contact_number: "",
                 family_id: "",
