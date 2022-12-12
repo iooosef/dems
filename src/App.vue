@@ -1,7 +1,7 @@
 <template>
   <NewEntry id="new-entry" @new-entry-close="btnNewEntryClosed" v-if="btnNewEntryState" :newEntryEvacInfo="newEntryEvacInfo" />
   <MainApp id="main-app" 
-    @new-entry="btnNewEntryClicked" @evac-info="btnEvacInfoChange" @change-table="fetch_data_fromPy" 
+    @new-entry="btnNewEntryClicked" @evac-info="btnEvacInfoChange" @change-table="fetch_data_fromPy"
     :fetchedEvacInfo="fetchedEvacInfo"  
     :fetchedDBevac="fetchedDBevac" 
     :fetchedDBfamilies="fetchedDBfamilies"
@@ -60,27 +60,24 @@ export default {
       this.btnNewEntryState = true
       this.newEntryEvacInfo = true
     },
-    editDrpDownOptionsUpdate(currentData) {
-      let editDrpDownOptions = [];
-      if(this.tableLabel === 'Evacuees Table') {
+    drpDownOptionsUpdate(currentData, currentTable) {
+      let drpDownOptions = [];
+      if(currentTable === 'Evacuees Table') {
           for (const row of this.fetchedDBfamilies) {
-              editDrpDownOptions.push(
-                  {label: `Family no. ${row.famID} with 
-                      ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).fName} 
-                          ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).lName}`,
-                          value: row.famID})
+            drpDownOptions.push({label: `Family no. ${row.famID} with 
+              ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).fName} 
+              ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).lName}`,
+              value: row.famID})
           }
       } 
-      else if(this.tableLabel === 'Families Table') {
+      else if(currentTable === 'Families Table') {
           for (const row of this.fetchedDBevac) {
-              if(currentData.famID === row.famID) {
-                  editDrpDownOptions.push(
-                      {label: `${row.fName} ${row.lName}`,
-                          value: row.evacID})
-              }
+            currentData.famID === row.famID ? 
+              drpDownOptions.push( {label: `${row.fName} ${row.lName}`, value: row.evacID}) : ''
           }
       } 
-      return editDrpDownOptions
+      console.log("drpDownOptionsUpdate from app.vue is called")
+      return drpDownOptions
     }
   }
 }

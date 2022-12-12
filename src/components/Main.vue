@@ -68,13 +68,13 @@
                         <img src="../assets/img/analytics_aid.png" class="my-auto ms-auto">
                     </div>
                 </div>
-                <MainTable   
+                <MainTable
                     :fetchedDBevac="fetchedDBevac" 
                     :fetchedDBfamilies="fetchedDBfamilies"
                     :fetchedDBmed="fetchedDBmed"
                     :fetchedDBrelief="fetchedDBrelief"
                     :tableLabel="tableLabel" 
-                    :tableActiveHeaders="tableActiveHeaders"/>
+                    :tableActiveHeaders="tableActiveHeaders" />
             </section>
         </div>
     </main>
@@ -120,6 +120,7 @@
                         {field: 'famSize', header: 'Family Size'}
                     ],
                     db_medAssist: [
+                        {field: 'medreportID', header: 'Report ID'},
                         {field: 'famID', header: 'Family ID'},
                         {field: 'evacID', header: 'Evacuee ID'},
                         {field: 'fName', header: 'First Name'},
@@ -135,7 +136,8 @@
                     ]
                 },
                 tableLabel : 'Evacuees Table',
-                tableCurrentHeader : 'evacuee'
+                tableCurrentHeader : 'evacuee',
+                editDrpDownOptionsUpdated: []
             }
         },
         props: ['fetchedEvacInfo',"fetchedDBevac","fetchedDBfamilies","fetchedDBmed","fetchedDBrelief"],

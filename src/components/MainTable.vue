@@ -32,14 +32,14 @@
                     {{data[field]}}
                     <InputText v-model="data[field]" 
                         :style="inputDynamicStyle(colheader.field)"
-                        v-if="!rowEditTxtBox(colheader.field)"/>
+                        v-if="rowEditForm(colheader.field, 0)"/>
 
                     <v-select id="field" v-model="data[field]" 
                         class="prime-vue-drpdown"
                         :style="inputDynamicStyle(colheader.field)"
                         :options="editDrpDownOptionsUpdate(data)"     
                         :reduce="(option) => option.value"
-                        v-if="rowEditDrpDown(colheader.field)">
+                        v-if="rowEditForm(colheader.field, 1)">
                     </v-select>
                 </template>
             </Column> 
@@ -90,7 +90,6 @@ export default {
             filters: {
                 'global': {value: null, matchMode: FilterMatchMode.CONTAINS}
             },
-            editDrpDownOptions: [],
             editingRows: [],
             currentRowData: {},
             showModal: true,
@@ -133,74 +132,40 @@ export default {
         }, onRowEditCancel() {
             this.displayDeleteBtn = true;
         },
-        rowEditTxtBox(currentField) {
+        rowEditForm(currentField, inputType) {
             if(this.tableLabel === 'Evacuees Table' 
-                && ['evacID','famID'].includes(currentField)) {
+                && [['evacID','mi','lName','suffix','cNumber'],
+                    ['famID']][inputType].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Families Table' 
-                && ['famID','famCName','cNumber','famSize'].includes(currentField)) {
+                && [['famName','famAddrss'],
+                    ['famCID']][inputType].includes(currentField)) {
+                    return true
+            } else if(this.tableLabel === 'Medical Reports Table' 
+                && [['medCause'],
+                    ['famID','evacID']][inputType].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Relief Operations Table' 
-                && !['reliefName'].includes(currentField)) {
-                    return true
-            } else {
-                return false
-            }
-        },
-        rowEditDrpDown(currentField) {
-            if(this.tableLabel === 'Evacuees Table' 
-                && ['famID'].includes(currentField)) {
-                    return true
-            } else if(this.tableLabel === 'Families Table' 
-                && ['famCID'].includes(currentField)) {
-                    return true
-            }else if(this.tableLabel === 'Medical Reports Table' 
-                && ['famID','evacID'].includes(currentField)) {
-                    return true
-            } else if(this.tableLabel === 'Relief Operations Table' 
-                && ['reliefRep','reliefStatus'].includes(currentField)) {
+                && [['reliefName','reliefDate'],
+                    ['reliefRep','reliefStatus']][inputType].includes(currentField)) {
                     return true
             } else {
                 return false
             }
         },
         inputDynamicStyle(currentField){
-            if(['mi','suffix'].includes(currentField)){
-                return "width: 60px"
-            } 
+            console.log(currentField)
+            if(['mi','suffix'].includes(currentField)) {
+                return "width: 60px" } 
             if(['cNumber'].includes(currentField)) {
-                return "width: 136px"
-            } 
-            if(this.tableLabel === 'Evacuees Table' 
-                && ['famID'].includes(currentField)) {
-                return "width: 360px"
-            }
+                return "width: 136px" } 
+            if(['famCID'].includes(currentField)) {
+                return "width: 360px" }
             if(['famCName'].includes(currentField)) {
-                return "width: 250px"
-            } 
+                return "width: 250px" } 
         },
         editDrpDownOptionsUpdate(currentData) {
-            this.$emit('new-entry-close')
-            let editDrpDownOptions = [];
-            if(this.tableLabel === 'Evacuees Table') {
-                for (const row of this.fetchedDBfamilies) {
-                    editDrpDownOptions.push(
-                        {label: `Family no. ${row.famID} with 
-                            ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).fName} 
-                                ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).lName}`,
-                                value: row.famID})
-                }
-            } 
-            else if(this.tableLabel === 'Families Table') {
-                for (const row of this.fetchedDBevac) {
-                    if(currentData.famID === row.famID) {
-                        editDrpDownOptions.push(
-                            {label: `${row.fName} ${row.lName}`,
-                                value: row.evacID})
-                    }
-                }
-            } 
-            // return editDrpDownOptions
+            return this.$parent.$parent.drpDownOptionsUpdate(currentData, this.tableLabel)
         },
         changeCellOutput(currentData, currentField) {
             if(currentField === 'reliefStatus' && currentData[currentField] === 0) {
