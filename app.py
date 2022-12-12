@@ -2,6 +2,7 @@ import sys
 import platform
 import eel 
 import json
+from database import Database
 
 # Expected format of data fetched from DB to be passed to front-end
 sampleDB = {
@@ -29,19 +30,22 @@ sampleDB = {
         (4, 'Martin', 'Cavite, Laguna, Batangas, Rizal, Quezon', 12, '09123456787', 4)
     ],
     'db_medAssist' : [
-        (1, 1, 'Joseph Clarence', 'Parayaoan', 'Pneumonia'),
-        (8, 3, 'Mark', 'Sierra', 'Fever')
+        (0, 1, 1, 'Joseph Clarence', 'Parayaoan', 'Pneumonia'),
+        (1, 8, 3, 'Mark', 'Sierra', 'Fever')
     ],
     'db_relief' : [
-        (1, 'R0001', '2022-07-22', 'Clarence', 1),
-        (2, 'R0001', '2022-07-22', 'Juan', 1),
-        (3, 'R0001', '2022-07-22', 'Mark', 1),
-        (1, 'R0002', '2022-09-22', 'Clarence', 1),
-        (2, 'R0002', '2022-09-22', 'Juan', 1),
-        (3, 'R0002', '2022-09-22', 'Mark', 1),
-        (1, 'R0003', '2022-10-22', 'Clarence', 0),
-        (2, 'R0003', '2022-10-22', 'Juan', 1),
-        (3, 'R0003', '2022-10-22', 'Mark', 0)
+        (1, 'R0001', '2022-07-22', 3, 1),
+        (2, 'R0001', '2022-07-22', 6, 1),
+        (3, 'R0001', '2022-07-22', 8, 1),
+        (4, 'R0001', '2022-07-22', 12, 1),
+        (1, 'R0002', '2022-08-22', 3, 1),
+        (2, 'R0002', '2022-08-22', 6, 1),
+        (3, 'R0002', '2022-08-22', 8, 0),
+        (4, 'R0002', '2022-08-22', 12, 1),
+        (1, 'R0003', '2022-09-22', 3, 0),
+        (2, 'R0003', '2022-09-22', 6, 0),
+        (3, 'R0003', '2022-09-22', 8, 1),
+        (4, 'R0003', '2022-09-22', 12, 0)
     ]
 }
 evacDBpy = 'San Juan Elementary School'
@@ -53,8 +57,8 @@ def sqliteTableToJSON(table):
     for row in sampleDB[table]:
         fields = {
             'db_evacuees': ('evacID','fName','mi','lName','suffix','cNumber','famID'),
-            'db_families': ('famID','famName','famAddrss','famCName','cNumber','famSize'),
-            'db_medAssist': ('famID','evacID','fName','lName','medCause'),
+            'db_families': ('famID','famName','famAddrss','famCID','cNumber','famSize'),
+            'db_medAssist': ('medreportID','famID','evacID','fName','lName','medCause'),
             'db_relief': ('famID','reliefName','reliefDate','reliefRep','reliefStatus')
         }
         for index, field in enumerate(fields[table]):

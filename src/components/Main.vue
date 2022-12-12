@@ -115,7 +115,7 @@
                         {field: 'famID', header: 'Family ID'},
                         {field: 'famName', header: 'Family Name'},
                         {field: 'famAddrss', header: 'Family Address'},
-                        {field: 'famCName', header: 'Emergency Contact'},
+                        {field: 'famCID', header: 'Emergency Contact'},
                         {field: 'cNumber', header: 'Emergency Contact Details'},
                         {field: 'famSize', header: 'Family Size'}
                     ],

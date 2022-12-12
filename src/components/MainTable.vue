@@ -15,7 +15,6 @@
                         <InputText class="txtbox-search p-inputtext p-component"
                             v-model="filters['global'].value" 
                             placeholder="Search" />
-                        <!-- <InputText v-model="filters['global'].value" placeholder="Keyword Search" /> -->
                     </span>
                  </div>
             </template>
@@ -26,7 +25,6 @@
                 :key="colheader.field"
                 sortable>
                 <template #body="{ data, field }">
-                    <!-- {{data[field]}} -->
                     {{ changeCellOutput(data, field) }}
                 </template>
                 <template #editor="{ data, field }">

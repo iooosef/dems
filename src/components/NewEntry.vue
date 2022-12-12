@@ -211,7 +211,6 @@ export default {
             this.$emit('new-entry-close')
         },
         openNewEntryForm(newEntryTarget) {
-
             newEntryTarget == 'evacuee' ? this.newEntryDialogState = 'evacuee'
                 : newEntryTarget == 'family' ? this.newEntryDialogState = 'family'
                 : newEntryTarget == 'medical' ? this.newEntryDialogState = 'medical'
