@@ -37,7 +37,7 @@
                     <v-select id="field" v-model="data[field]" 
                         class="prime-vue-drpdown"
                         :style="inputDynamicStyle(colheader.field)"
-                        :options="editDrpDownOptionsUpdate(data)"     
+                        :options="editDrpDownOptionsUpdate(data, field)"     
                         :reduce="(option) => option.value"
                         v-if="rowEditForm(colheader.field, 1)">
                     </v-select>
@@ -159,17 +159,18 @@ export default {
                 return "width: 60px" } 
             if(['cNumber'].includes(currentField)) {
                 return "width: 136px" } 
-            if(['famCID'].includes(currentField)) {
-                return "width: 360px" }
-            if(['famCName'].includes(currentField)) {
-                return "width: 250px" } 
+            if(['famID'].includes(currentField)) {
+                return "width: 380px" }
+            if(['famCID','evacID','reliefRep'].includes(currentField)) {
+                return "width: 260px" } 
         },
-        editDrpDownOptionsUpdate(currentData) {
-            return this.$parent.$parent.drpDownOptionsUpdate(currentData, this.tableLabel)
+        editDrpDownOptionsUpdate(currentData, currentField) {
+
+            return this.$parent.$parent.drpDownOptionsUpdate(currentData, currentField, this.tableLabel)
         },
         changeCellOutput(currentData, currentField) {
             if(currentField === 'reliefStatus' && currentData[currentField] === 0) {
-                return 'did not received'
+                return 'not received'
             } else if(currentField === 'reliefStatus') { 
                 return 'received'
             } else if(currentField === 'famCName') {

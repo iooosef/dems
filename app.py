@@ -31,7 +31,7 @@ sampleDB = {
     ],
     'db_medAssist' : [
         (0, 1, 1, 'Joseph Clarence', 'Parayaoan', 'Pneumonia'),
-        (1, 8, 3, 'Mark', 'Sierra', 'Fever')
+        (1, 3, 8, 'Mark', 'Sierra', 'Fever')
     ],
     'db_relief' : [
         (1, 'R0001', '2022-07-22', 3, 1),

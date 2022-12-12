@@ -60,23 +60,30 @@ export default {
       this.btnNewEntryState = true
       this.newEntryEvacInfo = true
     },
-    drpDownOptionsUpdate(currentData, currentTable) {
+    drpDownOptionsUpdate(currentData, currentField, currentTable) {
+      console.log('currentField: ', currentField)
       let drpDownOptions = [];
-      if(currentTable === 'Evacuees Table') {
-          for (const row of this.fetchedDBfamilies) {
-            drpDownOptions.push({label: `Family no. ${row.famID} with 
-              ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).fName} 
-              ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).lName}`,
-              value: row.famID})
-          }
-      } 
-      else if(currentTable === 'Families Table') {
-          for (const row of this.fetchedDBevac) {
-            currentData.famID === row.famID ? 
-              drpDownOptions.push( {label: `${row.fName} ${row.lName}`, value: row.evacID}) : ''
-          }
-      } 
-      console.log("drpDownOptionsUpdate from app.vue is called")
+      if(currentTable === 'Evacuees Table' || (currentTable === 'Medical Reports Table' && currentField === 'famID')) {
+        drpDownOptions = []
+        for (const row of this.fetchedDBfamilies) {
+          drpDownOptions.push({label: `Family no. ${row.famID} with 
+            ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).fName} 
+            ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).lName}`,
+            value: row.famID})
+        }
+      } else if(currentTable === 'Families Table' || 
+          (currentTable === 'Medical Reports Table' && currentField === 'evacID') ||
+          (currentTable === 'Relief Operations Table' && currentField === 'reliefRep')) {
+        drpDownOptions = []
+        for (const row of this.fetchedDBevac) {
+          currentData.famID === row.famID ? 
+            drpDownOptions.push( {label: `${row.fName} ${row.lName}`, value: row.evacID}) : ''
+        }
+      } else if(currentTable === 'Relief Operations Table' && currentField === 'reliefStatus') {
+        drpDownOptions = []
+        drpDownOptions.push({label: `received`, value: 1})
+        drpDownOptions.push({label: `not received`, value: 0})
+      }
       return drpDownOptions
     }
   }
