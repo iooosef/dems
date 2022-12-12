@@ -13,12 +13,23 @@ import "primevue/resources/themes/lara-light-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
 
+// Vuetify
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+
+const vuetify = createVuetify({
+  components,
+  directives,
+})
+
 const app = createApp({});    
 app.component('Dropdown', Dropdown);
 app.component("vSelect", vSelect);
 
 
 
-createApp(App).mount('#app');
+createApp(App).use(vuetify).mount('#app');
 
 

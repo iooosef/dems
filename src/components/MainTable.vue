@@ -44,32 +44,58 @@
                     </v-select>
                 </template>
             </Column> 
-            <Column :rowEditor="true" headerStyle="width:7rem" bodyStyle="text-align:center"></Column>
+            <Column :rowEditor="true" headerStyle="max-width:2rem; padding-right: 0.5rem;" bodyStyle="text-align:center; padding-right: 0.5rem;">
+            </Column>  
+            <Column headerStyle="max-width:2rem; padding-left: 0.5rem;" bodyStyle="padding-left: 0.5rem; text-align:center;">
+                <template #body="slotProps">
+                    <Button icon="pi pi-trash " 
+                        class="p-button-rounded p-button-danger p-button-text btn-delete-row" 
+                        @click="deleteItemConfirm(slotProps)"/>
+                </template>
+            </Column>  
         </DataTable>
 	</div>
+    <v-dialog v-model="deleteConfirmDialog" max-width="500px" persistent>
+        <v-card class="p-2">
+          <v-card-title class="text-h5 text-wrap text-center">Are you sure you want to delete the row?</v-card-title>
+          <v-card-text>
+            <span v-for="(value, field) in currentRowData" :key="value"><b>{{field}}:</b> {{value}}, &nbsp;</span>
+            </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="deleteConfirmDialog = false">No</v-btn>
+            <v-btn color="blue darken-1" text @click="msglog()">Yes</v-btn> 
+            <!-- //call delete data function -->
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 </template>
 
 <script>
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
 import {FilterMatchMode} from 'primevue/api';
 import vSelect from "vue-select";
+
 
 export default {
     name:"MainTable",
     components: {
-        DataTable, Column, InputText, vSelect
+        DataTable, Column, InputText, Button, vSelect
     },
     data() {
         return {
             filters: {
                 'global': {value: null, matchMode: FilterMatchMode.CONTAINS}
             },
-            editDrpDownSelected: null,
             editDrpDownOptions: [],
             editingRows: [],
-            currentRow: null            
+            currentRowData: {},
+            showModal: true,
+            deleteConfirmDialog: false,
         }
     },
     props: ["fetchedDBevac","fetchedDBfamilies","fetchedDBmed","fetchedDBrelief",
@@ -84,6 +110,12 @@ export default {
         }
     },
     methods: {
+        deleteItemConfirm(currentData) {
+            console.log('currentData: ', currentData.data)
+            this.currentRowData = currentData.data
+            console.log('currentRowData: ', this.currentRowData)
+            this.deleteConfirmDialog = true
+        },
         logData() {
             console.log("this.databaseData: ", this.databaseData)
             console.log(this.tableActiveHeaders[0].field)

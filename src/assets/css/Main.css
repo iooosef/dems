@@ -160,13 +160,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .table-row-btn {
-    padding: 5px !important;  
-} .table-row-btn > img {
-    max-height: 18px;
-    max-width: 18px;
+    padding: 5px !important; 
+    max-height: 2.5rem;
+    max-width: 2.5rem; 
 }
 
 .prime-vue-drpdown > div {
     padding: .75rem .75rem;
     border-radius: 6px;
+}
+
+.border, .border-0 {
+    border-color: 0 !important;
+}
+
+.btn-delete-row {
+    width: 32px !important;
+    height: 32px !important;
 }
