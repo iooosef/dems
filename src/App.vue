@@ -85,6 +85,7 @@ export default {
         drpDownOptions.push({label: `received`, value: 1})
         drpDownOptions.push({label: `not received`, value: 0})
       }
+      console.log("drpDownOptions: ", drpDownOptions)
       return drpDownOptions
     }
   }

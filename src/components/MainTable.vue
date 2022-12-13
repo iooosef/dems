@@ -2,8 +2,6 @@
     <div class="d-flex flex-column flex-grow-1"> 
         <DataTable class="d-flex flex-column flex-fill" :value="databaseData" 
             v-model:filters="filters" filterDisplay="menu"
-            editMode="row" v-model:editingRows="editingRows" @row-edit-save="onRowEditSave" 
-            @row-edit-init="onRowEditInit" @row-edit-cancel="onRowEditCancel"
             autoLayout="true" responsiveLayout="scroll" 
             :paginator="true" :rows="20" >
             
@@ -27,41 +25,71 @@
                 <template #body="{ data, field }">
                     {{ changeCellOutput(data, field) }}
                 </template>
-                <template #editor="{ data, field }">
-                    {{data[field]}} 
-                    <InputText v-model="data[field]" 
-                        :style="inputDynamicStyle(colheader.field)"
-                        v-if="rowEditForm(colheader.field, 0)"/>
-
-                    <v-select id="field" v-model="data[field]" 
-                        class="prime-vue-drpdown"
-                        :style="inputDynamicStyle(colheader.field)"
-                        :options="editDrpDownOptionsUpdate(data, field)"     
-                        :reduce="(option) => option.value"
-                        v-if="rowEditForm(colheader.field, 1)">
-                    </v-select>
-                    
-                    
-                    <Datepicker v-model="data[field]" model-type="yyyy-MM-dd" required 
-                        menu-class-name="dp-custom-menu"
-                        input-class-name="dp-custom-input"
-                        :enable-time-picker="false" :clearable="false" 
-                        text-input close-on-scroll auto-apply show-now-button
-                         now-button-label="Date Today"
-                        v-if="rowEditForm(colheader.field, 2)" />
-                </template>
             </Column> 
-            <Column :rowEditor="true" headerStyle="max-width:2rem; padding-right: 0.5rem;" bodyStyle="text-align:center; padding-right: 0.5rem;">
-            </Column>  
             <Column headerStyle="max-width:2rem; padding-left: 0.5rem;" bodyStyle="padding-left: 0.5rem; text-align:center;">
                 <template #body="slotProps">
-                    <Button v-show="displayDeleteBtn" icon="pi pi-trash " 
+                    <Button icon="pi pi-pencil " 
+                        class="p-button-rounded p-button-info p-button-text btn-delete-row" 
+                        @click="editModal(slotProps)"/>
+                    <Button icon="pi pi-trash " 
                         class="p-button-rounded p-button-danger p-button-text btn-delete-row" 
                         @click="deleteItemConfirm(slotProps)"/>
                 </template>
             </Column>  
         </DataTable>
 	</div>
+    <v-dialog v-model="editDialog" max-width="500px" persistent>
+        <form @submit.prevent="editSubmit">
+        <v-card class="p-4">
+          <v-card-title class="text-h5 text-wrap text-center">Edit Row</v-card-title>
+            <v-card-text>
+            <div v-for="(value, field) in currentRowData" class="mb-3" :key="value">
+                <b>{{tableActiveHeaders.find(x => x.field === field).header}}:</b> {{value}} <br>
+                <input type="text" class="form-control" style="width: 100%;" 
+                    v-model.trim.lazy="currentRowData[field]" :required="isRequired(field)"
+                    v-if="displayEditForm(field, 0)">
+                <vSelect id="field" v-model="currentRowData[field]"     
+                    :required="!currentRowData[field]"
+                    :options="editDrpDownOptionsUpdate(currentRowData, field)" 
+                    class="prime-vue-drpdown" :clear-button="false"
+                    style="width: 100%;"
+                    :reduce="(option) => option.value" 
+                    hide-details="auto"
+                    v-if="displayEditForm(field, 1)">
+                    <template #search="{attributes, events}">
+                        <input
+                          class="vs__search"
+                          :required="!currentRowData[field]"
+                          v-bind="attributes"
+                          v-on="events"
+                        />
+                    </template>
+                </vSelect>
+                <Datepicker v-model="currentRowData[field]" model-type="yyyy-MM-dd" required
+                    menu-class-name="dp-custom-menu"
+                    input-class-name="dp-custom-input"
+                    :enable-time-picker="false" :clearable="false" 
+                    text-input close-on-scroll auto-apply show-now-button
+                    now-button-label="Date Today"
+                    style="width: 100%;"
+                    v-if="displayEditForm(field, 2)" />
+                <input type="text" class="form-control" style="width: 100%;" 
+                    v-model.trim.lazy="currentRowData[field]" required disabled
+                    v-if="displayEditForm(field, 3)">
+            </div>
+            </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="submit">
+                <h5>Submit</h5> </button>
+            <button class="p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="editDialog = false">
+                <h5>Close</h5> </button>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+        </form>        
+    </v-dialog>
+
     <v-dialog v-model="deleteConfirmDialog" max-width="500px" persistent>
         <v-card class="p-2">
           <v-card-title class="text-h5 text-wrap text-center">Are you sure you want to delete the row?</v-card-title>
@@ -72,11 +100,11 @@
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="deleteConfirmDialog = false">No</v-btn>
             <v-btn color="blue darken-1" text @click="msglog()">Yes</v-btn> 
-            <!-- //call delete data function -->
+            <!-- //call delete data query -->
             <v-spacer></v-spacer>
           </v-card-actions>
         </v-card>
-      </v-dialog>
+    </v-dialog>
 </template>
 
 <script>
@@ -93,15 +121,16 @@ export default {
     name:"MainTable",
     components: {
         DataTable, Column, InputText, Button, vSelect, Datepicker
+        
     },
     data() {
         return {
             filters: {
                 'global': {value: null, matchMode: FilterMatchMode.CONTAINS}
             },
-            editingRows: [],
             currentRowData: {},
             showModal: true,
+            editDialog: false,
             deleteConfirmDialog: false,
             displayDeleteBtn: true
         }
@@ -110,19 +139,26 @@ export default {
         'tableLabel', 'tableActiveHeaders'],
     computed:{
         databaseData() {
-                return this.tableLabel === 'Evacuees Table' ? this.fetchedDBevac
-                    : this.tableLabel === 'Families Table' ? this.fetchedDBfamilies
-                    : this.tableLabel === 'Medical Reports Table' ? this.fetchedDBmed
-                    : this.tableLabel === 'Relief Operations Table' ? this.fetchedDBrelief
-                    : this.fetchedDBevac  
+            return this.tableLabel === 'Evacuees Table' ? this.fetchedDBevac
+                : this.tableLabel === 'Families Table' ? this.fetchedDBfamilies
+                : this.tableLabel === 'Medical Reports Table' ? this.fetchedDBmed
+                : this.tableLabel === 'Relief Operations Table' ? this.fetchedDBrelief
+                : this.fetchedDBevac  
         }
     },
     methods: {
-        deleteItemConfirm(currentData) {
-            console.log('currentData: ', currentData.data)
+        editModal(currentData) {
             this.currentRowData = currentData.data
-            console.log('currentRowData: ', this.currentRowData)
+            this.editDialog = true
+        },
+        deleteItemConfirm(currentData) {
+            // console.log('currentData: ', currentData.data)
+            this.currentRowData = currentData.data
+            // console.log('currentRowData: ', this.currentRowData)
             this.deleteConfirmDialog = true
+        },
+        editSubmit() {
+            this.editDialog = false
         },
         logData() {
             console.log("this.databaseData: ", this.databaseData)
@@ -131,32 +167,39 @@ export default {
         msglog(msg){
             console.log(msg); 
         },
-        onRowEditSave(event) {
-            let { newData, index } = event;
-            console.log(newData);
-            this.databaseData[index] = newData;
-            this.displayDeleteBtn = true;
-        }, onRowEditInit() {
-            this.displayDeleteBtn = false;
-        }, onRowEditCancel() {
-            this.displayDeleteBtn = true;
-        },
-        rowEditForm(currentField, inputType) {
+        isRequired(currentField){
             if(this.tableLabel === 'Evacuees Table' 
-                && [['evacID','mi','lName','suffix','cNumber'],
-                    ['famID'],['']][inputType].includes(currentField)) {
+                && ['fName','lName','famID'].includes(currentField)) {
+                    return true
+            } else if(this.tableLabel === 'Families Table' 
+                && ['famName','famAddrss','famCID'].includes(currentField)) {
+                    return true
+            } else if(this.tableLabel === 'Medical Reports Table' 
+                && ['famID','evacID','medCause'].includes(currentField)) {
+                    return true
+            } else if(this.tableLabel === 'Relief Operations Table' 
+                && ['reliefName','reliefDate','reliefRep','reliefStatus'].includes(currentField)) {
+                    return true
+            } else {
+                return false
+            }
+        },
+        displayEditForm(currentField, inputType) {
+            if(this.tableLabel === 'Evacuees Table' 
+                && [['fName','mi','lName','suffix','cNumber'],
+                    ['famID'],[''],['evacID']][inputType].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Families Table' 
                 && [['famName','famAddrss'],
-                    ['famCID'],['']][inputType].includes(currentField)) {
+                    ['famCID'],[''],['famID']][inputType].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Medical Reports Table' 
                 && [['medCause'],
-                    ['famID','evacID'],['']][inputType].includes(currentField)) {
+                    ['famID','evacID'],[''],['fName','lName']][inputType].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Relief Operations Table' 
                 && [['reliefName'],
-                    ['reliefRep','reliefStatus'],['reliefDate']][inputType].includes(currentField)) {
+                    ['reliefRep','reliefStatus'],['reliefDate'],['familyID']][inputType].includes(currentField)) {
                     return true
             } else {
                 return false
@@ -170,11 +213,10 @@ export default {
                 return "width: 136px" } 
             if(['famID'].includes(currentField)) {
                 return "width: 380px" }
-            if(['famCID','evacID','reliefRep'].includes(currentField)) {
+            if(['famCID','evacID','reliefRep','reliefStatus'].includes(currentField)) {
                 return "width: 260px" } 
         },
         editDrpDownOptionsUpdate(currentData, currentField) {
-
             return this.$parent.$parent.drpDownOptionsUpdate(currentData, currentField, this.tableLabel)
         },
         changeCellOutput(currentData, currentField) {
