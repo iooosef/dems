@@ -2,7 +2,8 @@ import sys
 import platform
 import eel 
 import json
-from database import Database
+from datetime import datetime
+from database import demsDatabase
 
 # Expected format of data fetched from DB to be passed to front-end
 sampleDB = {
@@ -67,6 +68,52 @@ def sqliteTableToJSON(table):
         jsonRow = {}
     return json.dumps(jsonTable)
 
+def sqliteEvacToJSON():
+    jsonTable = []
+    jsonRow = {}
+    for row in demsDatabase.fetchEvac():
+        for index, field in enumerate(('evacID','fName','mi','lName','suffix','cNumber','famID')):
+            jsonRow[field] = row[index]
+        jsonTable.append(jsonRow)
+        jsonRow = {}
+    return json.dumps(jsonTable)
+
+def sqliteFamToJSON():
+    jsonTable = []
+    jsonRow = {}
+    for row in demsDatabase.fetchFam():
+        for index, field in enumerate(('famID','famName','famAddrss','famCID','cNumber','famSize')):
+            jsonRow[field] = row[index]
+        jsonTable.append(jsonRow)
+        jsonRow = {}
+    return json.dumps(jsonTable)
+
+def sqliteMedToJSON():
+    jsonTable = []
+    jsonRow = {}
+    for row in demsDatabase.fetchMed():
+        for index, field in enumerate(('medreportID','famID','evacID','fName','lName','medCause')):
+            jsonRow[field] = row[index]
+        jsonTable.append(jsonRow)
+        jsonRow = {}
+    print(json.dumps(jsonTable))
+    return json.dumps(jsonTable)
+
+def sqliteReliefToJSON():
+    jsonTable = []
+    jsonRow = {}
+    for row in demsDatabase.fetchRelief():
+        for index, field in enumerate(('famID','reliefName','reliefDate','reliefRep','reliefStatus')):
+            jsonRow[field] = row[index]
+        jsonTable.append(jsonRow)
+        jsonRow = {}
+    return json.dumps(jsonTable)
+        
+
+@eel.expose
+def test_f(x):
+    print("Hello World! Called from NewEntry.vue", x)
+
 
 @eel.expose  # Expose function to JavaScript
 def say_hello_py(x):
@@ -77,12 +124,50 @@ def say_hello_py(x):
 @eel.expose
 def passDB_toJS(): # return a dict to JS
     databaseData = {
-        'db_evacuees' : sqliteTableToJSON('db_evacuees'),
-        'db_families' : sqliteTableToJSON('db_families'),
-        'db_medAssist' : sqliteTableToJSON('db_medAssist'),
-        'db_relief' : sqliteTableToJSON('db_relief')
+        'db_evacuees' : sqliteEvacToJSON(),
+        'db_families' : sqliteFamToJSON(),
+        'db_medAssist' : sqliteMedToJSON(),
+        'db_relief' : sqliteReliefToJSON()
     }
+    # databaseData = {
+    #     'db_evacuees' : sqliteTableToJSON('db_evacuees'),
+    #     'db_families' : sqliteTableToJSON('db_families'),
+    #     'db_medAssist' : sqliteTableToJSON('db_medAssist'),
+    #     'db_relief' : sqliteTableToJSON('db_relief')
+    # }
     return databaseData
+
+@eel.expose
+def sqlInsertFam(jsonInput):
+    print(jsonInput) #{'family_name': 'Familia', 'family_address': 'Mamamia'}
+    demsDatabase.insertFam(jsonInput['family_name'], jsonInput['family_address'], '', '')
+
+@eel.expose
+def sqlInsertEvac(jsonInput):
+    print(jsonInput) #{'first_name': 'Pepito', 'middle_initial': 'SD', 'suffix': '', 'last_name': 'Manaloto', 'contact_number': '213', 'famID': 2, 'is_family_contact': True, 'is_relief_rep': True}
+    print(type(jsonInput)) #<class 'dict'>
+    demsDatabase.insertEvac(jsonInput['first_name'], jsonInput['middle_initial'], jsonInput['last_name'], jsonInput['suffix'], jsonInput['contact_number'], jsonInput['famID'])
+    print("demsDatabase.idOfLastInsert: ", demsDatabase.idOfLastInsert()[0], type(demsDatabase.idOfLastInsert())) # 1 <class 'tuple'>
+    if jsonInput['is_family_contact']: # If selected to be family contact, will update the corresponding family's contact details
+        demsDatabase.updateFamContact(jsonInput['famID'], demsDatabase.idOfLastInsert()[0], jsonInput['contact_number'])
+    
+@eel.expose
+def sqlInsertMed(jsonInput):
+    # print(jsonInput) #{'evacID': 6, 'famID': 2, 'medical_issue': 'ligma'}
+    # print(demsDatabase.fetchFullName(jsonInput['evacID'])[0])
+    demsDatabase.insertMed(jsonInput['famID'], jsonInput['evacID'], 
+        demsDatabase.fetchFullName(jsonInput['evacID'])[0][0], 
+        demsDatabase.fetchFullName(jsonInput['evacID'])[0][1], 
+        jsonInput['medical_issue'],)
+
+@eel.expose
+def sqlInsertRelief(jsonInput):
+    print(jsonInput) #{'relief_op_name': 'Tadaaaa'}
+    print(datetime.now().strftime('%Y-%m-%d'), " : ", demsDatabase.fetchFam())
+    dateNow = datetime.now().strftime('%Y-%m-%d')
+    for item in demsDatabase.fetchFam():
+        demsDatabase.insertRelief(item[0], jsonInput['relief_op_name'], dateNow, '', 0)
+
 
 @eel.expose
 def passEvacInfo_toJS():
@@ -90,6 +175,11 @@ def passEvacInfo_toJS():
 
 eel.init('web')
 eel.browsers.set_path('electron', './node_modules/electron/dist/electron')
+
+
+demsDatabase = demsDatabase('dems.db')
+
+
 eel.start('index.html', mode='electron')
 
 if __name__ == "__main__":

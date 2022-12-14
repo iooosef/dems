@@ -238,6 +238,7 @@ export default {
         },
         changeCellOutput(currentData, currentField) {
             let matchedRow = this.fetchedDBevac.find(({evacID}) => evacID === currentData[currentField])
+            console.log("currentData: ", currentData, "\ncurrentField: ",currentField)
             if(currentField === 'reliefStatus' && currentData[currentField] === 0) {
                 return 'not received'
             } else if(currentField === 'reliefStatus') { 
@@ -246,8 +247,9 @@ export default {
                 return matchedRow.fName + ' ' + matchedRow.lName
             } else if (currentField === 'reliefRep') {
                 return matchedRow.fName + ' ' + matchedRow.lName
+            } else {
+                return currentData[currentField]
             }
-            return currentData[currentField]
         },
         dateFormat(date) {
             const year = date.getFullYear();

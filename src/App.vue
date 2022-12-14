@@ -63,12 +63,15 @@ export default {
       this.newEntryEvacInfo = true
     },
     drpDownOptionsUpdate(currentData, currentField, currentTable) {
-      console.log('currentField: ', currentField)
+      console.log("this.fetchedDBevac: ", {...this.fetchedDBevac})
       let drpDownOptions = [];
       if(currentTable === 'Evacuees Table' || 
         (currentTable === 'Medical Reports Table' && currentField === 'famID')) {
         drpDownOptions = []
         for (const row of this.fetchedDBfamilies) {
+          !this.fetchedDBevac.find(({evacID}) => evacID === row.famCID) ? 
+          drpDownOptions.push({label: `Family no. ${row.famID}: ${row.famName} Family`,
+            value: row.famID}) : 
           drpDownOptions.push({label: `Family no. ${row.famID} with 
             ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).fName} 
             ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).lName}`,
@@ -87,7 +90,6 @@ export default {
         drpDownOptions.push({label: `received`, value: 1})
         drpDownOptions.push({label: `not received`, value: 0})
       }
-      console.log("drpDownOptions: ", drpDownOptions)
       return drpDownOptions
     },
     

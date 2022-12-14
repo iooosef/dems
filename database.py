@@ -1,21 +1,20 @@
 import sqlite3
 
-class Database:
+class demsDatabase:
     def __init__(self,db):
         self.connect = sqlite3.connect(db)
         self.cursor = self.connect.cursor()
-        self.cursor.execute("""--sql
-            CREATE TABLE IF NOT EXISTS family(
+        self.cursor.execute("""
+                CREATE TABLE IF NOT EXISTS family(
                 famID INTEGER PRIMARY KEY AUTOINCREMENT,
                 famName TEXT NOT NULL,
                 famAddrss TEXT NOT NULL,
                 famCID INTEGER,
-                cNumber TEXT
+                cNumber TEXT,
                 FOREIGN KEY (famCID) REFERENCES evacuee(evacID),
                 FOREIGN KEY (cNumber) REFERENCES evacuee(cNumber)
-                )
-        """)
-        self.cursor.execute("""--sql
+                )""")
+        self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS evacuee(
                 evacID INTEGER PRIMARY KEY AUTOINCREMENT,
                 fName TEXT NOT NULL,
@@ -27,7 +26,7 @@ class Database:
                 FOREIGN KEY (famID) REFERENCES family(famID)
             )
          """)
-        self.cursor.execute("""--sql
+        self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS relief(
                 famID INTEGER NOT NULL,
                 reliefName TEXT NOT NULL,
@@ -39,7 +38,7 @@ class Database:
                 PRIMARY KEY (famID, reliefName)
             )         
          """)
-        self.cursor.execute("""--sql
+        self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS medassist(
                 medreportID INTEGER PRIMARY KEY AUTOINCREMENT,
                 famID INTEGER NOT NULL,
@@ -56,16 +55,20 @@ class Database:
 
         self.connect.commit()
 
+    def idOfLastInsert(self):
+        self.cursor.execute("SELECT last_insert_rowid()")
+        return self.cursor.fetchone()
+
 #family Table Methods
     def fetchFam(self):
-        self.cursor.execute("""--sql
-        SELECT f.famID, f.famName, f.famAddrss, f.famCID, f.cNumber, e.famSize
+        self.cursor.execute("""
+        SELECT f.famID, f.famName, f.famAddrss, f.famCID, f.cNumber, ifnull(e.famSize, 0) as famSize
             FROM family f
-            INNER JOIN (
+            LEFT JOIN (
                 SELECT famID, COUNT(famID) AS famSize
                 FROM evacuee
                 GROUP BY famid
-            ) e USING(famid)        
+            ) e USING(famid)
         """)
         return self.cursor.fetchall()
     
@@ -79,7 +82,7 @@ class Database:
         self.connect.close()  
 
     def updateFamily(self, famID, famName, famAddrss, famCID, cNumber):
-        self.cursor.execute("""--sql
+        self.cursor.execute("""
             UPDATE family 
             SET famName = ?, 
                 famAddrss = ?, 
@@ -89,12 +92,22 @@ class Database:
             """,
             (famName, famAddrss, famCID, cNumber, famID))
         self.connect.commit()
+    
+    def updateFamContact(self, famID, famCID, cNumber):
+        self.cursor.execute("""
+            UPDATE family 
+            SET famCID = ?, 
+                cNumber = ? 
+            WHERE famID = ?
+            """,
+            (famCID, cNumber, famID))
+        self.connect.commit()
 
 #Evacuees Table Methods
     def fetchEvac(self):
         self.cursor.execute("SELECT * FROM evacuee")
         return self.cursor.fetchall()
-    
+
     def insertEvac(self, fName, mi, lName, suffix, cNumber, famID):
         self.cursor.execute("INSERT INTO evacuee (fName, mi, lName, suffix, cNumber, famID) VALUES (?, ?, ?, ?, ?, ?)",
             (fName, mi, lName, suffix, cNumber, famID))
@@ -105,7 +118,7 @@ class Database:
         self.connect.close()  
 
     def updateEvac(self, evacID, fName, mi, lName, suffix, cNumber, famID):
-        self.cursor.execute("""--sql
+        self.cursor.execute("""
             UPDATE evacuee 
             SET fName = ?, 
                 mi = ?, 
@@ -117,15 +130,19 @@ class Database:
             """,
             (fName, mi, lName, suffix, cNumber, famID, evacID))
         self.connect.commit()
+    
+    def fetchFullName(self, evacID):
+        self.cursor.execute("SELECT fName, lName FROM evacuee WHERE evacID = ?", (evacID,))
+        return self.cursor.fetchall()
 
 #Relief Table Methods
     def fetchRelief(self):
          self.cursor.execute("SELECT * FROM relief")
          return self.cursor.fetchall()
 
-    def insertRelief(self, reliefName, reliefDate, reliefRep, reliefStatus):
-        self.cursor.execute("INSERT INTO relief (reliefName, reliefDate, reliefRep, reliefStatus) VALUES (?, ?, ?, ?)",
-            (reliefName, reliefDate, reliefRep, reliefStatus))
+    def insertRelief(self, famID, reliefName, reliefDate, reliefRep, reliefStatus):
+        self.cursor.execute("INSERT INTO relief (famID, reliefName, reliefDate, reliefRep, reliefStatus) VALUES (?, ?, ?, ?, ?)",
+            (famID, reliefName, reliefDate, reliefRep, reliefStatus))
         self.connect.commit() 
 
     # special rule: if one relief operation row is deleted, all related relief operations will also be deleted
@@ -135,7 +152,7 @@ class Database:
     
     # let currentDate = new Date().toJSON().slice(0, 10);
     def updateEvac(self, famID, reliefName, reliefDate, reliefRep, reliefStatus):
-        self.cursor.execute("""--sql
+        self.cursor.execute("""
             UPDATE relief 
             SET reliefName = ?, 
                 reliefDate = ?, 
@@ -165,7 +182,7 @@ class Database:
         self.connect.commit()
     
     def updateMed(self, medreportID, famID, evacID, fName, lName, medCause):
-        self.cursor.execute("""--sql
+        self.cursor.execute("""
             UPDATE medassist 
             SET famID = ?, 
                 evacID = ?, 

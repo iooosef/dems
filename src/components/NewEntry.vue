@@ -25,10 +25,6 @@
                     <label for="last-name" class="align-self-start form-label">Last Name</label>
                     <input type="text" id="last-name" class="form-control" v-model.trim.lazy="formValuesEvacuee.last_name" required>
                 </div>
-                <div class="mb-3 d-flex flex-column">
-                    <label for="contact-number" class="align-self-start form-label">Contact Number</label>
-                    <input type="text" id="contact-number" class="form-control" v-model.lazy="formValuesEvacuee.contact_number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
-                </div>
                 <div class="d-flex flex-row">
                     <div class="w-50 mb-3 d-flex flex-column">
                         <label for="middle_initial" class="align-self-start form-label">M.I.</label>
@@ -38,6 +34,10 @@
                         <label for="suffix" class="align-self-start form-label">Suffix</label>
                         <input type="text" id="suffix" class="form-control" v-model.lazy="formValuesEvacuee.suffix" placeholder="Jr., Sr., II,. etc.">
                     </div>
+                </div>
+                <div class="mb-3 d-flex flex-column">
+                    <label for="contact-number" class="align-self-start form-label">Contact Number</label>
+                    <input type="text" id="contact-number" class="form-control" v-model.lazy="formValuesEvacuee.contact_number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
                 </div>
                 <div class="mb-3 d-flex flex-column">
                     <label for="family-id" class="align-self-start form-label">Family ID</label>
@@ -56,10 +56,10 @@
                     <input type="checkbox" id="is_family_contact" class="form-check-input" v-model="formValuesEvacuee.is_family_contact">
                     <label for="is_family_contact" class="align-self-start form-label">Make the person an emergency contact of the family?</label>
                 </div>
-                <div class="mb-3 form-check">
+                <!-- <div class="mb-3 form-check">
                     <input type="checkbox" id="is_relief_rep" class="form-check-input" v-model="formValuesEvacuee.is_relief_rep">
                     <label for="is_relief_rep" class="align-self-start form-label">Make the person the relief goods representative of the family?</label>
-                </div>
+                </div> -->
                 <button class="w-100 p-2 btn btn-success btn-newEntry text-light rounded-3" type="button" @click="openNewEntryForm('family')">
                     <h5>New Family</h5> </button>
                 
@@ -188,8 +188,7 @@ export default {
                 last_name: "",
                 contact_number: "",
                 famID: "",
-                is_family_contact: false,
-                is_relief_rep: false
+                is_family_contact: false
             },
             formValuesFamily : {
                 family_name: "",
@@ -230,18 +229,26 @@ export default {
         },
         submitFormEvacuee() {
             console.log('Form Values of Evacuee: ', {...this.formValuesEvacuee});
+            window.eel.sqlInsertEvac({...this.formValuesEvacuee});
+            this.$parent.fetch_data_fromPy();
             this.newEntryClose();
         },
         submitFormFamily() {
             console.log('Form Values of Family: ', {...this.formValuesFamily});
+            window.eel.sqlInsertFam({...this.formValuesFamily});
+            this.$parent.fetch_data_fromPy();
             this.newEntryClose();
         },
         submitFormMedical() {
             console.log('Form Values of Medical: ', {...this.formValuesMedical});
+            window.eel.sqlInsertMed({...this.formValuesMedical});
+            this.$parent.fetch_data_fromPy();
             this.newEntryClose();
         },
         submitFormRelief() {
             console.log('Form Values of Relief: ', {...this.formValuesRelief});
+            window.eel.sqlInsertRelief({...this.formValuesRelief});
+            this.$parent.fetch_data_fromPy();
             this.newEntryClose();
         },
         submitFormEvacCenter() {
