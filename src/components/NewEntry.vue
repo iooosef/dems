@@ -32,25 +32,25 @@
                 <div class="d-flex flex-row">
                     <div class="w-50 mb-3 d-flex flex-column">
                         <label for="middle_initial" class="align-self-start form-label">M.I.</label>
-                        <input type="text" id="middle_initial" class="form-control" v-model.lazy="formValuesEvacuee.middle_initial" required>
+                        <input type="text" id="middle_initial" class="form-control" v-model.lazy="formValuesEvacuee.middle_initial">
                     </div>
                     <div class="w-50 ms-3 mb-3 d-flex flex-column">
                         <label for="suffix" class="align-self-start form-label">Suffix</label>
-                        <input type="text" id="suffix" class="form-control" v-model.lazy="formValuesEvacuee.suffix" placeholder="Jr., Sr., II,. etc." required>
+                        <input type="text" id="suffix" class="form-control" v-model.lazy="formValuesEvacuee.suffix" placeholder="Jr., Sr., II,. etc.">
                     </div>
                 </div>
                 <div class="mb-3 d-flex flex-column">
                     <label for="family-id" class="align-self-start form-label">Family ID</label>
-                    <v-select id="family-id" :options="form_evacuees_familyId" v-model="formValuesEvacuee.family_id">
+                    <vSelect id="family-id" :options="editDrpDownOptionsUpdate({}, '')"
+                         v-model="formValuesEvacuee['famID']" :reduce="(option) => option.value" >
                         <template #search="{attributes, events}">
                             <input
                                 class="vs__search"
-                                :required="!formValuesEvacuee.family_id"
+                                :required="!formValuesEvacuee['famID']"
                                 v-bind="attributes"
-                                v-on="events"
-                            />
+                                v-on="events"/>
                         </template>
-                    </v-select>
+                    </vSelect>
                 </div>
                 <div class="mb-3 form-check">
                     <input type="checkbox" id="is_family_contact" class="form-check-input" v-model="formValuesEvacuee.is_family_contact">
@@ -64,7 +64,7 @@
                     <h5>New Family</h5> </button>
                 
                 <div class="mt-4 p-4 d-flex justify-content-evenly">
-                    <button class="w-25 me-2 p-2 btn btn-success rounded-3 btn-newEntry-close font-size-sm text-light" type="submit" @click="submitFormEvacuee">
+                    <button class="w-25 me-2 p-2 btn btn-success rounded-3 btn-newEntry-close font-size-sm text-light" type="submit">
                         <h5>Submit</h5> </button>
                     <button class="w-25 ms-2 p-2 btn btn-danger rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="newEntryDialogState = 'menu'">
                         <h5>Close</h5> </button>
@@ -84,7 +84,7 @@
                     <input type="text" id="address" class="form-control" v-model.trim.lazy="formValuesFamily.family_address" required>
                 </div>
                 <div class="mt-4 p-4 d-flex justify-content-evenly">
-                    <button class="w-25 me-2 p-2 btn btn-success rounded-3 btn-newEntry-close font-size-sm text-light" type="submit" @click="openNewEntryForm('')">
+                    <button class="w-25 me-2 p-2 btn btn-success rounded-3 btn-newEntry-close font-size-sm text-light" type="submit">
                         <h5>Submit</h5> </button>
                     <button class="w-25 ms-2 p-2 btn btn-danger rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="openNewEntryForm('')">
                         <h5>Close</h5> </button>
@@ -96,30 +96,32 @@
             <h3>New medical report</h3>
             <form @submit.prevent="submitFormMedical">
                 <div class="mb-3 d-flex flex-column">
-                    <label for="evac-id" class="align-self-start form-label">Evacuee Name</label>
-                    <v-select id="evac-id" :options="form_evacuees_familyId" v-model="formValuesMedical.evac_id">
+                    <label for="family-id" class="align-self-start form-label">Family Name & Emergency Contact</label>
+                    <vSelect id="family-id" :options="editDrpDownOptionsUpdate({}, 'famID')" 
+                        v-model="formValuesMedical['famID']" :reduce="(option) => option.value" >
                         <template #search="{attributes, events}">
                             <input
                                 class="vs__search"
-                                :required="!formValuesMedical.evac_id"
+                                :required="!formValuesMedical['famID']"
                                 v-bind="attributes"
                                 v-on="events"
                             />
                         </template>
-                    </v-select>
+                    </vSelect>
                 </div>
                 <div class="mb-3 d-flex flex-column">
-                    <label for="family-id" class="align-self-start form-label">Family Name & Emergency Contact</label>
-                    <v-select id="family-id" :options="form_evacuees_familyId" v-model="formValuesMedical.family_id">
+                    <label for="evac-id" class="align-self-start form-label">Evacuee Name</label>
+                    <vSelect id="evac-id" :options="editDrpDownOptionsUpdate(formValuesMedical, 'evacID')" 
+                        v-model="formValuesMedical['evacID']" :reduce="(option) => option.value" >
                         <template #search="{attributes, events}">
                             <input
                                 class="vs__search"
-                                :required="!formValuesMedical.family_id"
+                                :required="!formValuesMedical['evacID']"
                                 v-bind="attributes"
                                 v-on="events"
                             />
                         </template>
-                    </v-select>
+                    </vSelect>
                 </div>
                 <div class="mb-3 d-flex flex-column">
                     <label for="med-report" class="align-self-start form-label">Medical Issue/Report</label>
@@ -185,7 +187,7 @@ export default {
                 suffix: "",
                 last_name: "",
                 contact_number: "",
-                family_id: "",
+                famID: "",
                 is_family_contact: false,
                 is_relief_rep: false
             },
@@ -194,8 +196,8 @@ export default {
                 family_address: ""
             },
             formValuesMedical : {
-                evac_id: "",
-                family_id: "",
+                evacID: "",
+                famID: "",
                 medical_issue: ""
             },
             formValuesRelief : {
@@ -203,7 +205,8 @@ export default {
             },
             formValuesEvacInfo : '',
             form_evacuees_familyId : [],
-            newEntryModalState: this.btnNewEntryState
+            newEntryModalState: this.btnNewEntryState,
+            tableLabel: ''
         }
     },
     props:['newEntryEvacInfo','btnNewEntryState'],
@@ -219,9 +222,9 @@ export default {
             this.$emit('new-entry-close')
         },
         openNewEntryForm(newEntryTarget) {
-            newEntryTarget == 'evacuee' ? this.newEntryDialogState = 'evacuee'
+            newEntryTarget == 'evacuee' ? (this.newEntryDialogState = 'evacuee', this.tableLabel = 'Evacuees Table')
                 : newEntryTarget == 'family' ? this.newEntryDialogState = 'family'
-                : newEntryTarget == 'medical' ? this.newEntryDialogState = 'medical'
+                : newEntryTarget == 'medical' ? (this.newEntryDialogState = 'medical', this.tableLabel = 'Medical Reports Table')
                 : newEntryTarget == 'relief' ? this.newEntryDialogState = 'relief'
                 : this.newEntryDialogState = 'menu'
         },
@@ -234,16 +237,19 @@ export default {
             this.newEntryClose();
         },
         submitFormMedical() {
-            console.log('Form Values of Family: ', {...this.formValuesMedical});
+            console.log('Form Values of Medical: ', {...this.formValuesMedical});
             this.newEntryClose();
         },
         submitFormRelief() {
-            console.log('Form Values of Family: ', {...this.formValuesRelief});
+            console.log('Form Values of Relief: ', {...this.formValuesRelief});
             this.newEntryClose();
         },
         submitFormEvacCenter() {
             console.log('Form Values of Evacuation Center: ', this.formValuesEvacInfo);
             this.newEntryClose();
+        },
+        editDrpDownOptionsUpdate(currentData, currentField) {
+            return this.$parent.drpDownOptionsUpdate(currentData, currentField, this.tableLabel)
         }
     }
 }
