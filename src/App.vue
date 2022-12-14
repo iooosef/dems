@@ -1,5 +1,6 @@
 <template>
   <NewEntry id="new-entry" @new-entry-close="btnNewEntryClosed" v-if="btnNewEntryState" 
+    :fetchedDBfamilies="fetchedDBfamilies"
     :newEntryEvacInfo="newEntryEvacInfo"
     :btnNewEntryState="btnNewEntryState" />
   <MainApp id="main-app" 
@@ -63,7 +64,7 @@ export default {
       this.newEntryEvacInfo = true
     },
     drpDownOptionsUpdate(currentData, currentField, currentTable) {
-      console.log("this.fetchedDBevac: ", {...this.fetchedDBevac})
+      // console.log("this.fetchedDBevac: ", {...this.fetchedDBevac})
       let drpDownOptions = [];
       if(currentTable === 'Evacuees Table' || 
         (currentTable === 'Medical Reports Table' && currentField === 'famID')) {

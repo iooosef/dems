@@ -161,6 +161,18 @@ export default {
             this.deleteConfirmDialog = true
         },
         editSubmit() {
+            if(this.tableLabel === 'Evacuees Table') {
+                window.eel.sqlUpdateEvac({...this.currentRowData})
+            } else if(this.tableLabel === 'Families Table' ) {
+                window.eel.sqlUpdateFam({...this.currentRowData})
+            } else if(this.tableLabel === 'Medical Reports Table' ) {
+                window.eel.sqlUpdateMed({...this.currentRowData})
+            } else if(this.tableLabel === 'Relief Operations Table' ) {
+                window.eel.sqlUpdateRelief({...this.currentRowData})
+            }
+            console.log("this.tableLabel: ", this.tableLabel)
+            console.log("currentRowData: ", {...this.currentRowData})
+            
             this.editDialog = false
         },
         rowDelete() {
@@ -222,7 +234,7 @@ export default {
             }
         },
         inputDynamicStyle(currentField){
-            console.log(currentField)
+            // console.log(currentField)
             if(['mi','suffix'].includes(currentField)) {
                 return "width: 60px" } 
             if(['cNumber'].includes(currentField)) {
@@ -238,7 +250,7 @@ export default {
         },
         changeCellOutput(currentData, currentField) {
             let matchedRow = this.fetchedDBevac.find(({evacID}) => evacID === currentData[currentField])
-            console.log("currentData: ", currentData, "\ncurrentField: ",currentField)
+            // console.log("currentData: ", currentData, "\ncurrentField: ",currentField)
             if(currentField === 'reliefStatus' && currentData[currentField] === 0) {
                 return 'not received'
             } else if(currentField === 'reliefStatus') { 

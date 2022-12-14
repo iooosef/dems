@@ -96,7 +96,6 @@ def sqliteMedToJSON():
             jsonRow[field] = row[index]
         jsonTable.append(jsonRow)
         jsonRow = {}
-    print(json.dumps(jsonTable))
     return json.dumps(jsonTable)
 
 def sqliteReliefToJSON():
@@ -129,44 +128,57 @@ def passDB_toJS(): # return a dict to JS
         'db_medAssist' : sqliteMedToJSON(),
         'db_relief' : sqliteReliefToJSON()
     }
-    # databaseData = {
-    #     'db_evacuees' : sqliteTableToJSON('db_evacuees'),
-    #     'db_families' : sqliteTableToJSON('db_families'),
-    #     'db_medAssist' : sqliteTableToJSON('db_medAssist'),
-    #     'db_relief' : sqliteTableToJSON('db_relief')
-    # }
     return databaseData
 
 @eel.expose
-def sqlInsertFam(jsonInput):
-    print(jsonInput) #{'family_name': 'Familia', 'family_address': 'Mamamia'}
-    demsDatabase.insertFam(jsonInput['family_name'], jsonInput['family_address'], '', '')
+def sqlInsertFam(jsInput):
+    # print(jsInput) #{'family_name': 'Familia', 'family_address': 'Mamamia'}
+    demsDatabase.insertFam(jsInput['family_name'], jsInput['family_address'], '', '')
 
 @eel.expose
-def sqlInsertEvac(jsonInput):
-    print(jsonInput) #{'first_name': 'Pepito', 'middle_initial': 'SD', 'suffix': '', 'last_name': 'Manaloto', 'contact_number': '213', 'famID': 2, 'is_family_contact': True, 'is_relief_rep': True}
-    print(type(jsonInput)) #<class 'dict'>
-    demsDatabase.insertEvac(jsonInput['first_name'], jsonInput['middle_initial'], jsonInput['last_name'], jsonInput['suffix'], jsonInput['contact_number'], jsonInput['famID'])
-    print("demsDatabase.idOfLastInsert: ", demsDatabase.idOfLastInsert()[0], type(demsDatabase.idOfLastInsert())) # 1 <class 'tuple'>
-    if jsonInput['is_family_contact']: # If selected to be family contact, will update the corresponding family's contact details
-        demsDatabase.updateFamContact(jsonInput['famID'], demsDatabase.idOfLastInsert()[0], jsonInput['contact_number'])
+def sqlInsertEvac(jsInput):
+    # print(jsInput) #{'first_name': 'Pepito', 'middle_initial': 'SD', 'suffix': '', 'last_name': 'Manaloto', 'contact_number': '213', 'famID': 2, 'is_family_contact': True, 'is_relief_rep': True}
+    demsDatabase.insertEvac(jsInput['first_name'], jsInput['middle_initial'], jsInput['last_name'], jsInput['suffix'], jsInput['contact_number'], jsInput['famID'])
+    # print("demsDatabase.idOfLastInsert: ", demsDatabase.idOfLastInsert()[0], type(demsDatabase.idOfLastInsert())) # 1 <class 'tuple'>
+    if jsInput['is_family_contact']: # If selected to be family contact, will update the corresponding family's contact details
+        demsDatabase.updateFamContact(jsInput['famID'], demsDatabase.idOfLastInsert()[0], jsInput['contact_number'])
     
 @eel.expose
-def sqlInsertMed(jsonInput):
-    # print(jsonInput) #{'evacID': 6, 'famID': 2, 'medical_issue': 'ligma'}
-    # print(demsDatabase.fetchFullName(jsonInput['evacID'])[0])
-    demsDatabase.insertMed(jsonInput['famID'], jsonInput['evacID'], 
-        demsDatabase.fetchFullName(jsonInput['evacID'])[0][0], 
-        demsDatabase.fetchFullName(jsonInput['evacID'])[0][1], 
-        jsonInput['medical_issue'],)
+def sqlInsertMed(jsInput):
+    # print(jsInput) #{'evacID': 6, 'famID': 2, 'medical_issue': 'ligma'}
+    # print(demsDatabase.fetchFullName(jsInput['evacID'])[0])
+    demsDatabase.insertMed(jsInput['famID'], jsInput['evacID'], 
+        demsDatabase.fetchFullName(jsInput['evacID'])[0][0], 
+        demsDatabase.fetchFullName(jsInput['evacID'])[0][1], 
+        jsInput['medical_issue'],)
 
 @eel.expose
-def sqlInsertRelief(jsonInput):
-    print(jsonInput) #{'relief_op_name': 'Tadaaaa'}
-    print(datetime.now().strftime('%Y-%m-%d'), " : ", demsDatabase.fetchFam())
+def sqlInsertRelief(jsInput):
+    # print(jsInput) #{'relief_op_name': 'Tadaaaa'}
+    # print(datetime.now().strftime('%Y-%m-%d'), " : ", demsDatabase.fetchFam())
     dateNow = datetime.now().strftime('%Y-%m-%d')
     for item in demsDatabase.fetchFam():
-        demsDatabase.insertRelief(item[0], jsonInput['relief_op_name'], dateNow, '', 0)
+        demsDatabase.insertRelief(item[0], jsInput['relief_op_name'], dateNow, '', 0)
+
+@eel.expose
+def sqlUpdateFam(jsInput):
+    print(jsInput) #{'famID': 3, 'famName': 'Bonifacio', 'famAddrss': 'Bonifacio Street', 'famCID': 11, 'cNumber': '192837142871', 'famSize': 2}
+    demsDatabase.updateFamily(jsInput['famID'], jsInput['famName'], jsInput['famAddrss'], jsInput['famCID'], jsInput['cNumber'])
+
+@eel.expose
+def sqlUpdateEvac(jsInput):
+    print(jsInput) #{'evacID': 5, 'fName': 'Primitivo', 'mi': 'M.', 'lName': 'Parayaoan', 'suffix': 'Jr.', 'cNumber': '12345', 'famID': 2}
+    demsDatabase.updateEvac(jsInput['evacID'], jsInput['fName'], jsInput['mi'], jsInput['lName'], jsInput['suffix'], jsInput['cNumber'], jsInput['famID'], )
+
+@eel.expose
+def sqlUpdateMed(jsInput):
+    print(jsInput) #{'medreportID': 4, 'famID': 1, 'evacID': 1, 'fName': 'Pepito', 'lName': 'Manaloto', 'medCause': 'Sugma'}
+    demsDatabase.updateMed(jsInput['medreportID'], jsInput['famID'], jsInput['evacID'], jsInput['fName'], jsInput['lName'], jsInput['medCause'])
+
+@eel.expose
+def sqlUpdateRelief(jsInput):
+    print(jsInput) #{'famID': 2, 'reliefName': '3IB Operation', 'reliefDate': '2022-12-16', 'reliefRep': 7, 'reliefStatus': 1}
+    demsDatabase.updateRelief(jsInput['famID'], jsInput['reliefName'], jsInput['reliefDate'], jsInput['reliefRep'], jsInput['reliefStatus'], )
 
 
 @eel.expose

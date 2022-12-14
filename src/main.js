@@ -14,6 +14,8 @@ import "primevue/resources/themes/lara-light-blue/theme.css"
 import "primevue/resources/primevue.min.css"
 import "primeicons/primeicons.css"
 import '@vuepic/vue-datepicker/dist/main.css'
+import '@mdi/font/css/materialdesignicons.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 // Vuetify
 import 'vuetify/styles'
@@ -31,8 +33,4 @@ app.component('Dropdown', Dropdown);
 app.component('vSelect', vSelect);
 app.component('Datepicker', Datepicker);
 
-
-
 createApp(App).use(vuetify).mount('#app');
-
-

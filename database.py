@@ -151,7 +151,7 @@ class demsDatabase:
         self.connect.close()
     
     # let currentDate = new Date().toJSON().slice(0, 10);
-    def updateEvac(self, famID, reliefName, reliefDate, reliefRep, reliefStatus):
+    def updateRelief(self, famID, reliefName, reliefDate, reliefRep, reliefStatus):
         self.cursor.execute("""
             UPDATE relief 
             SET reliefName = ?, 
@@ -176,10 +176,6 @@ class demsDatabase:
     def removeMed(self, medreportID):
         self.cursor.execute(f'DELETE FROM medassist WHERE reliefName = {medreportID}')
         self.connect.close()
-    
-    def updateMed(self,EvactFName,EvactLName,FamilyID ,MedAssistIssue):
-        self.cursor.execute("UPDATE medassist FamilyID=?, EvactID_Rep=?, WHERE ReliefOpID = ?",(EvactFName,EvactLName,FamilyID ,MedAssistIssue ))
-        self.connect.commit()
     
     def updateMed(self, medreportID, famID, evacID, fName, lName, medCause):
         self.cursor.execute("""

@@ -10,6 +10,8 @@
                     <h5>New Medical Report</h5> </button>
             <button class="mb-3 p-2 btn btn-success btn-newEntry text-light rounded-3" type="button" @click="openNewEntryForm('relief')">
                     <h5>New Relief Operation</h5> </button>
+                    <v-alert dense outlined type="error" class="mb-3" v-if="reliefIsFamTableEmpty"><b>Family Table is Empty!</b> <br/>
+                        Register at least one family first.</v-alert>
             <button class="mt-auto mx-auto p-2 btn btn-danger text-light rounded-3 btn-newEntry-close" type="button" @click="newEntryClose">
                     <h5>Close</h5> </button>
         </div>
@@ -172,9 +174,13 @@
 
 <script>
 import vSelect from "vue-select"
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 export default {
     name: 'NewEntry',
+    icons: {
+        iconfont: 'md',
+    },
     components: {
         vSelect
     },
@@ -205,10 +211,11 @@ export default {
             formValuesEvacInfo : '',
             form_evacuees_familyId : [],
             newEntryModalState: this.btnNewEntryState,
-            tableLabel: ''
+            tableLabel: '',
+            reliefIsFamTableEmpty: false
         }
     },
-    props:['newEntryEvacInfo','btnNewEntryState'],
+    props:['newEntryEvacInfo','btnNewEntryState',"fetchedDBfamilies"],
     computed: {
         editEvacDialogState() {
             console.log(this.newEntryEvacInfo)
@@ -224,9 +231,16 @@ export default {
             newEntryTarget == 'evacuee' ? (this.newEntryDialogState = 'evacuee', this.tableLabel = 'Evacuees Table')
                 : newEntryTarget == 'family' ? this.newEntryDialogState = 'family'
                 : newEntryTarget == 'medical' ? (this.newEntryDialogState = 'medical', this.tableLabel = 'Medical Reports Table')
-                : newEntryTarget == 'relief' ? this.newEntryDialogState = 'relief'
+                : newEntryTarget == 'relief' ? (!Object.keys(this.fetchedDBfamilies).length ? 
+                    (this.reliefIsFamTableEmpty = true, this.newEntryDialogState = 'menu') : 
+                        (this.reliefIsFamTableEmpty = false, this.newEntryDialogState = 'relief'))
                 : this.newEntryDialogState = 'menu'
         },
+        // isFamilyTableEmpty() {
+        //     if(!this.fetchedDBfamilies) {
+                
+        //     }
+        // },
         submitFormEvacuee() {
             console.log('Form Values of Evacuee: ', {...this.formValuesEvacuee});
             window.eel.sqlInsertEvac({...this.formValuesEvacuee});
