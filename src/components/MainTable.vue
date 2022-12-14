@@ -61,7 +61,7 @@
                     <template #search="{attributes, events}">
                         <input
                           class="vs__search"
-                          :required="!currentRowData[field]"
+                          :required="!(currentRowData[field] === 1 || currentRowData[field] === 0 || currentRowData[field])"
                           v-bind="attributes"
                           v-on="events"
                         />
@@ -237,12 +237,14 @@ export default {
             return this.$parent.$parent.drpDownOptionsUpdate(currentData, currentField, this.tableLabel)
         },
         changeCellOutput(currentData, currentField) {
+            let matchedRow = this.fetchedDBevac.find(({evacID}) => evacID === currentData[currentField])
             if(currentField === 'reliefStatus' && currentData[currentField] === 0) {
                 return 'not received'
             } else if(currentField === 'reliefStatus') { 
                 return 'received'
             } else if(currentField === 'famCID') {
-                let matchedRow = this.fetchedDBevac.find(({evacID}) => evacID === currentData[currentField])
+                return matchedRow.fName + ' ' + matchedRow.lName
+            } else if (currentField === 'reliefRep') {
                 return matchedRow.fName + ' ' + matchedRow.lName
             }
             return currentData[currentField]
