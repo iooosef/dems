@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-center block-main">
+    <v-dialog v-model="newEntryModalState" max-width="500px" persistent>
         <div class="p-5 d-flex flex-column rounded-3 new-entry-dialog" v-if="editEvacDialogState && newEntryDialogState == 'menu'">
             <h3>Create a new entry</h3>
             <button class="my-3 p-2 btn btn-success btn-newEntry text-light rounded-3" type="button" @click="openNewEntryForm('evacuee')">
@@ -10,7 +10,7 @@
                     <h5>New Medical Report</h5> </button>
             <button class="mb-3 p-2 btn btn-success btn-newEntry text-light rounded-3" type="button" @click="openNewEntryForm('relief')">
                     <h5>New Relief Operation</h5> </button>
-            <button class="mt-auto mx-auto p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="newEntryClose">
+            <button class="mt-auto mx-auto p-2 btn btn-danger text-light rounded-3 btn-newEntry-close" type="button" @click="newEntryClose">
                     <h5>Close</h5> </button>
         </div>
 
@@ -60,13 +60,13 @@
                     <input type="checkbox" id="is_relief_rep" class="form-check-input" v-model="formValuesEvacuee.is_relief_rep">
                     <label for="is_relief_rep" class="align-self-start form-label">Make the person the relief goods representative of the family?</label>
                 </div>
-                <button class="mb-3 p-2 btn btn-success btn-newEntry text-light rounded-3" type="button" @click="openNewEntryForm('family')">
+                <button class="w-100 p-2 btn btn-success btn-newEntry text-light rounded-3" type="button" @click="openNewEntryForm('family')">
                     <h5>New Family</h5> </button>
                 
-                <div class="mt-auto d-flex justify-content-between">
-                    <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="submit" @click="submitFormEvacuee">
+                <div class="mt-4 p-4 d-flex justify-content-evenly">
+                    <button class="w-25 me-2 p-2 btn btn-success rounded-3 btn-newEntry-close font-size-sm text-light" type="submit" @click="submitFormEvacuee">
                         <h5>Submit</h5> </button>
-                    <button class="p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="newEntryDialogState = 'menu'">
+                    <button class="w-25 ms-2 p-2 btn btn-danger rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="newEntryDialogState = 'menu'">
                         <h5>Close</h5> </button>
                 </div>
             </form>
@@ -83,10 +83,10 @@
                     <label for="address" class="align-self-start form-label">Address</label>
                     <input type="text" id="address" class="form-control" v-model.trim.lazy="formValuesFamily.family_address" required>
                 </div>
-                <div class="mt-auto d-flex justify-content-between">
-                    <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="submit" @click="openNewEntryForm('')">
+                <div class="mt-4 p-4 d-flex justify-content-evenly">
+                    <button class="w-25 me-2 p-2 btn btn-success rounded-3 btn-newEntry-close font-size-sm text-light" type="submit" @click="openNewEntryForm('')">
                         <h5>Submit</h5> </button>
-                    <button class="p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
+                    <button class="w-25 ms-2 p-2 btn btn-danger rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="openNewEntryForm('')">
                         <h5>Close</h5> </button>
                 </div>
             </form>
@@ -125,10 +125,10 @@
                     <label for="med-report" class="align-self-start form-label">Medical Issue/Report</label>
                     <input type="text" id="med-report" class="form-control" v-model.trim.lazy="formValuesMedical.medical_issue" required>
                 </div>
-                <div class="mt-auto d-flex justify-content-between">
-                    <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="submit">
+                <div class="mt-auto d-flex justify-content-evenly">
+                    <button class="w-25 me-2 p-2 btn btn-success rounded-3 btn-newEntry-close font-size-sm text-light" type="submit">
                         <h5>Submit</h5> </button>
-                    <button class="p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
+                    <button class="w-25 ms-2 p-2 btn btn-danger rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="openNewEntryForm('')">
                         <h5>Close</h5> </button>
                 </div>
             </form>
@@ -141,10 +141,10 @@
                     <label for="reliefOp-name" class="align-self-start form-label">Relief Operation Name</label>
                     <input type="text" id="reliefOp-name" class="form-control" v-model.trim.lazy="formValuesRelief.relief_op_name" required>
                 </div>
-                <div class="mt-auto d-flex justify-content-between">
-                    <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="submit">
+                <div class="mt-4 p-4 d-flex justify-content-evenly">
+                    <button class="w-25 me-2 p-2 btn btn-success rounded-3 btn-newEntry-close font-size-sm text-light" type="submit">
                         <h5>Submit</h5> </button>
-                    <button class="p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="openNewEntryForm('')">
+                    <button class="w-25 ms-2 p-2 btn btn-danger rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="openNewEntryForm('')">
                         <h5>Close</h5> </button>
                 </div>
             </form>
@@ -157,15 +157,15 @@
                     <label for="EvacInfo" class="align-self-start form-label">Relief Operation Name</label>
                     <input type="text" id="EvacInfo" class="form-control" v-model.trim.lazy="formValuesEvacInfo" required>
                 </div>
-                <div class="mt-auto d-flex justify-content-between">
-                    <button class="p-2 btn btn-success rounded-3 btn-newEntry-close" type="submit">
+                <div class="mt-4 p-4 d-flex justify-content-evenly">
+                    <button class="w-25 me-2 p-2 btn btn-success rounded-3 btn-newEntry-close font-size-sm text-light" type="submit">
                         <h5>Submit</h5> </button>
-                    <button class="p-2 btn btn-danger rounded-3 btn-newEntry-close" type="button" @click="newEntryClose">
+                    <button class="w-25 ms-2 p-2 btn btn-danger rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="newEntryClose">
                         <h5>Close</h5> </button>
                 </div>
             </form>
         </div>
-    </div>
+    </v-dialog>
 </template>
 
 <script>
@@ -202,15 +202,11 @@ export default {
                 relief_op_name: ""
             },
             formValuesEvacInfo : '',
-
-            form_evacuees_familyId : [
-                '001 of Joseph Clarence C. Parayaoan',
-                '002 of Rose Angel G. Moncatar',
-                '003 of Rigel Jonn G. German'
-            ]
+            form_evacuees_familyId : [],
+            newEntryModalState: this.btnNewEntryState
         }
     },
-    props:['newEntryEvacInfo'],
+    props:['newEntryEvacInfo','btnNewEntryState'],
     computed: {
         editEvacDialogState() {
             console.log(this.newEntryEvacInfo)

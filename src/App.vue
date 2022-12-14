@@ -1,5 +1,7 @@
 <template>
-  <NewEntry id="new-entry" @new-entry-close="btnNewEntryClosed" v-if="btnNewEntryState" :newEntryEvacInfo="newEntryEvacInfo" />
+  <NewEntry id="new-entry" @new-entry-close="btnNewEntryClosed" v-if="btnNewEntryState" 
+    :newEntryEvacInfo="newEntryEvacInfo"
+    :btnNewEntryState="btnNewEntryState" />
   <MainApp id="main-app" 
     @new-entry="btnNewEntryClicked" @evac-info="btnEvacInfoChange" @change-table="fetch_data_fromPy"
     :fetchedEvacInfo="fetchedEvacInfo"  
