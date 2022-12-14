@@ -78,7 +78,7 @@ export default {
         drpDownOptions = []
         for (const row of this.fetchedDBevac) {
           currentData.famID === row.famID ? 
-            drpDownOptions.push( {label: `${row.fName} ${row.lName}`, value: row.evacID}) : ''
+            drpDownOptions.push( {label: `ID No. ${row.evacID}: ${row.fName} ${row.lName}`, value: row.evacID}) : ''
         }
       } else if(currentTable === 'Relief Operations Table' && currentField === 'reliefStatus') {
         drpDownOptions = []
