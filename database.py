@@ -3,6 +3,7 @@ import sqlite3
 class demsDatabase:
     def __init__(self,db):
         self.connect = sqlite3.connect(db)
+        self.connect.execute("PRAGMA foreign_keys = 1")
         self.cursor = self.connect.cursor()
         self.cursor.execute("""
                 CREATE TABLE IF NOT EXISTS family(
@@ -10,9 +11,7 @@ class demsDatabase:
                 famName TEXT NOT NULL,
                 famAddrss TEXT NOT NULL,
                 famCID INTEGER,
-                cNumber TEXT,
-                FOREIGN KEY (famCID) REFERENCES evacuee(evacID),
-                FOREIGN KEY (cNumber) REFERENCES evacuee(cNumber)
+                cNumber TEXT
                 )""")
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS evacuee(
@@ -33,9 +32,8 @@ class demsDatabase:
                 reliefDate TEXT NOT NULL,
                 reliefRep INT NOT NULL,
                 reliefStatus INTEGER NOT NULL,
-                FOREIGN KEY (famID) REFERENCES family(famID),
-                FOREIGN KEY (reliefRep) REFERENCES evacuee(evacID),
-                PRIMARY KEY (famID, reliefName)
+                PRIMARY KEY (famID, reliefName),
+                FOREIGN KEY (famID) REFERENCES family(famID)
             )         
          """)
         self.cursor.execute("""
@@ -47,9 +45,7 @@ class demsDatabase:
                 lName TEXT NOT NULL,
                 medCause TEXT NOT NULL,
                 FOREIGN KEY (famID) REFERENCES family(famID),
-                FOREIGN KEY (evacID) REFERENCES evacuee(evacID),
-                FOREIGN KEY (fName) REFERENCES evacuee(fName),
-                FOREIGN KEY (lName) REFERENCES evacuee(lName)
+                FOREIGN KEY (evacID) REFERENCES evacuee(evacID)
             )         
          """)
 
@@ -134,6 +130,17 @@ class demsDatabase:
     def fetchFullName(self, evacID):
         self.cursor.execute("SELECT fName, lName FROM evacuee WHERE evacID = ?", (evacID,))
         return self.cursor.fetchall()
+    
+    def updateFamOnUpdateEvac(self, evacID, cNumber):
+        #Updates the 
+        self.cursor.execute("""
+            UPDATE family 
+            SET cNumber = ?
+            WHERE famCID = ?
+            """,
+            (cNumber, evacID))
+        self.connect.commit()
+
 
 #Relief Table Methods
     def fetchRelief(self):
@@ -188,4 +195,15 @@ class demsDatabase:
             WHERE medreportID = ?
             """,
             (famID, evacID, fName, lName, medCause, medreportID))
+        self.connect.commit()
+    
+    def updateMedOnUpdateEvac(self, evacID, fName, lName):
+        #Updates the 
+        self.cursor.execute("""
+            UPDATE medassist 
+            SET fName = ?,
+                lName = ?
+            WHERE evacID = ?
+            """,
+            (fName, lName, evacID))
         self.connect.commit()

@@ -147,6 +147,7 @@ def sqlInsertEvac(jsInput):
 def sqlInsertMed(jsInput):
     # print(jsInput) #{'evacID': 6, 'famID': 2, 'medical_issue': 'ligma'}
     # print(demsDatabase.fetchFullName(jsInput['evacID'])[0])
+    print(demsDatabase.fetchFullName(jsInput['evacID'])[0])
     demsDatabase.insertMed(jsInput['famID'], jsInput['evacID'], 
         demsDatabase.fetchFullName(jsInput['evacID'])[0][0], 
         demsDatabase.fetchFullName(jsInput['evacID'])[0][1], 
@@ -169,6 +170,9 @@ def sqlUpdateFam(jsInput):
 def sqlUpdateEvac(jsInput):
     print(jsInput) #{'evacID': 5, 'fName': 'Primitivo', 'mi': 'M.', 'lName': 'Parayaoan', 'suffix': 'Jr.', 'cNumber': '12345', 'famID': 2}
     demsDatabase.updateEvac(jsInput['evacID'], jsInput['fName'], jsInput['mi'], jsInput['lName'], jsInput['suffix'], jsInput['cNumber'], jsInput['famID'], )
+    demsDatabase.updateFamOnUpdateEvac(jsInput['evacID'], jsInput['cNumber'])
+    demsDatabase.updateMedOnUpdateEvac(jsInput['evacID'], jsInput['fName'], jsInput['lName'])
+    
 
 @eel.expose
 def sqlUpdateMed(jsInput):
