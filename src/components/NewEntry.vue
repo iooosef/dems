@@ -236,11 +236,6 @@ export default {
                         (this.reliefIsFamTableEmpty = false, this.newEntryDialogState = 'relief'))
                 : this.newEntryDialogState = 'menu'
         },
-        // isFamilyTableEmpty() {
-        //     if(!this.fetchedDBfamilies) {
-                
-        //     }
-        // },
         submitFormEvacuee() {
             console.log('Form Values of Evacuee: ', {...this.formValuesEvacuee});
             window.eel.sqlInsertEvac({...this.formValuesEvacuee});

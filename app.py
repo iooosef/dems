@@ -81,6 +81,7 @@ def sqliteEvacToJSON():
 def sqliteFamToJSON():
     jsonTable = []
     jsonRow = {}
+    print(demsDatabase.fetchFam())
     for row in demsDatabase.fetchFam():
         for index, field in enumerate(('famID','famName','famAddrss','famCID','cNumber','famSize')):
             jsonRow[field] = row[index]
@@ -111,7 +112,7 @@ def sqliteReliefToJSON():
 
 @eel.expose
 def test_f(x):
-    print("Hello World! Called from main.js", x)
+    print("Hello World! Called from NewEntry.vue", x)
 
 
 @eel.expose  # Expose function to JavaScript
@@ -130,28 +131,26 @@ def passDB_toJS(): # return a dict to JS
     }
     return databaseData
 
+# ----- INSERT QUERIES ---------------------------------------------------------------------
 @eel.expose
 def sqlInsertFam(jsInput):
-    # print(jsInput) #{'family_name': 'Familia', 'family_address': 'Mamamia'}
-    demsDatabase.insertFam(jsInput['family_name'], jsInput['family_address'], '', '')
+    print(jsInput) #{'family_name': 'Familia', 'family_address': 'Mamamia'}
+    demsDatabase.insertFam(jsInput['family_name'], jsInput['family_address'])
+    print("demsDatabase.idOfLastInsert()[0]: ", demsDatabase.idOfLastInsert()[0])
+    demsDatabase.insertEContact(demsDatabase.idOfLastInsert()[0], '')
 
 @eel.expose
 def sqlInsertEvac(jsInput):
     # print(jsInput) #{'first_name': 'Pepito', 'middle_initial': 'SD', 'suffix': '', 'last_name': 'Manaloto', 'contact_number': '213', 'famID': 2, 'is_family_contact': True, 'is_relief_rep': True}
     demsDatabase.insertEvac(jsInput['first_name'], jsInput['middle_initial'], jsInput['last_name'], jsInput['suffix'], jsInput['contact_number'], jsInput['famID'])
     # print("demsDatabase.idOfLastInsert: ", demsDatabase.idOfLastInsert()[0], type(demsDatabase.idOfLastInsert())) # 1 <class 'tuple'>
-    if jsInput['is_family_contact']: # If selected to be family contact, will update the corresponding family's contact details
-        demsDatabase.updateFamContact(jsInput['famID'], demsDatabase.idOfLastInsert()[0], jsInput['contact_number'])
     
 @eel.expose
 def sqlInsertMed(jsInput):
     # print(jsInput) #{'evacID': 6, 'famID': 2, 'medical_issue': 'ligma'}
     # print(demsDatabase.fetchFullName(jsInput['evacID'])[0])
-    print(demsDatabase.fetchFullName(jsInput['evacID'])[0])
-    demsDatabase.insertMed(jsInput['famID'], jsInput['evacID'], 
-        demsDatabase.fetchFullName(jsInput['evacID'])[0][0], 
-        demsDatabase.fetchFullName(jsInput['evacID'])[0][1], 
-        jsInput['medical_issue'],)
+    # print(demsDatabase.fetchFullName(jsInput['evacID'])[0])
+    demsDatabase.insertMed(jsInput['famID'], jsInput['evacID'], jsInput['medical_issue'],)
 
 @eel.expose
 def sqlInsertRelief(jsInput):
@@ -162,28 +161,25 @@ def sqlInsertRelief(jsInput):
         demsDatabase.insertRelief(item[0], jsInput['relief_op_name'], dateNow, '', 0)
 
 # ----- UPDATE QUERIES ---------------------------------------------------------------------
-
 @eel.expose
 def sqlUpdateFam(jsInput):
     print(jsInput) #{'famID': 3, 'famName': 'Bonifacio', 'famAddrss': 'Bonifacio Street', 'famCID': 11, 'cNumber': '192837142871', 'famSize': 2}
-    demsDatabase.updateFamily(jsInput['famID'], jsInput['famName'], jsInput['famAddrss'], jsInput['famCID'], jsInput['cNumber'])
+    demsDatabase.updateFamily(jsInput['famID'], jsInput['famName'], jsInput['famAddrss'])
 
 @eel.expose
 def sqlUpdateEvac(jsInput):
     print(jsInput) #{'evacID': 5, 'fName': 'Primitivo', 'mi': 'M.', 'lName': 'Parayaoan', 'suffix': 'Jr.', 'cNumber': '12345', 'famID': 2}
     demsDatabase.updateEvac(jsInput['evacID'], jsInput['fName'], jsInput['mi'], jsInput['lName'], jsInput['suffix'], jsInput['cNumber'], jsInput['famID'], )
-    demsDatabase.updateFamOnUpdateEvac(jsInput['evacID'], jsInput['cNumber'])
-    demsDatabase.updateMedOnUpdateEvac(jsInput['evacID'], jsInput['fName'], jsInput['lName'])
-    
+
 @eel.expose
 def sqlUpdateMed(jsInput):
     print(jsInput) #{'medreportID': 4, 'famID': 1, 'evacID': 1, 'fName': 'Pepito', 'lName': 'Manaloto', 'medCause': 'Sugma'}
-    demsDatabase.updateMed(jsInput['medreportID'], jsInput['famID'], jsInput['evacID'], jsInput['fName'], jsInput['lName'], jsInput['medCause'])
+    demsDatabase.updateMed(jsInput['medreportID'], jsInput['famID'], jsInput['evacID'], jsInput['medCause'])
 
 @eel.expose
 def sqlUpdateRelief(jsInput):
     print(jsInput) #{'famID': 2, 'reliefName': '3IB Operation', 'reliefDate': '2022-12-16', 'reliefRep': 7, 'reliefStatus': 1}
-    demsDatabase.updateRelief(jsInput['famID'], jsInput['reliefName'], jsInput['reliefDate'], jsInput['reliefRep'], jsInput['reliefStatus'], )
+    demsDatabase.updateRelief(jsInput['famID'], jsInput['reliefName'], jsInput['reliefDate'], jsInput['reliefRep'], jsInput['reliefStatus'])
 
 # ----- DELETE QUERIES ---------------------------------------------------------------------
 
@@ -222,6 +218,10 @@ def sqlDeleteRelief(jsInput):
 @eel.expose
 def passEvacInfo_toJS():
     return evacDBpy
+
+@eel.expose
+def sqlitecloseConnection():
+    demsDatabase.closeConnection()
 
 eel.init('web')
 eel.browsers.set_path('electron', './node_modules/electron/dist/electron')

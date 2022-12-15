@@ -37,10 +37,10 @@ export default {
   },
   created () {    
         window.addEventListener('beforeunload', this.windowClose)
-  },
+  },  
   methods: {
     windowClose() {
-      window.eel.closeConnection();
+      window.eel.sqlitecloseConnection();
     },
     parentToChildMethod() {
       console.log("parentToChild Called!");

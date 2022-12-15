@@ -9,10 +9,9 @@ class demsDatabase:
                 CREATE TABLE IF NOT EXISTS family(
                 famID INTEGER PRIMARY KEY AUTOINCREMENT,
                 famName TEXT NOT NULL,
-                famAddrss TEXT NOT NULL,
-                famCID INTEGER,
-                cNumber TEXT
-                )""")
+                famAddrss TEXT NOT NULL
+            )
+        """)
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS evacuee(
                 evacID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,14 +25,22 @@ class demsDatabase:
             )
          """)
         self.cursor.execute("""
+            CREATE TABLE IF NOT EXISTS emergencycontact(
+				famID INTEGER PRIMARY KEY,
+  				evacID INTEGER DEFAULT '',
+  				FOREIGN KEY (famID) REFERENCES family(famID) ON DELETE RESTRICT
+            )
+         """)
+        self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS relief(
                 famID INTEGER NOT NULL,
                 reliefName TEXT NOT NULL,
                 reliefDate TEXT NOT NULL,
-                reliefRep INT NOT NULL,
-                reliefStatus INTEGER NOT NULL,
+                evacID INT,
+                reliefStatus INTEGER DEFAULT 0 NOT NULL,
                 PRIMARY KEY (famID, reliefName),
                 FOREIGN KEY (famID) REFERENCES family(famID) ON DELETE RESTRICT
+                FOREIGN KEY (evacID) REFERENCES evacuee(evacID) ON DELETE RESTRICT
             )         
          """)
         self.cursor.execute("""
@@ -41,8 +48,6 @@ class demsDatabase:
                 medreportID INTEGER PRIMARY KEY AUTOINCREMENT,
                 famID INTEGER NOT NULL,
                 evacID INTEGER NOT NULL,
-                fName TEXT NOT NULL,
-                lName TEXT NOT NULL,
                 medCause TEXT NOT NULL,
                 FOREIGN KEY (famID) REFERENCES family(famID) ON DELETE RESTRICT,
                 FOREIGN KEY (evacID) REFERENCES evacuee(evacID) ON DELETE RESTRICT
@@ -50,6 +55,9 @@ class demsDatabase:
          """)
 
         self.connect.commit()
+    
+    def closeConnection(self):
+        self.connect.close()  
 
     def idOfLastInsert(self):
         self.cursor.execute("SELECT last_insert_rowid()")
@@ -58,48 +66,46 @@ class demsDatabase:
 #family Table Methods
     def fetchFam(self):
         self.cursor.execute("""
-        SELECT f.famID, f.famName, f.famAddrss, f.famCID, f.cNumber, ifnull(e.famSize, 0) as famSize
+        SELECT fam.famid, fam.famname, fam.famaddrss, emc.fname || ' ' || emc.lname "contactName", emc.cnumber, fam.famsize
+        FROM (
+            SELECT f.famID, f.famName, f.famAddrss, ifnull(e.famSize, 0) as famSize
             FROM family f
             LEFT JOIN (
                 SELECT famID, COUNT(famID) AS famSize
                 FROM evacuee
                 GROUP BY famid
-            ) e USING(famid)
+                ) e USING(famid)
+        ) fam
+        LEFT JOIN (            
+            SELECT ec.famid, ec.evacid, ev.fname, ev.lname, ev.cnumber
+            FROM emergencycontact ec
+            INNER JOIN evacuee ev
+            USING (evacid)
+        ) emc 
+        USING (famID)
         """)
         return self.cursor.fetchall()
     
-    def insertFam(self, famName, famAddrss, famCID, cNumber):
-        self.cursor.execute("INSERT INTO family (famName, famAddrss, famCID, cNumber) VALUES (?, ?, ?, ?)", 
-            (famName, famAddrss, famCID, cNumber))
+    def insertFam(self, famName, famAddrss):
+        self.cursor.execute("INSERT INTO family (famName, famAddrss) VALUES (?, ?)", 
+            (famName, famAddrss))
         self.connect.commit()
 
     def removeFam(self, famID):
         self.cursor.execute(f'DELETE FROM family WHERE famID = {famID}')
         self.connect.commit() 
 
-    def updateFamily(self, famID, famName, famAddrss, famCID, cNumber):
+    def updateFamily(self, famID, famName, famAddrss):
         self.cursor.execute("""
             UPDATE family 
             SET famName = ?, 
-                famAddrss = ?, 
-                famCID = ?, 
-                cNumber = ? 
+                famAddrss = ?
             WHERE famID = ?
             """,
-            (famName, famAddrss, famCID, cNumber, famID))
-        self.connect.commit()
-    
-    def updateFamContact(self, famID, famCID, cNumber):
-        self.cursor.execute("""
-            UPDATE family 
-            SET famCID = ?, 
-                cNumber = ? 
-            WHERE famID = ?
-            """,
-            (famCID, cNumber, famID))
+            (famName, famAddrss, famID))
         self.connect.commit()
 
-#Evacuees Table Methods
+#Evacuees Table Methods ----------------------------------------------------------------------
     def fetchEvac(self):
         self.cursor.execute("SELECT * FROM evacuee")
         return self.cursor.fetchall()
@@ -128,84 +134,87 @@ class demsDatabase:
         self.connect.commit()
     
     def fetchFullName(self, evacID):
-        self.cursor.execute("SELECT fName, lName FROM evacuee WHERE evacID = ?", (evacID,))
+        self.cursor.execute("SELECT fName || ' ' || lName AS 'fullName' FROM evacuee WHERE evacID = ?", (evacID,))
         return self.cursor.fetchall()
-    
-    def updateFamOnUpdateEvac(self, evacID, cNumber):
-        #Updates the 
-        self.cursor.execute("""
-            UPDATE family 
-            SET cNumber = ?
-            WHERE famCID = ?
-            """,
-            (cNumber, evacID))
-        self.connect.commit()
 
-
-#Relief Table Methods
+#Relief Table Methods ----------------------------------------------------------------------
     def fetchRelief(self):
-         self.cursor.execute("SELECT * FROM relief")
+         self.cursor.execute("""
+         SELECT r.famID, r.reliefName, r.reliefDate, r.evacID, ev.fName || ' ' || ev.lName AS 'reliefRepName', r.reliefStatus
+            FROM relief r
+            INNER JOIN evacuee ev
+            USING (evacID)
+         """)
          return self.cursor.fetchall()
 
-    def insertRelief(self, famID, reliefName, reliefDate, reliefRep, reliefStatus):
-        self.cursor.execute("INSERT INTO relief (famID, reliefName, reliefDate, reliefRep, reliefStatus) VALUES (?, ?, ?, ?, ?)",
-            (famID, reliefName, reliefDate, reliefRep, reliefStatus))
+    def insertRelief(self, famID, reliefName, reliefDate, evacID, reliefStatus):
+        self.cursor.execute("INSERT INTO relief (famID, reliefName, reliefDate, evacID, reliefStatus) VALUES (?, ?, ?, ?, ?)",
+            (famID, reliefName, reliefDate, evacID, reliefStatus))
         self.connect.commit() 
 
-    # special rule: if one relief operation row is deleted, all related relief operations will also be deleted
     def removeRelief(self, reliefName, famID):
         self.cursor.execute("DELETE FROM relief WHERE (reliefName = ? AND famID == ?)", (reliefName,famID))
         self.connect.commit()
     
     # let currentDate = new Date().toJSON().slice(0, 10);
-    def updateRelief(self, famID, reliefName, reliefDate, reliefRep, reliefStatus):
+    def updateRelief(self, famID, reliefName, reliefDate, evacID, reliefStatus):
         self.cursor.execute("""
             UPDATE relief 
             SET reliefName = ?, 
                 reliefDate = ?, 
-                reliefRep = ?, 
+                evacID = ?, 
                 reliefStatus = ?
             WHERE famID = ? AND reliefName = ?
             """,
-            (reliefName, reliefDate, reliefRep, reliefStatus, famID, reliefName))
+            (reliefName, reliefDate, evacID, reliefStatus, famID, reliefName))
         self.connect.commit()
 
-#MedAssist Table Methods
+#MedAssist Table Methods ----------------------------------------------------------------------
     def fetchMed(self):
-         self.cursor.execute("SELECT * FROM medassist")
+         self.cursor.execute("""
+            SELECT med.famID, ev.fName || ' ' || ev.lName AS 'evacueeName', med.medCause
+                FROM medassist med
+                INNER JOIN evacuee ev
+                USING (evacID)
+        """)
          return self.cursor.fetchall()
 
-    def insertMed(self, famID, evacID, fName, lName, medCause):
-        self.cursor.execute("INSERT INTO medassist (famID, evacID, fName, lName, medCause) VALUES (?, ?, ?, ?, ?)",
-            (famID, evacID, fName, lName, medCause))
+    def insertMed(self, famID, evacID, medCause):
+        self.cursor.execute("INSERT INTO medassist (famID, evacID, medCause) VALUES (?, ?, ?)",
+            (famID, evacID, medCause))
         self.connect.commit()
 
     def removeMed(self, medreportID):
         self.cursor.execute(f'DELETE FROM medassist WHERE medreportID = {medreportID}')
         self.connect.commit()
     
-    def updateMed(self, medreportID, famID, evacID, fName, lName, medCause):
+    def updateMed(self, medreportID, famID, evacID, medCause):
         self.cursor.execute("""
             UPDATE medassist 
             SET famID = ?, 
                 evacID = ?, 
-                fName = ?, 
-                lName = ?,
                 medCause = ?
             WHERE medreportID = ?
             """,
-            (famID, evacID, fName, lName, medCause, medreportID))
+            (famID, evacID, medCause, medreportID))
+        self.connect.commit()
+
+#EmergencyContact Table Methods ----------------------------------------------------------------------
+    def insertEContact(self, famID, evacID):
+        self.cursor.execute("INSERT INTO emergencycontact (famID, evacID) VALUES (?, ?)",
+            (famID, evacID))
+        self.connect.commit()
+
+    def removeEContact(self, famID):
+        self.cursor.execute(f'DELETE FROM emergencycontact WHERE famID = {famID}')
         self.connect.commit()
     
-    def updateMedOnUpdateEvac(self, evacID, fName, lName):
+    def updateEContact(self, famID, evacID):
         self.cursor.execute("""
-            UPDATE medassist 
-            SET fName = ?,
-                lName = ?
-            WHERE evacID = ?
+            UPDATE emergencycontact 
+                SET evacID = ?
+                WHERE famID = ?
             """,
-            (fName, lName, evacID))
+            (evacID, famID))
         self.connect.commit()
     
-    def closeConnection(self):
-        self.connect.close()  
