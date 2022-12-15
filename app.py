@@ -111,7 +111,7 @@ def sqliteReliefToJSON():
 
 @eel.expose
 def test_f(x):
-    print("Hello World! Called from NewEntry.vue", x)
+    print("Hello World! Called from main.js", x)
 
 
 @eel.expose  # Expose function to JavaScript
@@ -161,6 +161,8 @@ def sqlInsertRelief(jsInput):
     for item in demsDatabase.fetchFam():
         demsDatabase.insertRelief(item[0], jsInput['relief_op_name'], dateNow, '', 0)
 
+# ----- UPDATE QUERIES ---------------------------------------------------------------------
+
 @eel.expose
 def sqlUpdateFam(jsInput):
     print(jsInput) #{'famID': 3, 'famName': 'Bonifacio', 'famAddrss': 'Bonifacio Street', 'famCID': 11, 'cNumber': '192837142871', 'famSize': 2}
@@ -173,7 +175,6 @@ def sqlUpdateEvac(jsInput):
     demsDatabase.updateFamOnUpdateEvac(jsInput['evacID'], jsInput['cNumber'])
     demsDatabase.updateMedOnUpdateEvac(jsInput['evacID'], jsInput['fName'], jsInput['lName'])
     
-
 @eel.expose
 def sqlUpdateMed(jsInput):
     print(jsInput) #{'medreportID': 4, 'famID': 1, 'evacID': 1, 'fName': 'Pepito', 'lName': 'Manaloto', 'medCause': 'Sugma'}
@@ -184,6 +185,39 @@ def sqlUpdateRelief(jsInput):
     print(jsInput) #{'famID': 2, 'reliefName': '3IB Operation', 'reliefDate': '2022-12-16', 'reliefRep': 7, 'reliefStatus': 1}
     demsDatabase.updateRelief(jsInput['famID'], jsInput['reliefName'], jsInput['reliefDate'], jsInput['reliefRep'], jsInput['reliefStatus'], )
 
+# ----- DELETE QUERIES ---------------------------------------------------------------------
+
+@eel.expose
+def sqlDeleteFam(jsInput):
+    try:
+        demsDatabase.removeFam(jsInput['famID'])
+        return False
+    except:
+        return True
+
+@eel.expose
+def sqlDeleteEvac(jsInput):
+    try:
+        demsDatabase.removeEvac(jsInput['evacID'])
+        return False
+    except:
+        return True
+
+@eel.expose
+def sqlDeleteMed(jsInput):
+    try:
+        demsDatabase.removeMed(jsInput['medreportID'])
+        return False
+    except:
+        return True
+
+@eel.expose
+def sqlDeleteRelief(jsInput):
+    try:
+        demsDatabase.removeRelief(jsInput['reliefName'], jsInput['famID'])
+        return False
+    except:
+        return True
 
 @eel.expose
 def passEvacInfo_toJS():

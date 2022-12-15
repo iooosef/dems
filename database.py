@@ -22,7 +22,7 @@ class demsDatabase:
                 suffix TEXT,
                 cNumber TEXT,
                 famID INTEGER NOT NULL,
-                FOREIGN KEY (famID) REFERENCES family(famID)
+                FOREIGN KEY (famID) REFERENCES family(famID) ON DELETE RESTRICT
             )
          """)
         self.cursor.execute("""
@@ -33,7 +33,7 @@ class demsDatabase:
                 reliefRep INT NOT NULL,
                 reliefStatus INTEGER NOT NULL,
                 PRIMARY KEY (famID, reliefName),
-                FOREIGN KEY (famID) REFERENCES family(famID)
+                FOREIGN KEY (famID) REFERENCES family(famID) ON DELETE RESTRICT
             )         
          """)
         self.cursor.execute("""
@@ -44,8 +44,8 @@ class demsDatabase:
                 fName TEXT NOT NULL,
                 lName TEXT NOT NULL,
                 medCause TEXT NOT NULL,
-                FOREIGN KEY (famID) REFERENCES family(famID),
-                FOREIGN KEY (evacID) REFERENCES evacuee(evacID)
+                FOREIGN KEY (famID) REFERENCES family(famID) ON DELETE RESTRICT,
+                FOREIGN KEY (evacID) REFERENCES evacuee(evacID) ON DELETE RESTRICT
             )         
          """)
 
@@ -75,7 +75,7 @@ class demsDatabase:
 
     def removeFam(self, famID):
         self.cursor.execute(f'DELETE FROM family WHERE famID = {famID}')
-        self.connect.close()  
+        self.connect.commit() 
 
     def updateFamily(self, famID, famName, famAddrss, famCID, cNumber):
         self.cursor.execute("""
@@ -111,7 +111,7 @@ class demsDatabase:
 
     def removeEvac(self, evacID):
         self.cursor.execute(f'DELETE FROM evacuee WHERE evacID = {evacID}')
-        self.connect.close()  
+        self.connect.commit()  
 
     def updateEvac(self, evacID, fName, mi, lName, suffix, cNumber, famID):
         self.cursor.execute("""
@@ -153,9 +153,9 @@ class demsDatabase:
         self.connect.commit() 
 
     # special rule: if one relief operation row is deleted, all related relief operations will also be deleted
-    def removeRelief(self, reliefName):
-        self.cursor.execute(f'DELETE FROM relief WHERE reliefName = {reliefName}')
-        self.connect.close()
+    def removeRelief(self, reliefName, famID):
+        self.cursor.execute("DELETE FROM relief WHERE (reliefName = ? AND famID == ?)", (reliefName,famID))
+        self.connect.commit()
     
     # let currentDate = new Date().toJSON().slice(0, 10);
     def updateRelief(self, famID, reliefName, reliefDate, reliefRep, reliefStatus):
@@ -181,8 +181,8 @@ class demsDatabase:
         self.connect.commit()
 
     def removeMed(self, medreportID):
-        self.cursor.execute(f'DELETE FROM medassist WHERE reliefName = {medreportID}')
-        self.connect.close()
+        self.cursor.execute(f'DELETE FROM medassist WHERE medreportID = {medreportID}')
+        self.connect.commit()
     
     def updateMed(self, medreportID, famID, evacID, fName, lName, medCause):
         self.cursor.execute("""
@@ -198,7 +198,6 @@ class demsDatabase:
         self.connect.commit()
     
     def updateMedOnUpdateEvac(self, evacID, fName, lName):
-        #Updates the 
         self.cursor.execute("""
             UPDATE medassist 
             SET fName = ?,
@@ -207,3 +206,6 @@ class demsDatabase:
             """,
             (fName, lName, evacID))
         self.connect.commit()
+    
+    def closeConnection(self):
+        self.connect.close()  

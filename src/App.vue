@@ -35,10 +35,13 @@ export default {
       newEntryEvacInfo: ''
     }
   },
-  props: {
-
+  created () {    
+        window.addEventListener('beforeunload', this.windowClose)
   },
   methods: {
+    windowClose() {
+      window.eel.closeConnection();
+    },
     parentToChildMethod() {
       console.log("parentToChild Called!");
     },
