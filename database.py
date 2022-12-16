@@ -21,14 +21,14 @@ class demsDatabase:
                 suffix TEXT,
                 cNumber TEXT,
                 famID INTEGER NOT NULL,
-                FOREIGN KEY (famID) REFERENCES family(famID) ON DELETE RESTRICT
+                FOREIGN KEY (famID) REFERENCES family(famID) ON UPDATE CASCADE ON DELETE RESTRICT
             )
          """)
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS emergencycontact(
 				famID INTEGER PRIMARY KEY,
   				evacID INTEGER DEFAULT '',
-  				FOREIGN KEY (famID) REFERENCES family(famID) ON DELETE RESTRICT
+  				FOREIGN KEY (famID) REFERENCES family(famID) ON UPDATE CASCADE ON DELETE RESTRICT
             )
          """)
         self.cursor.execute("""
@@ -39,8 +39,7 @@ class demsDatabase:
                 evacID INT,
                 reliefStatus INTEGER DEFAULT 0 NOT NULL,
                 PRIMARY KEY (famID, reliefName),
-                FOREIGN KEY (famID) REFERENCES family(famID) ON DELETE RESTRICT
-                FOREIGN KEY (evacID) REFERENCES evacuee(evacID) ON DELETE RESTRICT
+                FOREIGN KEY (famID) REFERENCES family(famID) ON UPDATE CASCADE ON DELETE RESTRICT
             )         
          """)
         self.cursor.execute("""
@@ -49,8 +48,8 @@ class demsDatabase:
                 famID INTEGER NOT NULL,
                 evacID INTEGER NOT NULL,
                 medCause TEXT NOT NULL,
-                FOREIGN KEY (famID) REFERENCES family(famID) ON DELETE RESTRICT,
-                FOREIGN KEY (evacID) REFERENCES evacuee(evacID) ON DELETE RESTRICT
+                FOREIGN KEY (famID) REFERENCES family(famID) ON UPDATE CASCADE ON DELETE RESTRICT,
+                FOREIGN KEY (evacID) REFERENCES evacuee(evacID) ON UPDATE CASCADE ON DELETE RESTRICT
             )         
          """)
 
@@ -66,7 +65,7 @@ class demsDatabase:
 #family Table Methods
     def fetchFam(self):
         self.cursor.execute("""
-        SELECT fam.famid, fam.famname, fam.famaddrss, emc.fname || ' ' || emc.lname "contactName", emc.cnumber, fam.famsize
+        SELECT fam.famid, fam.famname, fam.famaddrss, emc.evacid, emc.fname || ' ' || emc.lname "contactName", emc.cnumber, fam.famsize
         FROM (
             SELECT f.famID, f.famName, f.famAddrss, ifnull(e.famSize, 0) as famSize
             FROM family f
@@ -140,9 +139,9 @@ class demsDatabase:
 #Relief Table Methods ----------------------------------------------------------------------
     def fetchRelief(self):
          self.cursor.execute("""
-         SELECT r.famID, r.reliefName, r.reliefDate, r.evacID, ev.fName || ' ' || ev.lName AS 'reliefRepName', r.reliefStatus
+         SELECT r.famID, r.reliefName, r.reliefDate, ev.evacID, ev.fName || ' ' || ev.lName AS 'reliefRepName', r.reliefStatus
             FROM relief r
-            INNER JOIN evacuee ev
+            LEFT JOIN evacuee ev
             USING (evacID)
          """)
          return self.cursor.fetchall()
@@ -172,7 +171,7 @@ class demsDatabase:
 #MedAssist Table Methods ----------------------------------------------------------------------
     def fetchMed(self):
          self.cursor.execute("""
-            SELECT med.famID, ev.fName || ' ' || ev.lName AS 'evacueeName', med.medCause
+            SELECT med.medreportID, med.famID, ev.evacID, ev.fName || ' ' || ev.lName AS 'evacueeName', med.medCause
                 FROM medassist med
                 INNER JOIN evacuee ev
                 USING (evacID)

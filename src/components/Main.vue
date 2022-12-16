@@ -118,16 +118,14 @@
                     db_medAssist: [
                         {field: 'medreportID', header: 'Report ID'},
                         {field: 'famID', header: 'Family ID'},
-                        {field: 'evacID', header: 'Evacuee ID'},
-                        {field: 'fName', header: 'First Name'},
-                        {field: 'lName', header: 'Last Name'},
+                        {field: 'evacueeName', header: 'Evacuee Name'},
                         {field: 'medCause', header: 'Cause'}
                     ],
                     db_relief: [
                         {field: 'famID', header: 'Family ID'},
                         {field: 'reliefName', header: 'Relief Op Name'},
                         {field: 'reliefDate', header: 'Relief Op Date'},
-                        {field: 'reliefRep', header: 'Representative Name'},
+                        {field: 'reliefRepName', header: 'Representative Name'},
                         {field: 'reliefStatus', header: 'Status'}
                     ]
                 },

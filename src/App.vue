@@ -67,9 +67,16 @@ export default {
       this.newEntryEvacInfo = true
     },
     drpDownOptionsUpdate(currentData, currentField, currentTable) {
-      // console.log("this.fetchedDBevac: ", {...this.fetchedDBevac})
       let drpDownOptions = [];
-      if(currentTable === 'Evacuees Table' || 
+      if(currentTable === 'Families Table' || 
+          (currentTable === 'Medical Reports Table' && currentField === 'evacID') ||
+          (currentTable === 'Relief Operations Table' && currentField === 'reliefRep')) {
+        drpDownOptions = []
+        for (const row of this.fetchedDBevac) {
+          currentData.famID === row.famID ? 
+            drpDownOptions.push( {label: `ID No. ${row.evacID} of ${row.fName} ${row.lName}`, value: row.evacID}) : ''
+        }
+      } else if(currentTable === 'Evacuees Table' || 
         (currentTable === 'Medical Reports Table' && currentField === 'famID')) {
         drpDownOptions = []
         for (const row of this.fetchedDBfamilies) {
@@ -80,19 +87,20 @@ export default {
             ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).fName} 
             ${this.fetchedDBevac.find(({evacID}) => evacID === row.famCID).lName}`,
             value: row.famID})
-        }
-      } else if(currentTable === 'Families Table' || 
+        } 
+      } else if(currentTable === 'Relief Operations Table' && currentField === 'reliefStatus') {
+        drpDownOptions = []
+        drpDownOptions.push({label: `received`, value: 1})
+        drpDownOptions.push({label: `not received`, value: 0})
+      }
+      else if(currentTable === 'Families Table' || 
           (currentTable === 'Medical Reports Table' && currentField === 'evacID') ||
-          (currentTable === 'Relief Operations Table' && currentField === 'reliefRep')) {
+          (currentTable === 'Relief Operations Table' && currentField === 'evacID')) {
         drpDownOptions = []
         for (const row of this.fetchedDBevac) {
           currentData.famID === row.famID ? 
             drpDownOptions.push( {label: `ID No. ${row.evacID}: ${row.fName} ${row.lName}`, value: row.evacID}) : ''
         }
-      } else if(currentTable === 'Relief Operations Table' && currentField === 'reliefStatus') {
-        drpDownOptions = []
-        drpDownOptions.push({label: `received`, value: 1})
-        drpDownOptions.push({label: `not received`, value: 0})
       }
       return drpDownOptions
     },

@@ -39,7 +39,7 @@
                 </div>
                 <div class="mb-3 d-flex flex-column">
                     <label for="contact-number" class="align-self-start form-label">Contact Number</label>
-                    <input type="text" id="contact-number" class="form-control" v-model.lazy="formValuesEvacuee.contact_number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
+                    <input type="text" id="contact-number" class="form-control" v-model.lazy="formValuesEvacuee.contact_number" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                 </div>
                 <div class="mb-3 d-flex flex-column">
                     <label for="family-id" class="align-self-start form-label">Family ID</label>
@@ -58,10 +58,6 @@
                     <input type="checkbox" id="is_family_contact" class="form-check-input" v-model="formValuesEvacuee.is_family_contact">
                     <label for="is_family_contact" class="align-self-start form-label">Make the person an emergency contact of the family?</label>
                 </div>
-                <!-- <div class="mb-3 form-check">
-                    <input type="checkbox" id="is_relief_rep" class="form-check-input" v-model="formValuesEvacuee.is_relief_rep">
-                    <label for="is_relief_rep" class="align-self-start form-label">Make the person the relief goods representative of the family?</label>
-                </div> -->
                 <button class="w-100 p-2 btn btn-success btn-newEntry text-light rounded-3" type="button" @click="openNewEntryForm('family')">
                     <h5>New Family</h5> </button>
                 

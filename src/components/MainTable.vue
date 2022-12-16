@@ -38,18 +38,17 @@
             </Column>  
         </DataTable>
 	</div>
-    <v-dialog v-model="editDialog" max-width="500px" persistent>
+    <v-dialog v-model.lazy="editDialog" max-width="500px" persistent>
         <form @submit.prevent="editSubmit">
         <v-card class="p-4">
           <v-card-title class="text-h5 text-wrap text-center">Edit Row</v-card-title>
             <v-card-text>
             <div v-for="(value, field) in currentRowData" class="mb-3" :key="value">
+                <b>{{ formLabel(field, value) }} </b>
                 
-                <b>{{tableActiveHeaders.find(x => x.field === field).header}}:</b> {{value}} <br>
                 <input type="text" class="form-control" style="width: 100%;" 
                     v-model.trim.lazy="currentRowData[field]" :required="isRequired(field)"
                     v-if="displayEditForm(field, 0)">
-
                 <vSelect id="field" v-model.trim.lazy="currentRowData[field]"     
                     :required="!currentRowData[field]"
                     :options="editDrpDownOptionsUpdate(currentRowData, field)" 
@@ -86,7 +85,7 @@
             <v-spacer></v-spacer>
             <button class="w-25 me-2 p-2 btn btn-success rounded-3 btn-newEntry-close font-size-sm text-light" type="submit">
                 <h5>Submit</h5> </button>
-            <button class="w-25 ms-2 p-2 btn btn-danger rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="editDialog = false">
+            <button class="w-25 ms-2 p-2 btn btn-danger rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="closeDialog">
                 <h5>Close</h5> </button>
             <v-spacer></v-spacer>
           </v-card-actions>
@@ -102,9 +101,9 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <button class="w-25 me-2 p-2 btn btn-success rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="deleteConfirmDialog = false">
+                <button class="w-25 me-2 p-2 btn btn-success rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="closeDialog">
                     <h5>No</h5> </button>
-                <button class="w-25 ms-2 p-2 btn btn-danger rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="rowDelete">
+                <button class="w-25 ms-2 p-2 btn btn-danger rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="closeDialog">
                     <h5>Yes</h5> </button>
                 <v-spacer></v-spacer>
             </v-card-actions>
@@ -170,13 +169,12 @@ export default {
             } else if(this.tableLabel === 'Relief Operations Table' ) {
                 window.eel.sqlUpdateRelief({...this.currentRowData})
             }
-            console.log("this.tableLabel: ", this.tableLabel)
-            console.log("currentRowData: ", {...this.currentRowData})
-            
-            this.editDialog = false
+            this.$parent.$parent.fetch_data_fromPy();
+            this.editDialog = false;
         },
-        rowDelete() {
+        closeDialog() {
             this.editDialog = false
+            this.$parent.$parent.fetch_data_fromPy();
         },
         logData() {
             console.log("this.databaseData: ", this.databaseData)
@@ -187,20 +185,17 @@ export default {
         },
         dynamicCurrentRowData(currentField){
            if(this.tableLabel === 'Families Table' 
-                && ['famCID'].includes(currentField)) {
-                    this.currentRowData['cNumber'] = this.fetchedDBevac.find(x => x['evacID'] === this.currentRowData['famCID'])['cNumber']
-            } else if(this.tableLabel === 'Medical Reports Table' 
                 && ['evacID'].includes(currentField)) {
-                    this.currentRowData['fName'] = this.fetchedDBevac.find(x => x['evacID'] === this.currentRowData['evacID'])['fName']
-                    this.currentRowData['lName'] = this.fetchedDBevac.find(x => x['evacID'] === this.currentRowData['evacID'])['lName']
-            }
+                    !this.fetchedDBevac.find(x => x['evacID'] === this.currentRowData['evacID']) ? '' : 
+                    this.currentRowData['cNumber'] = this.fetchedDBevac.find(x => x['evacID'] === this.currentRowData['evacID'])['cNumber']
+            } 
         },
         isRequired(currentField){
             if(this.tableLabel === 'Evacuees Table' 
                 && ['fName','lName','famID'].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Families Table' 
-                && ['famName','famAddrss','famCID'].includes(currentField)) {
+                && ['famName','famAddrss','evacID'].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Medical Reports Table' 
                 && ['famID','evacID','medCause'].includes(currentField)) {
@@ -213,21 +208,23 @@ export default {
             }
         },
         displayEditForm(currentField, inputType) {
+            console.log("currentField::: ", currentField)
             if(this.tableLabel === 'Evacuees Table' 
                 && [['fName','mi','lName','suffix','cNumber'],
                     ['famID'],[''],['evacID']][inputType].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Families Table' 
                 && [['famName','famAddrss'],
-                    ['famCID'],[''],['famID','cNumber','famSize']][inputType].includes(currentField)) {
+                    ['evacID'],[''],['famID','cNumber','famSize']][inputType].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Medical Reports Table' 
                 && [['medCause'],
-                    ['famID','evacID'],[''],['medreportID','fName','lName']][inputType].includes(currentField)) {
+                    ['famID','evacID'],[''],['medreportID']][inputType].includes(currentField)) {
                     return true
             } else if(this.tableLabel === 'Relief Operations Table' 
                 && [['reliefName'],
-                    ['reliefRep','reliefStatus'],['reliefDate'],['famID']][inputType].includes(currentField)) {
+                    ['evacID','reliefStatus'],['reliefDate'],['famID']][inputType].includes(currentField)) {
+                    console.log("in relief table! inputType: ", inputType, "currentField: ", currentField)
                     return true
             } else {
                 return false
@@ -241,7 +238,7 @@ export default {
                 return "width: 136px" } 
             if(['famID'].includes(currentField)) {
                 return "width: 380px" }
-            if(['famCID','evacID','reliefRep','reliefStatus'].includes(currentField)) {
+            if(['evacID','evacID','reliefRep','reliefStatus'].includes(currentField)) {
                 return "width: 260px" } 
         },
         editDrpDownOptionsUpdate(currentData, currentField) {
@@ -249,16 +246,11 @@ export default {
             return this.$parent.$parent.drpDownOptionsUpdate(currentData, currentField, this.tableLabel)
         },
         changeCellOutput(currentData, currentField) {
-            let matchedRow = this.fetchedDBevac.find(({evacID}) => evacID === currentData[currentField])
-            // console.log("currentData: ", currentData, "\ncurrentField: ",currentField)
-            if(currentField === 'reliefStatus' && currentData[currentField] === 0) {
-                return 'not received'
-            } else if(currentField === 'reliefStatus') { 
+            // let matchedRow = this.fetchedDBevac.find(({evacID}) => evacID === currentData[currentField])
+            if(currentField === 'reliefStatus' && currentData[currentField] === 1) {
                 return 'received'
-            } else if(currentField === 'famCID') {
-                return matchedRow.fName + ' ' + matchedRow.lName
-            } else if (currentField === 'reliefRep') {
-                return matchedRow.fName + ' ' + matchedRow.lName
+            } else if(currentField === 'reliefStatus') { 
+                return 'not received'
             } else {
                 return currentData[currentField]
             }
@@ -268,6 +260,18 @@ export default {
             const month = date.getMonth();
             const day = date.getDate();
             return `${year}-${month}-${day}`
+        },
+        formLabel(currentField, currentValue) {
+            return !this.tableActiveHeaders.find(x => x['field'] === currentField) ?
+                (this.tableLabel === 'Families Table' ? 'Emergency Contact' + ' : ' + currentValue :
+                    this.tableLabel === 'Medical Reports Table' ? 'Evacuee Name' + ' : ' + currentValue :
+                    this.tableLabel === 'Relief Operations Table' ? 'Representative' + ' : ' + currentValue : '') : 
+                    (
+                        this.tableActiveHeaders.find(x => x['field'] === currentField)['field'] === 'famCID' ||
+                        this.tableActiveHeaders.find(x => x['field'] === currentField)['field'] === 'evacueeName' ||
+                        this.tableActiveHeaders.find(x => x['field'] === currentField)['field'] === 'reliefRepName' ?
+                            '' : this.tableActiveHeaders.find(x => x['field'] === currentField)['header'] + ' : ' + currentValue
+                    )
         }
     }
 }
