@@ -171,7 +171,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .border, .border-0 {
-    border-color: 0 !important;
+    border-color: #dee2e6 !important;
 }
 
 .btn-delete-row {

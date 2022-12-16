@@ -1,6 +1,6 @@
 <template>
     <main class="row g-0">
-        <aside class="col-md-2 p-3 d-flex flex-column flex-shrink-0 border">
+        <aside class="col-md-2 p-3 d-flex flex-column flex-shrink-0">
             <div class="nav navbar-brand mb-4 p-2 d-flex justify-content-center">
                 <img src="../assets/img/logo.png" class="img-fluid" style="width: 80%;">
             </div>
@@ -24,12 +24,6 @@
                 <button class="p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button" @click="changeTable('db_relief')">
                     <img src="../assets/img/relief.png" class="ms-2 me-3 img-fluid sidebar-logo">
                     <span class="d-flex align-items-center">Relief</span>
-                </button>
-            </ul>
-            <ul class="nav nav-pills d-flex flex-column-reverse mt-auto">
-                <button class="mt-3 p-2 d-flex flex-row align-items-stretch btn btn-light btn-sidebar rounded-3" type="button">
-                    <img src="../assets/img/help.png" class="ms-2 me-3 img-fluid sidebar-logo">
-                    <span class="d-flex align-items-center">Help</span>
                 </button>
             </ul>
         </aside>
