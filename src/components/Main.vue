@@ -38,7 +38,7 @@
                 <button class="me-3 btn btn-light btn-navbar-edit" type="button" @click="btnEvanInfoClicked">
                     <img src="../assets/img/edit.png" class="my-auto img-fluid">
                 </button>
-                <h4 class="d-flex align-items-center">{{fetchedEvacInfo}}</h4>
+                <h4 class="d-flex align-items-center"> {{ this.fetchedEvacInfo }}</h4>
             </nav>
             <section class="d-flex flex-column px-4b pt-4b pb-1">
                 <div class="mb-4b d-flex flex-row">

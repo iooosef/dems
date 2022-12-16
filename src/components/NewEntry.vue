@@ -155,7 +155,7 @@
             <form @submit.prevent="submitFormEvacCenter">
                 <div class="mb-3 d-flex flex-column">
                     <label for="EvacInfo" class="align-self-start form-label">Relief Operation Name</label>
-                    <input type="text" id="EvacInfo" class="form-control" v-model.trim.lazy="formValuesEvacInfo" required>
+                    <input type="text" id="EvacInfo" class="form-control" v-model.trim.lazy="formValuesEvacInfo" :placeholder="fetchedEvacInfo" required>
                 </div>
                 <div class="mt-4 p-4 d-flex justify-content-evenly">
                     <button class="w-25 me-2 p-2 btn btn-success rounded-3 btn-newEntry-close font-size-sm text-light" type="submit">
@@ -211,7 +211,7 @@ export default {
             reliefIsFamTableEmpty: false
         }
     },
-    props:['newEntryEvacInfo','btnNewEntryState',"fetchedDBfamilies"],
+    props:['newEntryEvacInfo','btnNewEntryState',"fetchedDBfamilies","fetchedEvacInfo"],
     computed: {
         editEvacDialogState() {
             console.log(this.newEntryEvacInfo)
@@ -258,6 +258,8 @@ export default {
         },
         submitFormEvacCenter() {
             console.log('Form Values of Evacuation Center: ', this.formValuesEvacInfo);
+            window.eel.sqlUpdateEvacCenter(this.formValuesEvacInfo);
+            this.$parent.fetch_data_fromPy();
             this.newEntryClose();
         },
         editDrpDownOptionsUpdate(currentData, currentField) {

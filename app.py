@@ -108,12 +108,6 @@ def sqliteReliefToJSON():
         jsonRow = {}
     # print("json.dumps(jsonTable): ", json.dumps(jsonTable))
     return json.dumps(jsonTable)
-        
-
-@eel.expose
-def test_f(x):
-   print("Hello World! Called from NewEntry.vue", x)
-
 
 @eel.expose  # Expose function to JavaScript
 def say_hello_py(x):
@@ -130,6 +124,10 @@ def passDB_toJS(): # return a dict to JS
         'db_relief' : sqliteReliefToJSON()
     }
     return databaseData
+
+@eel.expose
+def passEvacInfo_toJS():
+    return demsDatabase.fetchEvacCenter()[0]
 
 # ----- INSERT QUERIES ---------------------------------------------------------------------
 @eel.expose
@@ -163,6 +161,10 @@ def sqlInsertRelief(jsInput):
         demsDatabase.insertRelief(item[0], jsInput['relief_op_name'], dateNow, '', 0)
 
 # ----- UPDATE QUERIES ---------------------------------------------------------------------
+@eel.expose
+def sqlUpdateEvacCenter(input):
+    demsDatabase.updateEvacCenter(input)
+
 @eel.expose
 def sqlUpdateFam(jsInput):
     # print(jsInput) #{'famID': 3, 'famName': 'Bonifacio', 'famAddrss': 'Bonifacio Street', 'famCID': 11, 'cNumber': '192837142871', 'famSize': 2}
@@ -217,10 +219,6 @@ def sqlDeleteRelief(jsInput):
         demsDatabase.removeRelief(jsInput['reliefName'], jsInput['famID'])
     except:
         return True
-
-@eel.expose
-def passEvacInfo_toJS():
-    return evacDBpy
 
 @eel.expose
 def sqlitecloseConnection():

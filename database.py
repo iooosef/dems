@@ -52,8 +52,22 @@ class demsDatabase:
                 FOREIGN KEY (evacID) REFERENCES evacuee(evacID) ON UPDATE CASCADE ON DELETE RESTRICT
             )         
          """)
-
-        self.connect.commit()
+        self.cursor.execute("""
+            CREATE TABLE IF NOT EXISTS evaccenter(
+                indexkey INTEGER PRIMARY KEY AUTOINCREMENT,
+                evaccentername TEXT DEFAULT "Evacuation Center" NOT NULL
+            )         
+         """)
+        try:
+            self.cursor.execute("INSERT INTO evaccenter (evaccentername) VALUES ('Evacuation Center')")
+            self.connect.commit()
+            self.cursor.execute("SELECT count(*) FROM evaccenter")
+            ecenterCount = self.cursor.fetchone()
+            if(ecenterCount > 1):
+                self.cursor.execute("DELETE FROM evaccenter WHERE indexkey > 1")
+                self.connect.commit() 
+        except:
+            pass
     
     def closeConnection(self):
         self.connect.close()  
@@ -62,7 +76,22 @@ class demsDatabase:
         self.cursor.execute("SELECT last_insert_rowid()")
         return self.cursor.fetchone()
 
-#family Table Methods
+#Evacuation Center Info Table Methods ----------------------------------------------------------------------
+    def fetchEvacCenter(self):
+        self.cursor.execute("SELECT evaccentername FROM evaccenter WHERE indexkey = 1")
+        return self.cursor.fetchone()
+
+    def updateEvacCenter(self, nameUpdate):
+        self.cursor.execute("UPDATE evaccenter SET evaccentername = ?  WHERE indexkey = 1", (nameUpdate,))
+        self.connect.commit()
+        self.cursor.execute("SELECT count(*) FROM evaccenter")
+        ecenterCount = self.cursor.fetchone()
+        if(ecenterCount > 1):
+            self.cursor.execute("DELETE FROM evaccenter WHERE indexkey > 1")
+            self.connect.commit() 
+        
+
+#family Table Methods ----------------------------------------------------------------------
     def fetchFam(self):
         self.cursor.execute("""
         SELECT fam.famid, fam.famname, fam.famaddrss, emc.evacid, emc.fname || ' ' || emc.lname "contactName", emc.cnumber, fam.famsize
