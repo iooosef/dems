@@ -1,0 +1,192 @@
+/* bootstrap override */
+:root {
+    --bs-border-radius-lg2: 0.8rem;
+}
+.bg-light-gray {
+    --bs-bg-opacity: 1;
+    background-color: var(--bs-gray-100) !important;
+}
+.mb-4b,
+.my-4b {
+    margin-bottom: 2rem !important;
+}
+.p-4b {
+  padding: 2rem !important;
+} .px-4b {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+} .pt-4b {
+    padding-top: 2rem !important;
+}s
+.row {
+    margin-left: 0 !important; 
+    margin-right: 0 !important;
+}
+.rounded-3b {
+    border-radius: var(--bs-border-radius-lg2) !important;
+} .rounded-start-3b {
+    border-bottom-left-radius: var(--bs-border-radius-lg2) !important;
+    border-top-left-radius: var(--bs-border-radius-lg2) !important;
+} .rounded-end-3b {
+    border-top-right-radius: var(--bs-border-radius-lg2) !important;
+    border-bottom-right-radius: var(--bs-border-radius-lg2) !important;
+}
+.rounded-start-0 {
+    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+} .rounded-end-0 {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+.btn {
+    border: 0;
+}
+.btn-light {
+    --bs-btn-bg: #f2f2f2;
+  }
+
+/* PrimeVue Override */
+.p-datatable .p-datatable-header {
+    padding: 0px !important;
+} 
+.p-datatable-wrapper {
+    flex: 1 0 40vh;
+}
+
+/* non-bootstrap override */
+main {
+    height: 99.9vh;
+}
+aside {
+    height: 100vh;
+}
+nav {
+    height: 60px;
+}
+section {
+    height: calc(100vh - 60px);
+    max-height: calc(100vh - 60px);
+}
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 0;
+    line-height: 1.8;
+}
+
+.sidebar-logo {
+    height: auto; 
+    width: auto; 
+    max-width: 32px; 
+    max-height: 32px;
+}
+.btn-navbar-edit {
+    padding-right: .5rem;
+    padding-left: .5rem;
+    background-color: inherit;
+    border: 0;
+} .btn-navbar-edit img {
+    max-width: 18px; 
+    max-height: 18px;
+}
+.btn-newEntry {
+    background-color: #1ab759;
+} .btn-newEntry:hover {
+    background-color: #1C9F51;
+    border-color: #DEDEDE;
+} .btn-newEntry:focus {
+    background-color: #1C9F51;
+    box-shadow: 0 0 0 0.3rem #AAF0CE;
+} .btn-newEntry:disabled {
+    background-color: #1ab759;
+}
+.btn-sidebar {
+    border: 0;
+    color: #000000;
+    font-size: 1.25rem;
+} .btn-sidebar:hover {
+    color: #000000;
+} .btn-sidebar:focus {
+    color: #000000;
+} .btn-sidebar:not(:disabled):not(.disabled):active {
+    color: #000000;
+    font-weight: bold;
+}
+.analytics {
+    width: 100%;
+    background-color: #aaf0ce;
+    line-height: 1;
+    text-align: left
+} .analytics-number {
+    font-size: 2.8rem;
+} .analytics > div > span {
+    line-height: 1;
+} .analytics > img {
+    max-width: 25%;
+} 
+.search-box {
+    width: 25%;
+}
+.btn-search {
+    height: 100%;
+    border: 1px solid #ced4da;
+    border-right-style: none;
+    background-color: #fdfefe;
+    padding: 0.1rem 0.5rem;
+} .btn-search-icon {
+    width: 25px;
+}
+.txtbox-search {
+    border-radius: var(--bs-border-radius-lg2);
+    background-color: #fdfefe;
+    max-height: 38px;
+} .txtbox-search > * {
+    padding-left: 0.2rem;
+}
+.scroll {
+    height: 55vh;
+    overflow-y: scroll;
+} .db-table-main thead tr th{
+    border-top-style: none;
+    border-right: 0.8px solid #dee2e6;
+    border-left: 0.8px solid #dee2e6;
+    padding-top: .2rem;
+    padding-bottom: .5rem;
+    color: #c2c2c2;
+    /* max-width:100%; */
+    white-space:nowrap;
+} .db-table-main thead tr th:first-child {
+    border-left: 0;
+} .db-table-main thead tr th:last-child {
+    border-right: 0;
+}
+
+.table-row-btn {
+    padding: 5px !important; 
+    max-height: 2.5rem;
+    max-width: 2.5rem; 
+}
+
+.prime-vue-drpdown > div {
+    padding: .375rem .75rem;
+    border-radius: 6px;
+}
+
+.border, .border-0 {
+    border-color: #dee2e6 !important;
+}
+
+.btn-delete-row {
+    width: 32px !important;
+    height: 32px !important;
+}
+
+.dp-custom-input {
+    width: 150px;
+    padding: 0.75rem 0.75rem 0.75rem 2.2rem;
+}
+.dp-custom-menu {
+    padding: 1rem;
+}
+
+.dialog-card-text-padding {
+    padding: 1.5rem;
+}
