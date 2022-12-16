@@ -63,7 +63,7 @@ class demsDatabase:
             self.connect.commit()
             self.cursor.execute("SELECT count(*) FROM evaccenter")
             ecenterCount = self.cursor.fetchone()
-            if(ecenterCount > 1):
+            if(ecenterCount[0] > 1):
                 self.cursor.execute("DELETE FROM evaccenter WHERE indexkey > 1")
                 self.connect.commit() 
         except:
@@ -86,7 +86,7 @@ class demsDatabase:
         self.connect.commit()
         self.cursor.execute("SELECT count(*) FROM evaccenter")
         ecenterCount = self.cursor.fetchone()
-        if(ecenterCount > 1):
+        if(ecenterCount[0] > 1):
             self.cursor.execute("DELETE FROM evaccenter WHERE indexkey > 1")
             self.connect.commit() 
         
