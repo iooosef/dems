@@ -95,15 +95,28 @@
 
     <v-dialog v-model="deleteConfirmDialog" max-width="500px" persistent>
         <v-card class="p-4">
-          <v-card-title class="text-h5 text-wrap text-center">Are you sure you want to delete the row?</v-card-title>
-          <v-card-text>
+            <v-dialog v-model="displayDeleteError" max-width="500px" persistent>
+                <v-alert prominent type="error" style="margin-left: -1rem;" >
+                    <v-row align="center">
+                        <v-col class="grow">
+                            <h5><b>Error!</b> You cannot delete referenced data.</h5>
+                            <i>Delete all the data referencing this row, first. </i>
+                        </v-col>
+                        </v-row>
+                        <v-col class="shrink">
+                            <v-btn @click="closeDialog">Okay</v-btn>
+                        </v-col>
+                </v-alert>
+            </v-dialog>
+            <v-card-title class="text-h5 text-wrap text-center">Are you sure you want to delete the row?</v-card-title>
+            <v-card-text>
             <span v-for="(value, field) in currentRowData" :key="value"><b>{{field}}:</b> {{value}}, &nbsp;</span>
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <button class="w-25 me-2 p-2 btn btn-success rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="closeDialog">
                     <h5>No</h5> </button>
-                <button class="w-25 ms-2 p-2 btn btn-danger rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="closeDialog">
+                <button class="w-25 ms-2 p-2 btn btn-danger rounded-3 btn-newEntry-close font-size-sm text-light" type="button" @click="deleteSubmit">
                     <h5>Yes</h5> </button>
                 <v-spacer></v-spacer>
             </v-card-actions>
@@ -136,7 +149,7 @@ export default {
             showModal: true,
             editDialog: false,
             deleteConfirmDialog: false,
-            displayDeleteBtn: true
+            displayDeleteError: false
         }
     },
     props: ["fetchedDBevac","fetchedDBfamilies","fetchedDBmed","fetchedDBrelief",
@@ -162,19 +175,40 @@ export default {
         editSubmit() {
             if(this.tableLabel === 'Evacuees Table') {
                 window.eel.sqlUpdateEvac({...this.currentRowData})
+                return
             } else if(this.tableLabel === 'Families Table' ) {
                 window.eel.sqlUpdateFam({...this.currentRowData})
+                return
             } else if(this.tableLabel === 'Medical Reports Table' ) {
                 window.eel.sqlUpdateMed({...this.currentRowData})
+                return
             } else if(this.tableLabel === 'Relief Operations Table' ) {
                 window.eel.sqlUpdateRelief({...this.currentRowData})
+                return
             }
-            this.$parent.$parent.fetch_data_fromPy();
-            this.editDialog = false;
+            this.closeDialog();
+        },
+        async deleteSubmit () {
+            if(this.tableLabel === 'Evacuees Table') {
+                this.displayDeleteError = await window.eel.sqlDeleteEvac({...this.currentRowData})()
+                if(this.displayDeleteError) {return}
+            } else if(this.tableLabel === 'Families Table' ) {
+                this.displayDeleteError = await window.eel.sqlDeleteFam({...this.currentRowData})()
+                if(this.displayDeleteError) {return}
+            } else if(this.tableLabel === 'Medical Reports Table' ) {
+                this.displayDeleteError = await window.eel.sqlDeleteMed({...this.currentRowData})()
+                if(this.displayDeleteError) {return}
+            } else if(this.tableLabel === 'Relief Operations Table' ) {
+                this.displayDeleteError = await window.eel.sqlDeleteRelief({...this.currentRowData})()
+                if(this.displayDeleteError) {return}
+            }
+            this.closeDialog();
         },
         closeDialog() {
+            this.$parent.$parent.fetch_data_fromPy()
             this.editDialog = false
-            this.$parent.$parent.fetch_data_fromPy();
+            this.deleteConfirmDialog = false
+            this.displayDeleteError = false
         },
         logData() {
             console.log("this.databaseData: ", this.databaseData)

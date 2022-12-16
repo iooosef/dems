@@ -50,7 +50,6 @@ sampleDB = {
     ]
 }
 evacDBpy = 'San Juan Elementary School'
-var_to_js_incr = 0
 
 def sqliteTableToJSON(table):
     jsonTable = []
@@ -107,19 +106,19 @@ def sqliteReliefToJSON():
             jsonRow[field] = row[index]
         jsonTable.append(jsonRow)
         jsonRow = {}
-    print("json.dumps(jsonTable): ", json.dumps(jsonTable))
+    # print("json.dumps(jsonTable): ", json.dumps(jsonTable))
     return json.dumps(jsonTable)
         
 
 @eel.expose
 def test_f(x):
-    print("Hello World! Called from NewEntry.vue", x)
+   print("Hello World! Called from NewEntry.vue", x)
 
 
 @eel.expose  # Expose function to JavaScript
 def say_hello_py(x):
     """Print message from JavaScript on app initialization, then call a JS function."""
-    print("Hello from %s inside say_hello_py()" % x)
+#    print("Hello from %s inside say_hello_py()" % x)
     eel.say_hello_js("Python through Eel, from within say_hello_py()!")
 
 @eel.expose
@@ -177,12 +176,12 @@ def sqlUpdateEvac(jsInput):
 
 @eel.expose
 def sqlUpdateMed(jsInput):
-    print("sqlUpdateMed: ", jsInput) #{'medreportID': 4, 'famID': 1, 'evacID': 1, 'fName': 'Pepito', 'lName': 'Manaloto', 'medCause': 'Sugma'}
+#    print("sqlUpdateMed: ", jsInput) #{'medreportID': 4, 'famID': 1, 'evacID': 1, 'fName': 'Pepito', 'lName': 'Manaloto', 'medCause': 'Sugma'}
     demsDatabase.updateMed(jsInput['medreportID'], jsInput['famID'], jsInput['evacID'], jsInput['medCause'])
 
 @eel.expose
 def sqlUpdateRelief(jsInput):
-    print("sqlUpdateRelief: ", jsInput) #{'famID': 2, 'reliefName': '3IB Operation', 'reliefDate': '2022-12-16', 'reliefRep': 7, 'reliefStatus': 1}
+#    print("sqlUpdateRelief: ", jsInput) #{'famID': 2, 'reliefName': '3IB Operation', 'reliefDate': '2022-12-16', 'reliefRep': 7, 'reliefStatus': 1}
     demsDatabase.updateRelief(jsInput['famID'], jsInput['reliefName'], jsInput['reliefDate'], jsInput['evacID'], jsInput['reliefStatus'])
 
 # ----- DELETE QUERIES ---------------------------------------------------------------------
@@ -190,32 +189,32 @@ def sqlUpdateRelief(jsInput):
 @eel.expose
 def sqlDeleteFam(jsInput):
     try:
+        demsDatabase.removeEContact(jsInput['famID'])
         demsDatabase.removeFam(jsInput['famID'])
-        return False
     except:
         return True
 
 @eel.expose
 def sqlDeleteEvac(jsInput):
     try:
+        print(jsInput, type(jsInput['evacID']))
         demsDatabase.removeEvac(jsInput['evacID'])
-        return False
     except:
         return True
 
 @eel.expose
 def sqlDeleteMed(jsInput):
     try:
+        print(jsInput)
         demsDatabase.removeMed(jsInput['medreportID'])
-        return False
     except:
         return True
 
 @eel.expose
 def sqlDeleteRelief(jsInput):
     try:
+        print(jsInput)
         demsDatabase.removeRelief(jsInput['reliefName'], jsInput['famID'])
-        return False
     except:
         return True
 

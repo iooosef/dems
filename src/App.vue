@@ -40,6 +40,7 @@ export default {
   },  
   methods: {
     windowClose() {
+      console.log("closing...")
       window.eel.sqlitecloseConnection();
     },
     parentToChildMethod() {

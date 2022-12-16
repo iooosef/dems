@@ -1,7 +1,7 @@
 import sqlite3
 
 class demsDatabase:
-    def __init__(self,db):
+    def __init__(self, db):
         self.connect = sqlite3.connect(db)
         self.connect.execute("PRAGMA foreign_keys = 1")
         self.cursor = self.connect.cursor()
@@ -28,7 +28,7 @@ class demsDatabase:
             CREATE TABLE IF NOT EXISTS emergencycontact(
 				famID INTEGER PRIMARY KEY,
   				evacID INTEGER DEFAULT '',
-  				FOREIGN KEY (famID) REFERENCES family(famID) ON UPDATE CASCADE ON DELETE RESTRICT
+  				FOREIGN KEY (famID) REFERENCES family(famID) ON UPDATE CASCADE ON DELETE CASCADE
             )
          """)
         self.cursor.execute("""
@@ -91,7 +91,7 @@ class demsDatabase:
         self.connect.commit()
 
     def removeFam(self, famID):
-        self.cursor.execute(f'DELETE FROM family WHERE famID = {famID}')
+        self.cursor.execute("DELETE FROM family WHERE [famID] = ?", (famID,))
         self.connect.commit() 
 
     def updateFamily(self, famID, famName, famAddrss):
