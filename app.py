@@ -129,6 +129,14 @@ def passDB_toJS(): # return a dict to JS
 def passEvacInfo_toJS():
     return demsDatabase.fetchEvacCenter()[0]
 
+@eel.expose
+def passStatsInfo_toJS():
+    return [
+        demsDatabase.countEvacueeTable()[0],
+        demsDatabase.countFamilyTable()[0],
+        demsDatabase.countMedTable()[0]
+    ]
+
 # ----- INSERT QUERIES ---------------------------------------------------------------------
 @eel.expose
 def sqlInsertFam(jsInput):
@@ -199,7 +207,6 @@ def sqlDeleteFam(jsInput):
 @eel.expose
 def sqlDeleteEvac(jsInput):
     try:
-        print(jsInput, type(jsInput['evacID']))
         demsDatabase.removeEvac(jsInput['evacID'])
     except:
         return True
@@ -207,7 +214,6 @@ def sqlDeleteEvac(jsInput):
 @eel.expose
 def sqlDeleteMed(jsInput):
     try:
-        print(jsInput)
         demsDatabase.removeMed(jsInput['medreportID'])
     except:
         return True
@@ -215,7 +221,6 @@ def sqlDeleteMed(jsInput):
 @eel.expose
 def sqlDeleteRelief(jsInput):
     try:
-        print(jsInput)
         demsDatabase.removeRelief(jsInput['reliefName'], jsInput['famID'])
     except:
         return True

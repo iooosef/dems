@@ -45,21 +45,21 @@
                     <div class="px-4 py-3 d-flex flex-row analytics rounded-3b border">
                         <div class="d-flex justify-content-between flex-column">
                             <span><b>Evacuees</b></span>
-                            <span class="analytics-number">723</span>
+                            <span class="analytics-number">{{ this.statsEvacInfo[0] }}</span>
                         </div>
                         <img src="../assets/img/analytics_evacuees.png" class="my-auto ms-auto">
                     </div>
                     <div class="mx-5 px-4 py-3 d-flex flex-row analytics rounded-3b border">
                         <div class="d-flex justify-content-between flex-column">
                             <span><b>Families</b></span>
-                            <span class="analytics-number">131</span>
+                            <span class="analytics-number">{{ this.statsEvacInfo[1] }}</span>
                         </div>
                         <img src="../assets/img/analytics_family.png" class="my-auto ms-auto">
                     </div>
                     <div class="px-4 py-3 d-flex flex-row analytics rounded-3b border">
                         <div class="d-flex justify-content-between flex-column">
                             <span><b>Needs Medical Assistance</b></span>
-                            <span class="analytics-number">23</span>
+                            <span class="analytics-number">{{ this.statsEvacInfo[2] }}</span>
                         </div>
                         <img src="../assets/img/analytics_aid.png" class="my-auto ms-auto">
                     </div>
@@ -131,10 +131,10 @@
                 },
                 tableLabel : 'Evacuees Table',
                 tableCurrentHeader : 'evacuee',
-                editDrpDownOptionsUpdated: [],
+                editDrpDownOptionsUpdated: []
             }
         },
-        props: ['fetchedEvacInfo',"fetchedDBevac","fetchedDBfamilies","fetchedDBmed","fetchedDBrelief"],
+        props: ['fetchedEvacInfo',"fetchedDBevac","fetchedDBfamilies","fetchedDBmed","fetchedDBrelief","statsEvacInfo"],
         computed: {
             tableActiveHeaders() {
                 return this.tableHeaders[this.tableCurrentHeader]
@@ -146,6 +146,7 @@
                 this.tableCurrentHeader = table
                 this.$emit('change-table')
                 this.changeTableTitle(table)
+                console.log("this.statsInfo: ", this.statsInfo)
             },
             changeTableTitle(table) {
                 table == 'db_evacuees' ? this.tableLabel = 'Evacuees Table'

@@ -10,7 +10,8 @@
     :fetchedDBevac="fetchedDBevac" 
     :fetchedDBfamilies="fetchedDBfamilies"
     :fetchedDBmed="fetchedDBmed"
-    :fetchedDBrelief="fetchedDBrelief" />
+    :fetchedDBrelief="fetchedDBrelief"
+    :statsEvacInfo="statsEvacInfo" />
 </template>
 
 <script>
@@ -33,7 +34,8 @@ export default {
       fetchedDBrelief: '',
 
       fetchedEvacInfo: '',
-      newEntryEvacInfo: ''
+      newEntryEvacInfo: '',
+      statsEvacInfo: ''
     }
   },
   created () {    
@@ -44,17 +46,16 @@ export default {
       console.log("closing...")
       window.eel.sqlitecloseConnection();
     },
-    parentToChildMethod() {
-      console.log("parentToChild Called!");
-    },
     async fetch_data_fromPy() { // receive data from python
         const dataFetched = await window.eel.passDB_toJS()()
         const evacInfo = await window.eel.passEvacInfo_toJS()()      
+        const statsInfo = await window.eel.passStatsInfo_toJS()()
         this.fetchedDBevac = JSON.parse(dataFetched['db_evacuees'])      
         this.fetchedDBfamilies = JSON.parse(dataFetched['db_families'])      
         this.fetchedDBmed = JSON.parse(dataFetched['db_medAssist'])      
         this.fetchedDBrelief = JSON.parse(dataFetched['db_relief'])
         this.fetchedEvacInfo = evacInfo
+        this.statsEvacInfo = statsInfo
     },
     btnNewEntryClicked() {
       this.btnNewEntryState = true

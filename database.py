@@ -75,6 +75,18 @@ class demsDatabase:
     def idOfLastInsert(self):
         self.cursor.execute("SELECT last_insert_rowid()")
         return self.cursor.fetchone()
+    
+    def countEvacueeTable(self):
+        self.cursor.execute("SELECT count(*) FROM evacuee")
+        return self.cursor.fetchone()
+    
+    def countFamilyTable(self):
+        self.cursor.execute("SELECT count(*) FROM family")
+        return self.cursor.fetchone()
+    
+    def countMedTable(self):
+        self.cursor.execute("SELECT count(*) FROM medassist")
+        return self.cursor.fetchone()
 
 #Evacuation Center Info Table Methods ----------------------------------------------------------------------
     def fetchEvacCenter(self):

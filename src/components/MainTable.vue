@@ -7,7 +7,7 @@
             
             <template #header>
                 <div class="px-4 py-2 d-flex justify-content-between rounded-3 bg-light-gray">
-                    <h5 @click="logData"> {{ tableLabel }} </h5>
+                    <h5> {{ tableLabel }} </h5>
                     <span class="rounded-3b p-input-icon-left txtbox-search">
                         <i class="pi pi-search txtbox-search" />
                         <InputText class="txtbox-search p-inputtext p-component"
@@ -210,13 +210,6 @@ export default {
             this.deleteConfirmDialog = false
             this.displayDeleteError = false
         },
-        logData() {
-            console.log("this.databaseData: ", this.databaseData)
-            console.log(this.tableActiveHeaders[0].field)
-        },
-        msglog(msg){
-            console.log(msg); 
-        },
         dynamicCurrentRowData(currentField){
            if(this.tableLabel === 'Families Table' 
                 && ['evacID'].includes(currentField)) {
@@ -242,7 +235,6 @@ export default {
             }
         },
         displayEditForm(currentField, inputType) {
-            console.log("currentField::: ", currentField)
             if(this.tableLabel === 'Evacuees Table' 
                 && [['fName','mi','lName','suffix','cNumber'],
                     ['famID'],[''],['evacID']][inputType].includes(currentField)) {
@@ -258,7 +250,6 @@ export default {
             } else if(this.tableLabel === 'Relief Operations Table' 
                 && [['reliefName'],
                     ['evacID','reliefStatus'],['reliefDate'],['famID']][inputType].includes(currentField)) {
-                    console.log("in relief table! inputType: ", inputType, "currentField: ", currentField)
                     return true
             } else {
                 return false

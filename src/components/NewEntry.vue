@@ -214,8 +214,6 @@ export default {
     props:['newEntryEvacInfo','btnNewEntryState',"fetchedDBfamilies","fetchedEvacInfo"],
     computed: {
         editEvacDialogState() {
-            console.log(this.newEntryEvacInfo)
-            console.log(!this.newEntryEvacInfo)
             return this.newEntryEvacInfo ? !this.newEntryEvacInfo : true
         }
     },
@@ -233,31 +231,26 @@ export default {
                 : this.newEntryDialogState = 'menu'
         },
         submitFormEvacuee() {
-            console.log('Form Values of Evacuee: ', {...this.formValuesEvacuee});
             window.eel.sqlInsertEvac({...this.formValuesEvacuee});
             this.$parent.fetch_data_fromPy();
             this.newEntryClose();
         },
         submitFormFamily() {
-            console.log('Form Values of Family: ', {...this.formValuesFamily});
             window.eel.sqlInsertFam({...this.formValuesFamily});
             this.$parent.fetch_data_fromPy();
             this.newEntryClose();
         },
         submitFormMedical() {
-            console.log('Form Values of Medical: ', {...this.formValuesMedical});
             window.eel.sqlInsertMed({...this.formValuesMedical});
             this.$parent.fetch_data_fromPy();
             this.newEntryClose();
         },
         submitFormRelief() {
-            console.log('Form Values of Relief: ', {...this.formValuesRelief});
             window.eel.sqlInsertRelief({...this.formValuesRelief});
             this.$parent.fetch_data_fromPy();
             this.newEntryClose();
         },
         submitFormEvacCenter() {
-            console.log('Form Values of Evacuation Center: ', this.formValuesEvacInfo);
             window.eel.sqlUpdateEvacCenter(this.formValuesEvacInfo);
             this.$parent.fetch_data_fromPy();
             this.newEntryClose();
