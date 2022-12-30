@@ -1,14 +1,14 @@
 <template>
   <div class="container-fluid">
     <div class="row vh-100">
-      <nav class="col-2 border border-primary">
+      <nav class="col-2">
         sidebar
       </nav>
       <div class="col-10 p-0">
-        <header class="w-100 border border-primary">
+        <header class="w-100">
           test
         </header>
-        <main class="w-100 border border-primary">
+        <main class="w-100">
           main
         </main>
       </div>
@@ -27,8 +27,14 @@ export default {
 </script>
 
 <style scoped>
+nav {
+  box-shadow: var(--box-shadow-dems);
+}
+
 header {
   height: 64px;
+  box-shadow: var(--box-shadow-dems);
+  clip-path: inset(0px 0px -2rem 0px);
 }
 
 main {
