@@ -32,13 +32,13 @@ nav {
 }
 
 header {
-  height: 76px;
+  height: var(--header-height);
   box-shadow: var(--box-shadow-dems);
   clip-path: inset(0px 0px -2rem 0px);
 }
 
 main {
-  height: calc(100% - 76px);
+  height: calc(100% - var(--header-height));
 }
 
 .logo {
