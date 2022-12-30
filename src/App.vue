@@ -4,9 +4,9 @@
       <nav class="col-2 p-4">
         <img src="@/assets/img/logo.png" alt="Disaster Evacuees Management System logo" class="logo">
       </nav>
-      <div class="col-10 p-0">
-        <header class="w-100">
-          test
+      <div class="col-10 px-0">
+        <header class="w-100 p-4">
+          <h3>TEST</h3>
         </header>
         <main class="w-100">
           main
@@ -32,13 +32,13 @@ nav {
 }
 
 header {
-  height: 64px;
+  height: 76px;
   box-shadow: var(--box-shadow-dems);
   clip-path: inset(0px 0px -2rem 0px);
 }
 
 main {
-  height: calc(100% - 64px);
+  height: calc(100% - 76px);
 }
 
 .logo {
