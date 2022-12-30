@@ -1,14 +1,14 @@
 <template>
   <div class="container-fluid">
     <div class="row vh-100">
-      <nav class="col-2 bg-success">
+      <nav class="col-2 border border-primary">
         sidebar
       </nav>
       <div class="col-10 p-0">
-        <header class="w-100 border bg-primary">
+        <header class="w-100 border border-primary">
           test
         </header>
-        <main class="w-100 bg-warning">
+        <main class="w-100 border border-primary">
           main
         </main>
       </div>
