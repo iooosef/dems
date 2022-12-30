@@ -1,8 +1,8 @@
 <template>
   <div class="container-fluid">
     <div class="row vh-100">
-      <nav class="col-2">
-        sidebar
+      <nav class="col-2 p-4">
+        <img src="@/assets/img/logo.png" alt="Disaster Evacuees Management System logo" class="logo">
       </nav>
       <div class="col-10 p-0">
         <header class="w-100">
@@ -39,5 +39,9 @@ header {
 
 main {
   height: calc(100% - 64px);
+}
+
+.logo {
+  width: 100%;
 }
 </style>
