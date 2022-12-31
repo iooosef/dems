@@ -3,7 +3,9 @@
     <div class="row vh-100">
       <nav class="col-2 p-4">
         <img src="@/assets/img/logo.png" alt="Disaster Evacuees Management System logo" class="logo">
-
+        <div class="w-100 mt-4 btn btn-dems-primary">Primary</div>
+        <div class="w-100 mt-3 btn btn-dems-secondary">Secondary</div>
+        <div class="w-100 mt-3 btn btn-dems-light">Light</div>
       </nav>
       <div class="col-10 px-0">
         <header class="w-100 p-4">

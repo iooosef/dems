@@ -2,3 +2,23 @@
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 @import "variables";
+
+@each $name, $current-color in $btn-colors {
+    .btn-dems-#{$name} {
+        --bs-btn-font-weight: 600;
+        @if $name != "light" {
+            --bs-btn-color: var(--bs-white);
+        }   
+        --bs-btn-bg: #{$current-color};
+        --bs-btn-border-color: #{$current-color};
+        --bs-btn-border-radius: .5rem;
+        box-shadow: $btn-active-box-shadow;
+        --bs-btn-hover-color: var(--bs-white);
+        --bs-btn-hover-bg: #{shade-color($current-color, 15%)};
+        --bs-btn-hover-border-color: #{shade-color($current-color, 15%)};
+        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+        --bs-btn-active-color: var(--bs-btn-hover-color);
+        --bs-btn-active-bg: #{shade-color($current-color, 30%)};
+        --bs-btn-active-border-color: #{shade-color($current-color, 30%)};
+    }
+}
