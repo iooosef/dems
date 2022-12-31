@@ -32,9 +32,7 @@
           <h3 class="ms-3">TEST</h3>
         </header>
         <main class="w-100 p-4">
-          <h1>Analytics and Table Here...</h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, earum quis architecto dolores officia
-            nostrum nobis debitis saepe? Qui ab dolorum minima? Modi quo consequatur dicta ut reiciendis ducimus ea?</p>
+          
         </main>
       </div>
     </div>
