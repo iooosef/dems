@@ -1,11 +1,12 @@
 <template>
     <section>
-        
+        TEST
     </section>
 </template>
 
 <script>
 export default {
+    name: "AnalyticsCard",
     setup () {
         
 

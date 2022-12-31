@@ -32,7 +32,7 @@
           <h3 class="ms-3">TEST</h3>
         </header>
         <main class="w-100 p-4">
-          
+          <AnalyticsCard />
         </main>
       </div>
     </div>
@@ -43,9 +43,12 @@
 import { Icon } from '@iconify/vue'
 import "@/assets/icons"
 
+import AnalyticsCard from "@/components/AnalyticsCard.vue"
+
 export default {
   components: {
-    Icon
+    Icon,
+    AnalyticsCard
   },
   setup() {
 
