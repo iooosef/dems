@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row vh-100">
       <nav class="col-2 p-4">
-        <img src="@/assets/img/logo.png" alt="Disaster Evacuees Management System logo" class="logo">
+        <img src="@/assets/img/logo.png" alt="Disaster Evacuees Management System logo" class="logo" @click="reloadPage">
         <div class="w-100 mt-4 px-3 py-4 btn btn-dems-primary btn-new-entry text-start">
           <Icon icon="dems:add-circle-filled" height="2rem" />
           New Entry
@@ -33,6 +33,7 @@
         </header>
         <main class="w-100 p-4">
           <AnalyticsCard />
+          <MainTable />
         </main>
       </div>
     </div>
@@ -44,16 +45,23 @@ import { Icon } from '@iconify/vue'
 import "@/assets/icons"
 
 import AnalyticsCard from "@/components/AnalyticsCard.vue"
+import MainTable from "@/components/MainTable.vue"
 
 export default {
   components: {
     Icon,
-    AnalyticsCard
+    AnalyticsCard,
+    MainTable
   },
   setup() {
 
 
     return {}
+  },
+  methods: {
+    reloadPage() {
+      window.location.reload();
+    }
   }
 }
 </script>
