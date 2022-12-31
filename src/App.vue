@@ -26,7 +26,9 @@
       </nav>
       <div class="col-10 px-0">
         <header class="w-100 p-4 d-flex flex-row align-items-center">
-          <Icon icon="dems:pencil-fill" height="1.2rem" />
+          <div class="p-1 d-flex justify-content-center align-items-center btn btn-dems-light btn-header-edit">
+            <Icon icon="dems:pencil-fill" height="1.2rem" />
+          </div>
           <h3 class="ms-3">TEST</h3>
         </header>
         <main class="w-100 p-4">
@@ -81,5 +83,10 @@ main {
 }
 .btn-nav {
   font-size: 1.2rem;
+}
+
+.btn-header-edit {
+  width: 38px;
+  height: 38px;
 }
 </style>
