@@ -18,6 +18,7 @@ const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true
 })
+// import mainstyles.scss globally
 module.exports = {
   css: {
     loaderOptions: {
@@ -27,4 +28,3 @@ module.exports = {
     },
   }
 }
-

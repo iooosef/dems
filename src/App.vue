@@ -4,23 +4,18 @@
       <nav class="col-2 p-4">
         <img src="@/assets/img/logo.png" alt="Disaster Evacuees Management System logo" class="logo">
         <div class="w-100 mt-4 px-3 py-4 btn btn-dems-primary btn-new-entry text-start">
-          <i class="bi bi-plus-circle-fill"></i>
           New Entry
         </div>
         <div class="w-100 mt-3 p-3 btn btn-dems-light btn-nav text-start">
-          <i class="bi bi-person-fill-add"></i>
           Evacuees
         </div>
         <div class="w-100 mt-3 p-3 btn btn-dems-light btn-nav text-start">
-          <i class="bi bi-person-fill-add"></i>
           Families
         </div>
         <div class="w-100 mt-3 p-3 btn btn-dems-light btn-nav text-start">
-          <i class="bi bi-person-fill-add"></i>
           Medical
         </div>
         <div class="w-100 mt-3 p-3 btn btn-dems-light btn-nav text-start">
-          <i class="bi bi-person-fill-add"></i>
           Relief
         </div>
       </nav>
