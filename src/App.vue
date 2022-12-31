@@ -29,19 +29,20 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "@/assets/styles/variables.scss";
 nav {
-  box-shadow: var(--box-shadow-dems);
+  box-shadow: $box-shadow-dems;
 }
 
 header {
-  height: var(--header-height);
-  box-shadow: var(--box-shadow-dems);
+  height: $header-height;
+  box-shadow: $box-shadow-dems;
   clip-path: inset(0px 0px -2rem 0px);
 }
 
 main {
-  height: calc(100% - var(--header-height));
+  height: calc(100% - $header-height);
 }
 
 .logo {

@@ -13,6 +13,7 @@ try {
     return origCreateHash(alg === 'md4' ? 'md5' : alg, opts);
   };
 }
+
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true
