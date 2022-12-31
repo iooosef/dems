@@ -1,30 +1,13 @@
 <template>
-    <section class="d-flex flex-row justify-content-between">
-        <div class="w-100 d-flex bg-dems-secondary shadow-inset rounded-4">
+    <section class="d-flex flex-row justify-content-between analytics-widget">
+        <div class="w-100 d-flex bg-dems-secondary shadow-inset rounded-4"
+            v-for="table in analyticsData" :key="table">
             <div class="ps-3 py-3 flex-grow-1">
-                <h4>Evacuees</h4>
-                <h1 class="analytics-data-num">{{ analytics }}</h1>
+                <h4>{{table.label}}</h4>
+                <h1 class="analytics-data-num">{{ table.value }}</h1>
             </div>
             <div class="p-3 flex-shrink-1">
-                <img src="@/assets/img/analytics_evacuees.png" class="analytics-img" alt="">
-            </div>
-        </div>
-        <div class="w-100 mx-4 d-flex bg-dems-secondary shadow-inset rounded-4">
-            <div class="ps-3 py-3 flex-grow-1">
-                <h4>Families</h4>
-                <h1 class="analytics-data-num">{{ analytics }}</h1>
-            </div>
-            <div class="p-3 flex-shrink-1">
-                <img src="@/assets/img/analytics_family.png" class="analytics-img" alt="">
-            </div>
-        </div>
-        <div class="w-100 d-flex bg-dems-secondary shadow-inset rounded-4">
-            <div class="ps-3 py-3 flex-grow-1">
-                <h4>Needs Medical Assistance</h4>
-                <h1 class="analytics-data-num">{{ analytics }}</h1>
-            </div>
-            <div class="p-3 flex-shrink-1">
-                <img src="@/assets/img/analytics_aid.png" class="analytics-img" alt="">
+                <img :src="require(`@/assets/img/${table.img}`)" class="analytics-img" alt="">
             </div>
         </div>
     </section>
@@ -36,14 +19,34 @@ import { ref } from 'vue';
 export default {
     name: "AnalyticsCard",
     setup () {
-        const analytics = ref(35)
+        const analyticsData = ref({
+            "evacuees": {
+                "label": "Evacuees", 
+                "value": analytics.value + 200,
+                "img": "analytics_evacuees.png"
+            },
+            "families": {
+                "label": "Families", 
+                "value": analytics.value + 20,
+                "img": "analytics_family.png"
+            },
+            "medical": {
+                "label": "Needs Medical Assistance", 
+                "value": analytics.value - 5,
+                "img": "analytics_aid.png"
+            }
+        })
 
-        return {analytics}
+        return {analyticsData}
     }
 }
 </script>
 
 <style lang="scss" scoped>
+.analytics-widget {
+    gap: 16px;
+}
+
 .analytics-data-num {
     font-size: 2.8rem;
     @at-root h4{
