@@ -25,8 +25,9 @@
         </div>
       </nav>
       <div class="col-10 px-0">
-        <header class="w-100 p-4">
-          <h3>TEST</h3>
+        <header class="w-100 p-4 d-flex flex-row align-items-center">
+          <Icon icon="dems:pencil-fill" height="1.2rem" />
+          <h3 class="ms-3">TEST</h3>
         </header>
         <main class="w-100 p-4">
           <h1>Analytics and Table Here...</h1>
