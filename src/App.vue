@@ -31,6 +31,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/styles/variables.scss";
+
 nav {
   box-shadow: $box-shadow-dems;
 }
