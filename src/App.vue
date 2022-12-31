@@ -4,18 +4,23 @@
       <nav class="col-2 p-4">
         <img src="@/assets/img/logo.png" alt="Disaster Evacuees Management System logo" class="logo">
         <div class="w-100 mt-4 px-3 py-4 btn btn-dems-primary btn-new-entry text-start">
+          <Icon icon="dems:add-circle-filled" height="2rem" />
           New Entry
         </div>
-        <div class="w-100 mt-3 p-3 btn btn-dems-light btn-nav text-start">
+        <div class="w-100 mt-3 p-3 btn btn-dems-secondary btn-nav text-start">
+          <Icon icon="dems:add-person-filled" height="2rem" />
           Evacuees
         </div>
         <div class="w-100 mt-3 p-3 btn btn-dems-light btn-nav text-start">
+          <Icon icon="dems:add-people-filled" height="2rem" />
           Families
         </div>
         <div class="w-100 mt-3 p-3 btn btn-dems-light btn-nav text-start">
+          <Icon icon="dems:medpack-filled" height="2rem" />
           Medical
         </div>
         <div class="w-100 mt-3 p-3 btn btn-dems-light btn-nav text-start">
+          <Icon icon="dems:package-fill" height="2rem" />
           Relief
         </div>
       </nav>
@@ -34,7 +39,13 @@
 </template>
 
 <script>
+import { Icon } from '@iconify/vue'
+import "@/assets/icons"
+
 export default {
+  components: {
+    Icon
+  },
   setup() {
 
 
@@ -65,6 +76,9 @@ main {
 }
 
 .btn-new-entry {
-  font-size: 1.64vw;
+  font-size: 1.53vw;
+}
+.btn-nav {
+  font-size: 1.2rem;
 }
 </style>
