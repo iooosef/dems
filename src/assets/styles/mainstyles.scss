@@ -22,3 +22,9 @@
         --bs-btn-active-border-color: #{shade-color($current-color, 30%)};
     }
 }
+
+@for $i from 1 through 3 {
+    h#{$i} {
+        margin: 0;
+    }
+}
