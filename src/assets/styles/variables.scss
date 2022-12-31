@@ -7,8 +7,9 @@ $box-shadow-dems: rgba(0, 0, 0, 0.2) 0px 3px 8px;
 
 $header-height: 76px;
 
-$btn-colors: (
+$palette-dems-colors: (
     "primary": $color-dems-primary,
     "secondary": $color-dems-secondary,
-    "light": $color-dems-light
+    "light": $color-dems-light,
+    "dark": $color-dems-light
 );

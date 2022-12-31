@@ -3,7 +3,7 @@
 @import '~bootstrap/scss/mixins';
 @import "variables";
 
-@each $name, $current-color in $btn-colors {
+@each $name, $current-color in $palette-dems-colors {
     .btn-dems-#{$name} {
         --bs-btn-font-weight: 600;
         @if $name != "light" {
@@ -28,3 +28,4 @@
         margin: 0;
     }
 }
+
