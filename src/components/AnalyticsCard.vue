@@ -1,7 +1,7 @@
 <template>
     <section class="d-flex flex-row justify-content-between">
         <div class="w-100 d-flex bg-dems-secondary shadow-inset rounded-4">
-            <div class="p-3 flex-grow-1">
+            <div class="ps-3 py-3 flex-grow-1">
                 <h4>Evacuees</h4>
                 <h1 class="analytics-data-num">{{ analytics }}</h1>
             </div>
@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="w-100 mx-4 d-flex bg-dems-secondary shadow-inset rounded-4">
-            <div class="p-3 flex-grow-1">
+            <div class="ps-3 py-3 flex-grow-1">
                 <h4>Families</h4>
                 <h1 class="analytics-data-num">{{ analytics }}</h1>
             </div>
@@ -31,10 +31,12 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
     name: "AnalyticsCard",
     setup () {
-        let analytics = 231;
+        const analytics = ref(35)
 
         return {analytics}
     }
@@ -44,11 +46,20 @@ export default {
 <style lang="scss" scoped>
 .analytics-data-num {
     font-size: 2.8rem;
+    @at-root h4{
+        height: 28.8px; 
+        white-space: nowrap;
+    }
 }
 
 .analytics-img {
-    width: 80%;
+    width: 96px;
     height: auto;
     float: right;
+    @at-root .analytics-img{
+        @at-root {
+            div:nth-child(2) {width: 112px;}
+        }
+    }
 }
 </style>
