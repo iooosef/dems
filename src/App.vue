@@ -3,6 +3,7 @@
     <div class="row vh-100">
       <nav class="col-2 p-4">
         <img src="@/assets/img/logo.png" alt="Disaster Evacuees Management System logo" class="logo">
+
       </nav>
       <div class="col-10 px-0">
         <header class="w-100 p-4">
@@ -10,7 +11,8 @@
         </header>
         <main class="w-100 p-4">
           <h1>Analytics and Table Here...</h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, earum quis architecto dolores officia nostrum nobis debitis saepe? Qui ab dolorum minima? Modi quo consequatur dicta ut reiciendis ducimus ea?</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, earum quis architecto dolores officia
+            nostrum nobis debitis saepe? Qui ab dolorum minima? Modi quo consequatur dicta ut reiciendis ducimus ea?</p>
         </main>
       </div>
     </div>
@@ -19,8 +21,8 @@
 
 <script>
 export default {
-  setup () {
-    
+  setup() {
+
 
     return {}
   }
