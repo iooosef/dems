@@ -22,17 +22,17 @@ export default {
         const analyticsData = ref({
             "evacuees": {
                 "label": "Evacuees", 
-                "value": analytics.value + 200,
+                "value":  222,
                 "img": "analytics_evacuees.png"
             },
             "families": {
                 "label": "Families", 
-                "value": analytics.value + 20,
+                "value": 43,
                 "img": "analytics_family.png"
             },
             "medical": {
                 "label": "Needs Medical Assistance", 
-                "value": analytics.value - 5,
+                "value": 14,
                 "img": "analytics_aid.png"
             }
         })
