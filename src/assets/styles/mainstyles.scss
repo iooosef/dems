@@ -6,7 +6,7 @@
 @each $name, $current-color in $palette-dems-colors {
     .btn-dems-#{$name} {
         --bs-btn-font-weight: 600;
-        @if $name != "light" {
+        @if $name != "light" and $name != "secondary" {
             --bs-btn-color: var(--bs-white);
         }   
         --bs-btn-bg: #{$current-color};
