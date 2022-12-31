@@ -3,6 +3,12 @@ $color-dems-secondary: #5dade2;
 $color-dems-dark: #1c3144;
 $color-dems-light: #ecf0f1;
 
+$color-dems-primary-rgb: rgb(52, 152, 219);
+$color-dems-secondary-rgb: rgb(93, 173, 226);
+$color-dems-dark-rgb: rgb(28, 49, 68);
+$color-dems-light-rgb: rgb(236, 240, 241);
+
+
 $box-shadow-dems: rgba(0, 0, 0, 0.2) 0px 3px 8px;
 
 $header-height: 76px;
@@ -12,4 +18,11 @@ $palette-dems-colors: (
     "secondary": $color-dems-secondary,
     "light": $color-dems-light,
     "dark": $color-dems-light
+);
+
+$palette-dems-colors-rgb: (
+    "primary": $color-dems-primary-rgb,
+    "secondary": $color-dems-secondary-rgb,
+    "light": $color-dems-light-rgb,
+    "dark": $color-dems-light-rgb
 );

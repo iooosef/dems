@@ -23,6 +23,13 @@
     }
 }
 
+@each $name-rgb, $current-color-rgb in $palette-dems-colors-rgb {
+    .bg-dems-#{$name-rgb} {
+        --bs-bg-opacity: 1;
+        background-color: #{rgba($current-color-rgb, var(--bs-bg-opacity))} !important;
+    }
+}
+
 @for $i from 1 through 5 {
     h#{$i} {
         margin: 0;
