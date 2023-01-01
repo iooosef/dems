@@ -31,7 +31,7 @@
           </div>
           <h3 class="ms-3">TEST</h3>
         </header>
-        <main class="w-100 p-4">
+        <main class="w-100 p-4 d-flex flex-column">
           <AnalyticsCard />
           <MainTable />
         </main>
@@ -68,6 +68,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/styles/variables.scss";
+
+main {
+  height: calc(100% - #{$header-height});
+}
 
 nav {
   box-shadow: $box-shadow-dems;
