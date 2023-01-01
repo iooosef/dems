@@ -2,11 +2,13 @@ $color-dems-primary: #3498db;
 $color-dems-secondary: #77bce9;
 $color-dems-dark: #1c3144;
 $color-dems-light: #ecf0f1;
+$color-dems-white: #ffffff;
 
 $color-dems-primary-rgb: rgb(52, 152, 219);
 $color-dems-secondary-rgb: rgb(119, 188, 233);
 $color-dems-dark-rgb: rgb(28, 49, 68);
 $color-dems-light-rgb: rgb(236, 240, 241);
+$color-dems-white-rgb: rgb(255, 255, 255);
 
 
 $box-shadow-dems: rgba(0, 0, 0, 0.2) 0px 3px 8px;
@@ -17,12 +19,14 @@ $palette-dems-colors: (
     "primary": $color-dems-primary,
     "secondary": $color-dems-secondary,
     "light": $color-dems-light,
-    "dark": $color-dems-light
+    "dark": $color-dems-light,
+    "white": $color-dems-white
 );
 
 $palette-dems-colors-rgb: (
     "primary": $color-dems-primary-rgb,
     "secondary": $color-dems-secondary-rgb,
     "light": $color-dems-light-rgb,
-    "dark": $color-dems-light-rgb
+    "dark": $color-dems-light-rgb,
+    "white": $color-dems-white-rgb
 );
