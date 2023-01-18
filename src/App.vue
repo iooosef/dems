@@ -45,11 +45,13 @@
 </template>
 
 <script>
-import AnalyticsCard from '@/components/AnalyticsCard.vue'
 import { reactive } from 'vue'
+import AnalyticsCard from '@/components/AnalyticsCard.vue'
 
 export default {
-  components: { AnalyticsCard },
+  components: {
+    AnalyticsCard
+  },
   setup () {
     const analyticsData = reactive({
       evacuees: {
