@@ -29,10 +29,10 @@
                 <h1 class="ml-3 mt-[-0.3rem] text-2xl font-bold align-text-top">Evacuation Center Name</h1>
             </header>
             <main class="flex-1 p-5 bg-white drop-shadow-border z-0">
-                <section class="grid grid-cols-3 gap-5 border-0 border-dark-500">
-                    <AnalyticsCard />
-                    <AnalyticsCard />
-                    <AnalyticsCard />
+                <section class="grid grid-cols-3 gap-4 border-0 border-dark-500">
+                    <AnalyticsCard :analyticsData="analyticsData.evacuees" />
+                    <AnalyticsCard :analyticsData="analyticsData.families" />
+                    <AnalyticsCard :analyticsData="analyticsData.medical" />
                 </section>
             </main>
         </div>
@@ -41,9 +41,30 @@
 
 <script>
 import AnalyticsCard from '@/components/AnalyticsCard.vue'
+import { reactive } from 'vue'
 
 export default {
-  components: { AnalyticsCard }
+  components: { AnalyticsCard },
+  setup () {
+    const analyticsData = reactive({
+      evacuees: {
+        label: 'Evacuees',
+        value: 222,
+        img: 'analytics_evacuees.png'
+      },
+      families: {
+        label: 'Families',
+        value: 43,
+        img: 'analytics_family.png'
+      },
+      medical: {
+        label: 'Needs Medical Assistance',
+        value: 14,
+        img: 'analytics_aid.png'
+      }
+    })
+    return { analyticsData }
+  }
 }
 </script>
 
