@@ -4,7 +4,7 @@
         "es2021": true
     },
     "extends": [
-        "plugin:vue/vue3-essential",
+        "plugin:vue/vue3-strongly-recommended",
         "standard"
     ],
     "overrides": [
@@ -17,5 +17,13 @@
         "vue"
     ],
     "rules": {
+        "vue/max-attributes-per-line": ["error", {
+            "singleline": {
+              "max": 4
+            },      
+            "multiline": {
+              "max": 3
+            }
+          }]
     }
 }
