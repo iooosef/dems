@@ -2,19 +2,19 @@
     <div class="flex flex-row h-screen bg-white">
         <nav class="w-60 p-5 bg-white drop-shadow-border z-20">
             <img src="@/assets/img/logo.png" alt="Disaster Evacuees Management System logo" class="w-full" />
-            <div class="w-full mt-5 p-3 bg-primary-500 rounded-lg text-2xl text-white font-semibold hover:bg-primary-700 focus:shadow-inner focus:outline-none focus:ring focus:ring-offset-0 focus:ring-primary-500/50 transition-all duration-200 cursor-pointer" tabindex="1">
+            <div class="w-full mt-5 p-3 bg-primary-500 rounded-lg text-2xl text-white font-semibold hover:bg-primary-700 focus:shadow-inner focus:outline-none focus:ring focus:ring-offset-0 focus:ring-primary-500/50 transition duration-200 cursor-pointer" tabindex="1">
                 New Entry
             </div>
-            <div class="w-full mt-4 p-3 bg-light-500 rounded-lg text-xl text-black font-semibold hover:bg-light-700 focus:shadow-inner focus:outline-none focus:ring focus:ring-offset-0 focus:ring-light-500/50 transition-all duration-200 cursor-pointer" tabindex="2">
+            <div class="w-full mt-4 p-3 bg-light-500 rounded-lg text-xl text-black font-semibold hover:bg-light-700 focus:shadow-inner focus:outline-none focus:ring focus:ring-offset-0 focus:ring-light-500 transition duration-200 cursor-pointer" tabindex="2">
                 Evacuees
             </div>
-            <div class="w-full mt-4 p-3 bg-light-500 rounded-lg text-xl text-black font-semibold hover:bg-light-700 focus:shadow-inner focus:outline-none focus:ring focus:ring-offset-0 focus:ring-light-500/50 transition-all duration-200 cursor-pointer" tabindex="3">
+            <div class="w-full mt-4 p-3 bg-light-500 rounded-lg text-xl text-black font-semibold hover:bg-light-700 focus:shadow-inner focus:outline-none focus:ring focus:ring-offset-0 focus:ring-light-500 transition duration-200 cursor-pointer" tabindex="3">
                 Families
             </div>
-            <div class="w-full mt-4 p-3 bg-light-500 rounded-lg text-xl text-black font-semibold hover:bg-light-700 focus:shadow-inner focus:outline-none focus:ring focus:ring-offset-0 focus:ring-light-500/50 transition-all duration-200 cursor-pointer" tabindex="4">
+            <div class="w-full mt-4 p-3 bg-light-500 rounded-lg text-xl text-black font-semibold hover:bg-light-700 focus:shadow-inner focus:outline-none focus:ring focus:ring-offset-0 focus:ring-light-500 transition duration-200 cursor-pointer" tabindex="4">
                 Medical
             </div>
-            <div class="w-full mt-4 p-3 bg-light-500 rounded-lg text-xl text-black font-semibold hover:bg-light-700 focus:shadow-inner focus:outline-none focus:ring focus:ring-offset-0 focus:ring-light-500/50 transition-all duration-200 cursor-pointer" tabindex="5">
+            <div class="w-full mt-4 p-3 bg-light-500 rounded-lg text-xl text-black font-semibold hover:bg-light-700 focus:shadow-inner focus:outline-none focus:ring focus:ring-offset-0 focus:ring-light-500 transition duration-200 cursor-pointer" tabindex="5">
                 Relief
             </div>
         </nav>
