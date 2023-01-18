@@ -28,13 +28,23 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="self-center p-1 rounded bg-light-500 hover:bg-light-700 focus:shadow-inner focus:outline-none focus:ring focus:ring-offset-0 focus:ring-light-500 transition duration-200 cursor-pointer" width="25" height="25" viewBox="0 0 24 24"><path fill="currentColor" d="M15.891 3.048a3.578 3.578 0 1 1 5.061 5.06L20.06 9L15 3.94l.891-.892ZM13.94 5l-10 9.999a3.106 3.106 0 0 0-.825 1.477L2.02 21.077a.75.75 0 0 0 .904.903l4.601-1.095a3.105 3.105 0 0 0 1.477-.826L19 10.062L13.939 5Z"/></svg>
                 <h1 class="ml-3 mt-[-0.3rem] text-2xl font-bold align-text-top">Evacuation Center Name</h1>
             </header>
-            <main class="flex-1 p-5 bg-white drop-shadow-border z-0">main</main>
+            <main class="flex-1 p-5 bg-white drop-shadow-border z-0">
+                <section class="grid grid-cols-3 gap-5 border-0 border-dark-500">
+                    <AnalyticsCard />
+                    <AnalyticsCard />
+                    <AnalyticsCard />
+                </section>
+            </main>
         </div>
     </div>
 </template>
 
-<script setup>
+<script>
+import AnalyticsCard from '@/components/AnalyticsCard.vue'
 
+export default {
+  components: { AnalyticsCard }
+}
 </script>
 
 <style lang="scss" scoped>
