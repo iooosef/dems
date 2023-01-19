@@ -5,6 +5,7 @@ import router from './router'
 import PrimeVue from 'primevue/config'
 import Toast from 'primevue/toast'
 import ToastService from 'primevue/toastservice'
+import PrimeDialog from 'primevue/dialog'
 // css imports
 import './index.css'
 import 'primevue/resources/themes/tailwind-light/theme.css'
@@ -20,5 +21,6 @@ app.use(PrimeVue, {
 })
 app.use(ToastService)
 app.component('PrimeToast', Toast)
+app.component('PrimeDialog', PrimeDialog)
 
 app.mount('#app')

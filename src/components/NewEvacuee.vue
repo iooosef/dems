@@ -19,11 +19,9 @@
 
 <script>
 import { ref } from 'vue'
-import PrimeDialog from 'primevue/dialog'
 export default {
   name: 'NewEvacueeModal',
   components: {
-    PrimeDialog
   },
   props: {
     display: {

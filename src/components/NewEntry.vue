@@ -37,14 +37,12 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import PrimeDialog from 'primevue/dialog'
+import { ref, onMounted } from 'vue'
 import NewEvacueeModal from '@/components/NewEvacuee.vue'
 
 export default {
   name: 'NewEntryModal',
   components: {
-    PrimeDialog,
     NewEvacueeModal
   },
   props: {
@@ -56,6 +54,13 @@ export default {
   setup (props) {
     const displayThisModal = ref(props.display)
     const displayNewEvacueeModal = ref(false)
+    onMounted(() => {
+      window.addEventListener('keyup', (e) => {
+        if (e.key === 'Escape') {
+          console.log('ESCAPE!')
+        }
+      })
+    })
     return { displayThisModal, displayNewEvacueeModal }
   },
   watch: {
