@@ -5,7 +5,7 @@
     class="w-fit [&>*]:!bg-white [&>*:nth-child(2)]:!rounded-t-lg [&>*:nth-child(3)]:!rounded-b-lg"
   >
     <template #header>
-      <div class="flex-1 flex flex-row justify-between ">
+      <div class="flex-1 flex flex-row justify-between text-black">
         <h2 class="text-2xl font-bold">
           Select a new entry
         </h2>
