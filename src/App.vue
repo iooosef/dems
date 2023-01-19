@@ -42,15 +42,18 @@
       </main>
     </div>
   </div>
+  <NewEntryModal :display-modal="displayNewEntry" />
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import AnalyticsCard from '@/components/AnalyticsCard.vue'
+import NewEntryModal from '@/components/NewEntry.vue'
 
 export default {
   components: {
-    AnalyticsCard
+    AnalyticsCard,
+    NewEntryModal
   },
   setup () {
     const analyticsData = reactive({
@@ -70,7 +73,8 @@ export default {
         img: 'analytics_aid.png'
       }
     })
-    return { analyticsData }
+    const displayNewEntry = ref(true)
+    return { analyticsData, displayNewEntry }
   }
 }
 </script>
