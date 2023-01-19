@@ -45,10 +45,19 @@ export default {
     PrimeDialog
   },
   props: {
+    display: {
+      type: Boolean,
+      required: true
+    }
   },
   setup (props) {
-    const displayModals = ref(true)
+    const displayModals = ref(props.display)
     return { displayModals }
+  },
+  watch: {
+    display (updateValue) {
+      this.displayModals = updateValue
+    }
   }
 }
 </script>

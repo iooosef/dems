@@ -44,7 +44,9 @@
       </main>
     </div>
   </div>
-  <NewEntryModal v-if="displayNewEntry" />
+  <div>
+    <NewEntryModal :display="displayNewEntry" />
+  </div>
 </template>
 
 <script>
