@@ -2,7 +2,7 @@
   <div class="flex flex-row h-screen bg-white">
     <nav class="w-60 p-5 bg-white drop-shadow-border z-20">
       <img src="@/assets/img/logo.png" alt="Disaster Evacuees Management System logo" class="w-full">
-      <button class="w-full mt-5 px-3 py-5 flex flex-row bg-primary-500 rounded-lg text-2xl text-white font-semibold hover:bg-primary-700 focus:shadow-inner focus:outline-none focus:ring focus:ring-offset-0 focus:ring-primary-500/50 transition duration-200 cursor-pointer">
+      <button class="w-full mt-5 px-3 py-5 flex flex-row bg-primary-500 rounded-lg text-2xl text-white font-semibold hover:bg-primary-700 focus:shadow-inner focus:outline-none focus:ring focus:ring-offset-0 focus:ring-primary-500/50 transition duration-200 cursor-pointer" @click="displayNewEntry = !displayNewEntry">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M16 30c7.732 0 14-6.268 14-14S23.732 2 16 2S2 8.268 2 16s6.268 14 14 14Zm-1-19a1 1 0 1 1 2 0v4h4a1 1 0 1 1 0 2h-4v4a1 1 0 1 1-2 0v-4h-4a1 1 0 1 1 0-2h4v-4Z" /></svg>
         <span class="ml-2">New Entry</span>
       </button>
@@ -44,7 +44,7 @@
       </main>
     </div>
   </div>
-  <NewEntryModal :display-modal="displayNewEntry" />
+  <NewEntryModal :display="displayNewEntry" />
 </template>
 
 <script>
@@ -75,7 +75,7 @@ export default {
         img: 'analytics_aid.png'
       }
     })
-    const displayNewEntry = ref(true)
+    const displayNewEntry = ref(false)
     return { analyticsData, displayNewEntry }
   }
 }

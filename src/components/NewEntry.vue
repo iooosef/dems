@@ -1,6 +1,7 @@
 <template>
+  : {{ display }} x {{ displayModals }} typeof: {{ typeof displayModals }}
   <PrimeDialog
-    v-model:visible="displayModalProp" modal="true"
+    v-model:visible="displayModals" :modal="true"
     :closable="false" :draggable="false"
     class="w-fit [&>*]:!bg-white [&>*:nth-child(2)]:!rounded-t-lg [&>*:nth-child(3)]:!rounded-b-lg"
   >
@@ -45,20 +46,22 @@ export default {
     PrimeDialog
   },
   props: {
-    displayModal: {
+    display: {
       type: Boolean,
       required: true
     }
   },
   setup (props) {
-    const displayModalProp = ref(props.displayModal)
-    return { ...props, displayModalProp }
+    const displayModals = ref(props.display)
+    return { displayModals }
+  },
+  watch: {
+    display (updateValue) {
+      this.displayModals = updateValue
+    }
   }
 }
 </script>
-export default {
-    name: 'NewEntryModal'
-}
 
 <style lang="scss" scoped>
 
