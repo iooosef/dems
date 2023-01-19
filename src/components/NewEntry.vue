@@ -1,13 +1,10 @@
 <template>
   <PrimeDialog
-    v-model:visible="displayModalProp" class="w-6/12" modal="true"
+    v-model:visible="displayModalProp" modal="true" :closable="false"
+    :draggable="false"
+    class="w-6/12 [&>*]:!bg-white [&>*:nth-child(2)]:!rounded-t-lg [&>*:nth-child(3)]:!rounded-b-lg"
   >
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute isrure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa squi officia deserunt mollit anim id est laborum.
-    </p>
+    test
   </PrimeDialog>
 </template>
 

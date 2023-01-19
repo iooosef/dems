@@ -24,6 +24,9 @@
             "multiline": {
               "max": 3
             }
+          }],
+          "vue/attribute-hyphenation": ["error", "always", {
+            "ignore": ["contentClass"]
           }]
     }
 }
