@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import { reactive, provide } from 'vue'
-import dialogModalDisplay from '@/composables/dialogModal'
+import { reactive } from 'vue'
+import { displayNewEntry } from '@/composables/dialogModal'
 import AnalyticsCard from '@/components/AnalyticsCard.vue'
 import NewEntryModal from '@/components/NewEntry.vue'
 
@@ -61,8 +61,6 @@ export default {
     NewEntryModal
   },
   setup () {
-    const { displayNewEntry } = dialogModalDisplay()
-    provide('dialogModalDisplay', displayNewEntry)
     const analyticsData = reactive({
       evacuees: {
         label: 'Evacuees',

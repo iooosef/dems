@@ -15,7 +15,7 @@
       </div>
     </template>
     <div class="mt-1 grid grid-cols-2 grid-rows-2 gap-4 text-white">
-      <button class="aspect-square w-40 p-5 flex flex-col items-center rounded-lg bg-primary-500 rounded-lg hover:bg-primary-700 focus:shadow-inner focus:outline-none focus:ring focus:ring-offset-0 focus:ring-primary-500/50 transition duration-200 cursor-pointer" @click="openNewEvacueeModal">
+      <button class="aspect-square w-40 p-5 flex flex-col items-center rounded-lg bg-primary-500 rounded-lg hover:bg-primary-700 focus:shadow-inner focus:outline-none focus:ring focus:ring-offset-0 focus:ring-primary-500/50 transition duration-200 cursor-pointer" @click="openEvacueeModal">
         <svg xmlns="http://www.w3.org/2000/svg" width="75" height="75" viewBox="0 0 28 28"><path fill="currentColor" d="M15.114 25.719A7.475 7.475 0 0 1 13 20.5c0-1.688.558-3.247 1.5-4.5H5a3 3 0 0 0-3 3v.715C2 23.433 6.21 26 12 26a16.81 16.81 0 0 0 3.114-.281ZM18 8A6 6 0 1 0 6 8a6 6 0 0 0 12 0Zm2.5 19a6.5 6.5 0 1 0 0-13a6.5 6.5 0 0 0 0 13Zm0-11a.5.5 0 0 1 .5.5V20h3.5a.5.5 0 0 1 0 1H21v3.5a.5.5 0 0 1-1 0V21h-3.5a.5.5 0 0 1 0-1H20v-3.5a.5.5 0 0 1 .5-.5Z" /></svg>
         <span class="mt-3 text-lg leading-3 font-medium">New Evacuee</span>
       </button>
@@ -37,7 +37,8 @@
 </template>
 
 <script>
-import { inject } from 'vue'
+import { } from 'vue'
+import { displayNewEntry, displayNewEntryForms, openEvacueeModal } from '@/composables/dialogModal'
 import NewEvacueeModal from '@/components/NewEvacuee.vue'
 
 export default {
@@ -46,8 +47,7 @@ export default {
     NewEvacueeModal
   },
   setup () {
-    const displayNewEntry = inject('dialogModalDisplay')
-    return { displayNewEntry }
+    return { displayNewEntry, displayNewEntryForms, openEvacueeModal }
   },
   watch: {
   }
